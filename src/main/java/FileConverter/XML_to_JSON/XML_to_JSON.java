@@ -40,6 +40,19 @@ public class XML_to_JSON extends DefaultHandler {
                 String URL = attributes.getValue("URL");
                 gameIndustry.getPublishers().get(gameIndustry.getLength()-1).addDevStudio(name,year,URL);
             }
+            else if (qName.equals("game")){
+                String name = attributes.getValue("name");
+                int year = Integer.parseInt(attributes.getValue("year"));
+                gameIndustry.getPublishers().get(gameIndustry.getLength()-1).getDevStudios()
+                        .get(gameIndustry.getPublishers().get(gameIndustry.getLength()-1).getLength()-1).addGame(name,year);
+            }
+            else if (qName.equals("platform")){
+                String name = attributes.getValue("name");
+                gameIndustry.getPublishers().get(gameIndustry.getLength()-1).getDevStudios()
+                        .get(gameIndustry.getPublishers().get(gameIndustry.getLength()-1).getLength()-1).getGames()
+                        .get(gameIndustry.getPublishers().get(gameIndustry.getLength()-1).getDevStudios().
+                                get(gameIndustry.getPublishers().get(gameIndustry.getLength()-1).getLength()-1).getLength()-1).addPlatform(name);
+            }
         }
     }
 

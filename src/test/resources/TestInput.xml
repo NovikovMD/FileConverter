@@ -6,17 +6,17 @@
                 <games>
                     <game name = "The Warriors" year="2005">
                         <platforms>
-                            <platform>PlayStation 2</platform>
-                            <platform>PlayStation Portable</platform>
-                            <platform>XBox</platform>
+                            <platform name="PlayStation 2"/>
+                            <platform name="PlayStation Portable"/>
+                            <platform name="XBox"/>
                         </platforms>
                     </game>
                     <game name="Manhunt 2" year="2007">
                         <platforms>
-                            <platform>Microsoft Windows</platform>
-                            <platform>PlayStation 2</platform>
-                            <platform>PlayStation Portable</platform>
-                            <platform>Wii</platform>
+                            <platform name="Microsoft Windows"/>
+                            <platform name="PlayStation 2"/>
+                            <platform name="PlayStation Portable"/>
+                            <platform name="Wii"/>
                         </platforms>
                     </game>
                 </games>
