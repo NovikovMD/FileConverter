@@ -16,4 +16,8 @@ public class XML {
     public ArrayList<gamePublisher> getPublishers(){
         return publishers;
     }
+
+    public int getLength(){
+        return publishers.size();
+    }
 }

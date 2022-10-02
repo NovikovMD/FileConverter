@@ -36,4 +36,8 @@ public class game {
     public void addPlatform(String name){
         platforms.add(new platform(name));
     }
+
+    public int getLength(){
+        return platforms.size();
+    }
 }

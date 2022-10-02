@@ -15,4 +15,19 @@ public class testXMLtoJSON {
         Assert.assertEquals(XML_to_JSON.parseXML("src/test/resources/TestInput.xml").getPublishers().get(0).getName(),
                 publisher.getName());
     }
+    @Test
+    public void tryParse2lvl() throws ParserConfigurationException, IOException, SAXException {
+        devStudio developerStudio = new devStudio("Rockstar Toronto", 1981, "www.rockstartoronto.com");
+        Assert.assertEquals(XML_to_JSON.parseXML("src/test/resources/TestInput.xml").getPublishers().get(0).
+                        getDevStudios().get(0).getName(),
+                developerStudio.getName());
+
+        Assert.assertEquals(XML_to_JSON.parseXML("src/test/resources/TestInput.xml").getPublishers().get(0).
+                        getDevStudios().get(0).getYearOfFoundation(),
+                developerStudio.getYearOfFoundation());
+
+        Assert.assertEquals(XML_to_JSON.parseXML("src/test/resources/TestInput.xml").getPublishers().get(0).
+                        getDevStudios().get(0).getURL(),
+                developerStudio.getURL());
+    }
 }

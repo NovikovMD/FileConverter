@@ -26,4 +26,8 @@ public class gamePublisher {
     public ArrayList<devStudio> getDevStudios(){
         return devStudios;
     }
+
+    public int getLength(){
+        return devStudios.size();
+    }
 }

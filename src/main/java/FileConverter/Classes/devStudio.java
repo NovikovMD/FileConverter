@@ -47,4 +47,8 @@ public class devStudio {
     public void addGame(String name, int year){
         games.add(new game(name, year));
     }
+
+    public int getLength(){
+        return games.size();
+    }
 }

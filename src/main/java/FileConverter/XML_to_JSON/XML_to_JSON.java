@@ -34,6 +34,12 @@ public class XML_to_JSON extends DefaultHandler {
                 String name = attributes.getValue("name");
                 gameIndustry.addPublisher(name);
             }
+            else if (qName.equals("developer_studio")){
+                String name = attributes.getValue("name");
+                Integer year = Integer.parseInt(attributes.getValue("year_of_foundation"));
+                String URL = attributes.getValue("URL");
+                gameIndustry.getPublishers().get(gameIndustry.getLength()-1).addDevStudio(name,year,URL);
+            }
         }
     }
 
