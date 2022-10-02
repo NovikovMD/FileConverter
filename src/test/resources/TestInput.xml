@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<game_publisher name="Rockstar">
+    <developer_studio name="Rockstar Toronto">
+        <games>
+            <game name = "The Warriors">
+                <year>2005</year>
+                <platforms>
+                    <platform>PlayStation 2</platform>
+                    <platform>PlayStation Portable</platform>
+                    <platform>XBox</platform>
+                </platforms>
+            </game>
+            <game name="Manhunt 2">
+                <year>2007</year>
+                <platforms>
+                    <platform>Microsoft Windows</platform>
+                    <platform>PlayStation 2</platform>
+                    <platform>PlayStation Portable</platform>
+                    <platform>Wii</platform>
+                </platforms>
+            </game>
+        </games>
+        <year_of_foundation>1981</year_of_foundation>
+        <URL>www.rockstartoronto.com</URL>
+    </developer_studio>
+</game_publisher>
+
