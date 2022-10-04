@@ -1,6 +1,6 @@
 package FileConverter.XML_to_JSON;
 
-import FileConverter.Classes.*;
+import FileConverter.Classes.XML.XML;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -10,7 +10,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.Flow;
 
 public class XML_to_JSON extends DefaultHandler {
     private static XML gameIndustry = new XML();

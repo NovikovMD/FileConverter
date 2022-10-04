@@ -1,4 +1,4 @@
-package FileConverter.Classes;
+package FileConverter.Classes.JSON;
 
 public class platform {
     private String name;

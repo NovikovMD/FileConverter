@@ -1,4 +1,4 @@
-import FileConverter.Classes.*;
+import FileConverter.Classes.XML.*;
 import FileConverter.XML_to_JSON.XML_to_JSON;
 import org.junit.Assert;
 import org.junit.Test;

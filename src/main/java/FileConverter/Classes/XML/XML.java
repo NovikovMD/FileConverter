@@ -1,4 +1,4 @@
-package FileConverter.Classes;
+package FileConverter.Classes.XML;
 
 import java.util.ArrayList;
 
