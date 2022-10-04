@@ -1,3 +1,4 @@
+import FileConverter.Classes.JSON.JSON;
 import FileConverter.Classes.XML.*;
 import FileConverter.XML_to_JSON.XML_to_JSON;
 import org.junit.Assert;
@@ -30,7 +31,6 @@ public class testXMLtoJSON {
                         getDevStudios().get(0).getURL(),
                 developerStudio.getURL());
     }
-
     @Test
     public void tryParseAll() throws ParserConfigurationException, IOException, SAXException {
         XML publishers = XML_to_JSON.parseXML("src/test/resources/TestInput.xml");
@@ -77,5 +77,42 @@ public class testXMLtoJSON {
 
 
 
+    }
+    @Test
+    public void tryConvertXMLtoJSON_lvl1() throws ParserConfigurationException, IOException, SAXException {
+        XML_to_JSON.parseXML("src/test/resources/TestInput.xml");
+
+        JSON compare = XML_to_JSON.convert();
+        Assert.assertEquals(compare.getGames().get(0).getName(),"The Warriors");
+        Assert.assertEquals(compare.getGames().get(0).getYear(),2005);
+        Assert.assertEquals(compare.getGames().get(0).getGamePublisher(),"Rockstar");
+
+        Assert.assertEquals(compare.getGames().get(1).getName(),"Manhunt 2");
+        Assert.assertEquals(compare.getGames().get(1).getYear(),2007);
+        Assert.assertEquals(compare.getGames().get(1).getGamePublisher(),"Rockstar");
+    }
+
+    @Test
+    public void tryConvertXMLtoJSON_all() throws ParserConfigurationException, IOException, SAXException {
+        XML_to_JSON.parseXML("src/test/resources/TestInput.xml");
+
+        JSON compare = XML_to_JSON.convert();
+        Assert.assertEquals(compare.getGames().get(0).getPlatforms().get(0).getName(),"PlayStation 2");
+        Assert.assertEquals(compare.getGames().get(0).getPlatforms().get(1).getName(),"PlayStation Portable");
+        Assert.assertEquals(compare.getGames().get(0).getPlatforms().get(2).getName(),"XBox");
+
+        Assert.assertEquals(compare.getGames().get(0).getDevStudios().get(0).getName(),"Rockstar toronto");
+        Assert.assertEquals(compare.getGames().get(0).getDevStudios().get(0).getYearOfFoundation(),1981);
+        Assert.assertEquals(compare.getGames().get(0).getDevStudios().get(0).getURL(),"www.rockstartoronto.com");
+
+
+        Assert.assertEquals(compare.getGames().get(1).getPlatforms().get(0).getName(),"Microsoft Windows");
+        Assert.assertEquals(compare.getGames().get(1).getPlatforms().get(1).getName(),"PlayStation 2");
+        Assert.assertEquals(compare.getGames().get(1).getPlatforms().get(2).getName(),"PlayStation Portable");
+        Assert.assertEquals(compare.getGames().get(1).getPlatforms().get(3).getName(),"Wii");
+
+        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(0).getName(),"Rockstar toronto");
+        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(0).getYearOfFoundation(),1981);
+        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(0).getURL(),"www.rockstartoronto.com");
     }
 }

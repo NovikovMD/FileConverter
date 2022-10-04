@@ -1,6 +1,8 @@
 package FileConverter.XML_to_JSON;
 
-import FileConverter.Classes.XML.XML;
+import FileConverter.Classes.JSON.*;
+import FileConverter.Classes.XML.*;
+import FileConverter.Classes.XML.devStudio;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -10,6 +12,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class XML_to_JSON extends DefaultHandler {
     private static XML gameIndustry = new XML();
@@ -22,6 +25,32 @@ public class XML_to_JSON extends DefaultHandler {
         return gameIndustry;
     }
 
+    public static JSON convert(){
+        JSON games = new JSON();
+
+        for (int i=0;i< gameIndustry.getLength();i++) {
+            gamePublisher publisher = gameIndustry.getPublishers().get(i);
+
+            for (int j=0;j<publisher.getLength();j++){
+                FileConverter.Classes.XML.devStudio developer = publisher.getDevStudios().get(j);
+
+                for (int k=0;k<developer.getLength();k++){
+                    FileConverter.Classes.XML.game game = developer.getGames().get(k);
+
+                    games.addGame(game.getName(), game.getYear(), publisher.getName());
+
+                    /*ArrayList platforms = new ArrayList();
+                    for (int l=0;l<game.getLength();l++){
+                        FileConverter.Classes.XML.platform platform = game.getPlatforms().get(l);
+                        platforms.add(platform.getName());
+                    }*/
+
+                }
+            }
+        }
+
+        return games;
+    }
 
 
 

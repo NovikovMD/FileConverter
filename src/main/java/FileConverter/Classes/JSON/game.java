@@ -53,7 +53,7 @@ public class game {
     public void addPlatform(String name){
         platforms.add(new platform(name));
     }
-    public void addDevStudio(String name){
-        devStudios.add(new devStudio(name));
+    public void addDevStudio(String name, int yearOfFoundation, String URL){
+        devStudios.add(new devStudio(name,yearOfFoundation,URL));
     }
 }
