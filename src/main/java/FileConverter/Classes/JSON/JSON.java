@@ -16,4 +16,8 @@ public class JSON {
     public void addGame(String name, int year, String gamePublisher){
         games.add(new game(name,year,gamePublisher));
     }
+
+    public int getLength(){
+        return games.size();
+    }
 }

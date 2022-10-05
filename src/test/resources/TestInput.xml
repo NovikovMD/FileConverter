@@ -2,25 +2,39 @@
 <GameIndustry>
     <game_publishers>
         <game_publisher name="Rockstar">
-            <developer_studio name="Rockstar Toronto" year_of_foundation="1981" URL="www.rockstartoronto.com">
-                <games>
-                    <game name = "The Warriors" year="2005">
-                        <platforms>
-                            <platform name="PlayStation 2"/>
-                            <platform name="PlayStation Portable"/>
-                            <platform name="XBox"/>
-                        </platforms>
-                    </game>
-                    <game name="Manhunt 2" year="2007">
-                        <platforms>
-                            <platform name="Microsoft Windows"/>
-                            <platform name="PlayStation 2"/>
-                            <platform name="PlayStation Portable"/>
-                            <platform name="Wii"/>
-                        </platforms>
-                    </game>
-                </games>
-            </developer_studio>
+            <developer_studios>
+                <developer_studio name="Rockstar Toronto" year_of_foundation="1981" URL="www.rockstartoronto.com">
+                    <games>
+                        <game name = "The Warriors" year="2005">
+                            <platforms>
+                                <platform name="PlayStation 2"/>
+                                <platform name="PlayStation Portable"/>
+                                <platform name="XBox"/>
+                            </platforms>
+                        </game>
+                        <game name="Manhunt 2" year="2007">
+                            <platforms>
+                                <platform name="Microsoft Windows"/>
+                                <platform name="PlayStation 2"/>
+                                <platform name="PlayStation Portable"/>
+                                <platform name="Wii"/>
+                            </platforms>
+                        </game>
+                    </games>
+                </developer_studio>
+                <developer_studio name="Rockstar London" year_of_foundation="2005" URL="www.rockstarlondon.com">
+                    <games>
+                        <game name="Manhunt 2" year="2007">
+                            <platforms>
+                                <platform name="Microsoft Windows"/>
+                                <platform name="PlayStation 2"/>
+                                <platform name="PlayStation Portable"/>
+                                <platform name="Wii"/>
+                            </platforms>
+                        </game>
+                    </games>
+                </developer_studio>
+            </developer_studios>
         </game_publisher>
     </game_publishers>
 </GameIndustry>

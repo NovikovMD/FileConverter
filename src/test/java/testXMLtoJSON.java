@@ -101,7 +101,7 @@ public class testXMLtoJSON {
         Assert.assertEquals(compare.getGames().get(0).getPlatforms().get(1).getName(),"PlayStation Portable");
         Assert.assertEquals(compare.getGames().get(0).getPlatforms().get(2).getName(),"XBox");
 
-        Assert.assertEquals(compare.getGames().get(0).getDevStudios().get(0).getName(),"Rockstar toronto");
+        Assert.assertEquals(compare.getGames().get(0).getDevStudios().get(0).getName(),"Rockstar Toronto");
         Assert.assertEquals(compare.getGames().get(0).getDevStudios().get(0).getYearOfFoundation(),1981);
         Assert.assertEquals(compare.getGames().get(0).getDevStudios().get(0).getURL(),"www.rockstartoronto.com");
 
@@ -111,8 +111,11 @@ public class testXMLtoJSON {
         Assert.assertEquals(compare.getGames().get(1).getPlatforms().get(2).getName(),"PlayStation Portable");
         Assert.assertEquals(compare.getGames().get(1).getPlatforms().get(3).getName(),"Wii");
 
-        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(0).getName(),"Rockstar toronto");
+        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(0).getName(),"Rockstar Toronto");
         Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(0).getYearOfFoundation(),1981);
         Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(0).getURL(),"www.rockstartoronto.com");
+        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(1).getName(),"Rockstar London");
+        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(1).getYearOfFoundation(),2005);
+        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(1).getURL(),"www.rockstarlondon.com");
     }
 }

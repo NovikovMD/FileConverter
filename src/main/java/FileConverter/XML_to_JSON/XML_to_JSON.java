@@ -1,6 +1,7 @@
 package FileConverter.XML_to_JSON;
 
 import FileConverter.Classes.JSON.*;
+import FileConverter.Classes.JSON.game;
 import FileConverter.Classes.XML.*;
 import FileConverter.Classes.XML.devStudio;
 import org.xml.sax.Attributes;
@@ -26,33 +27,65 @@ public class XML_to_JSON extends DefaultHandler {
     }
 
     public static JSON convert(){
-        JSON games = new JSON();
+        JSON jsonGames = new JSON();
 
         for (int i=0;i< gameIndustry.getLength();i++) {
+            //get current publisher
             gamePublisher publisher = gameIndustry.getPublishers().get(i);
 
             for (int j=0;j<publisher.getLength();j++){
+                //get current developer
                 FileConverter.Classes.XML.devStudio developer = publisher.getDevStudios().get(j);
 
-                for (int k=0;k<developer.getLength();k++){
+                for (int k=0;k<developer.getLength();k++) {
+                    //get current game
                     FileConverter.Classes.XML.game game = developer.getGames().get(k);
 
-                    games.addGame(game.getName(), game.getYear(), publisher.getName());
 
-                    /*ArrayList platforms = new ArrayList();
-                    for (int l=0;l<game.getLength();l++){
-                        FileConverter.Classes.XML.platform platform = game.getPlatforms().get(l);
-                        platforms.add(platform.getName());
-                    }*/
+                    FileConverter.Classes.JSON.game checker = getCurrentGame(game.getName(),jsonGames.getGames() );
+                    //add current game to list, if it doesn't exist so far
+                    if (checker==null) {
+                        //add new game to JSON list
+                        jsonGames.addGame(game.getName(), game.getYear(), publisher.getName());
+
+                        //create variable to collect platforms
+                        FileConverter.Classes.JSON.game jsonGame = jsonGames.getGames().get(jsonGames.getLength() - 1);
+
+                        //collect all platforms
+                        for (int l = 0; l < game.getLength(); l++) {
+                            FileConverter.Classes.XML.platform platform = game.getPlatforms().get(l);
+
+                            //add platform to JSON.game list
+                            jsonGame.addPlatform(platform.getName());
+                        }
+
+                        //add developer studio to current game
+                        jsonGame.addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getURL());
+                    }
+                    else{
+                        //if we have current game in list, we need to add developer studio to it
+
+                        //adding dev studio
+                        checker.addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getURL());
+                    }
 
                 }
             }
         }
 
-        return games;
+        return jsonGames;
     }
 
+    private static FileConverter.Classes.JSON.game getCurrentGame(String nameToFind, ArrayList<game> listToLookIn){
+        FileConverter.Classes.JSON.game foundGame = null;
 
+        for (int i=0;i<listToLookIn.size();i++){
+            if (listToLookIn.get(i).getName().equals(nameToFind))
+                foundGame = listToLookIn.get(i);
+        }
+
+        return foundGame;
+    }
 
 
     private static class XMLHandler extends DefaultHandler {
