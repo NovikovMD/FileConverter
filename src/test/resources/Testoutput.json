@@ -1,64 +1,53 @@
 {
-  "games":
-  [
-    {"game":
-      {
-        "name": "The Warriors",
-        "year": "2005",
-        "gamePublisher": "Rockstar",
-        "Platforms":
-        [
-          {
-            "name": "PlayStation 2"
-          },
-          {
-            "name": "PlayStation Portable"
-          },
-          {
-            "name": "XBox"
-          }
-        ],
-        "developer_studios":
-        [
-          {
-            "name": "Rockstar toronto",
-            "year_of_foundation": "1981",
-            "URL": "www.rockstartoronto.com"
-          }
-        ]
-      }
+  "games": [
+    {
+      "name": "The Warriors",
+      "year": "2005",
+      "gamePublisher": "Rockstar",
+      "platforms": [
+        {
+          "name": "PlayStation 2"
+        },
+        {
+          "name": "PlayStation Portable"
+        },
+        {
+          "name": "XBox"
+        }
+      ],
+      "developer_studios": [
+        {
+          "name": "Rockstar toronto",
+          "yearOfFoundation": "1981",
+          "url": "www.rockstartoronto.com"
+        }
+      ]
     },
     {
-      "game":
-      {
-        "name": "Manhunt 2",
-        "year": "2007",
-        "gamePublisher": "Rockstar",
-        "Platforms":
-        [
-          {
-            "name": "Microsoft Windows"
-          },
-          {
-            "name": "PlayStation 2"
-          },
-          {
-            "name": "PlayStation Portable"
-          },
-
-          {
-            "name": "Wii"
-          }
-        ],
-        "developer_studios":
-        [
-          {
-            "name": "Rockstar toronto",
-            "year_of_foundation": "1981",
-            "URL": "www.rockstartoronto.com"
-          }
-        ]
-      }
+      "name": "Manhunt 2",
+      "year": "2007",
+      "gamePublisher": "Rockstar",
+      "platforms": [
+        {
+          "name": "Microsoft Windows"
+        },
+        {
+          "name": "PlayStation 2"
+        },
+        {
+          "name": "PlayStation Portable"
+        },
+        {
+          "name": "Wii"
+        }
+      ],
+      "developer_studios": [
+        {
+          "name": "Rockstar toronto",
+          "yearOfFoundation": "1981",
+          "url": "www.rockstartoronto.com"
+        }
+      ]
     }
   ]
 }

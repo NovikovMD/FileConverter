@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <GameIndustry>
-    <game_publishers>
-        <game_publisher name="Rockstar">
-            <developer_studios>
-                <developer_studio name="Rockstar Toronto" year_of_foundation="1981" URL="www.rockstartoronto.com">
+    <gamePublishers>
+        <gamePublisher name="Rockstar">
+            <developerStudios>
+                <developerStudio name="Rockstar Toronto" year_of_foundation="1981" URL="www.rockstartoronto.com">
                     <games>
                         <game name = "The Warriors" year="2005">
                             <platforms>
@@ -21,8 +21,8 @@
                             </platforms>
                         </game>
                     </games>
-                </developer_studio>
-                <developer_studio name="Rockstar London" year_of_foundation="2005" URL="www.rockstarlondon.com">
+                </developerStudio>
+                <developerStudio name="Rockstar London" year_of_foundation="2005" URL="www.rockstarlondon.com">
                     <games>
                         <game name="Manhunt 2" year="2007">
                             <platforms>
@@ -33,10 +33,10 @@
                             </platforms>
                         </game>
                     </games>
-                </developer_studio>
-            </developer_studios>
-        </game_publisher>
-    </game_publishers>
+                </developerStudio>
+            </developerStudios>
+        </gamePublisher>
+    </gamePublishers>
 </GameIndustry>
 
 

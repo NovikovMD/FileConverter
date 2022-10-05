@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
 
 public class testXMLtoJSON {
@@ -91,7 +92,6 @@ public class testXMLtoJSON {
         Assert.assertEquals(compare.getGames().get(1).getYear(),2007);
         Assert.assertEquals(compare.getGames().get(1).getGamePublisher(),"Rockstar");
     }
-
     @Test
     public void tryConvertXMLtoJSON_all() throws ParserConfigurationException, IOException, SAXException {
         XML_to_JSON.parseXML("src/test/resources/TestInput.xml");
@@ -117,5 +117,17 @@ public class testXMLtoJSON {
         Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(1).getName(),"Rockstar London");
         Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(1).getYearOfFoundation(),2005);
         Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(1).getURL(),"www.rockstarlondon.com");
+    }
+
+    @Test
+    public void tryCreateJsonFile() throws IOException, ParserConfigurationException, SAXException {
+        XML_to_JSON.parseXML("src/test/resources/TestInput.xml");
+        JSON converted = XML_to_JSON.convert();
+        XML_to_JSON.createJSON(converted, "src/test/resources/newName");
+
+        File fl = new File("src/test/resources/Created.json");
+
+        Assert.assertNotNull(fl);
+
     }
 }

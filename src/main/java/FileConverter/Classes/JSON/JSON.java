@@ -17,7 +17,7 @@ public class JSON {
         games.add(new game(name,year,gamePublisher));
     }
 
-    public int getLength(){
+    public int returnLength(){
         return games.size();
     }
 }

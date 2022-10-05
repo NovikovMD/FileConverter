@@ -1,9 +1,8 @@
 package FileConverter.XML_to_JSON;
 
 import FileConverter.Classes.JSON.*;
-import FileConverter.Classes.JSON.game;
 import FileConverter.Classes.XML.*;
-import FileConverter.Classes.XML.devStudio;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -49,7 +48,7 @@ public class XML_to_JSON extends DefaultHandler {
                         jsonGames.addGame(game.getName(), game.getYear(), publisher.getName());
 
                         //create variable to collect platforms
-                        FileConverter.Classes.JSON.game jsonGame = jsonGames.getGames().get(jsonGames.getLength() - 1);
+                        FileConverter.Classes.JSON.game jsonGame = jsonGames.getGames().get(jsonGames.returnLength() - 1);
 
                         //collect all platforms
                         for (int l = 0; l < game.getLength(); l++) {
@@ -76,7 +75,12 @@ public class XML_to_JSON extends DefaultHandler {
         return jsonGames;
     }
 
-    private static FileConverter.Classes.JSON.game getCurrentGame(String nameToFind, ArrayList<game> listToLookIn){
+    public static void createJSON(JSON json, String path) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.writeValue(new File(path),json);
+    }
+
+    private static FileConverter.Classes.JSON.game getCurrentGame(String nameToFind, ArrayList<FileConverter.Classes.JSON.game> listToLookIn){
         FileConverter.Classes.JSON.game foundGame = null;
 
         for (int i=0;i<listToLookIn.size();i++){
@@ -91,11 +95,11 @@ public class XML_to_JSON extends DefaultHandler {
     private static class XMLHandler extends DefaultHandler {
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-            if (qName.equals("game_publisher")) {
+            if (qName.equals("gamePublisher")) {
                 String name = attributes.getValue("name");
                 gameIndustry.addPublisher(name);
             }
-            else if (qName.equals("developer_studio")){
+            else if (qName.equals("developerStudio")){
                 String name = attributes.getValue("name");
                 Integer year = Integer.parseInt(attributes.getValue("year_of_foundation"));
                 String URL = attributes.getValue("URL");

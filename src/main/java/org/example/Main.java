@@ -1,7 +1,10 @@
 package org.example;
 
+import FileConverter.FileConverter;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        FileConverter fl = new FileConverter();
+        fl.convertToJson("src\\test\\resources\\TestInput.xml", "NewName");
     }
 }
