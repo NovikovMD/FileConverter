@@ -1,12 +1,12 @@
 package FileConverter.Classes.JSON;
 
-public class devStudio {
+public class JSONdevStudio {
 
     private String name;
     private int yearOfFoundation;
     private String URL;
 
-    public devStudio(String name, int yearOfFoundation, String URL) {
+    public JSONdevStudio(String name, int yearOfFoundation, String URL) {
         this.name = name;
         this.yearOfFoundation = yearOfFoundation;
         this.URL = URL;

@@ -13,13 +13,13 @@ public class testXMLtoJSON {
 
     @Test
     public void tryParse1lvl() throws ParserConfigurationException, IOException, SAXException {
-        gamePublisher publisher = new gamePublisher("Rockstar");
+        XMLgamePublisher publisher = new XMLgamePublisher("Rockstar");
         Assert.assertEquals(XML_to_JSON.parseXML("src/test/resources/TestInput.xml").getPublishers().get(0).getName(),
                 publisher.getName());
     }
     @Test
     public void tryParse2lvl() throws ParserConfigurationException, IOException, SAXException {
-        devStudio developerStudio = new devStudio("Rockstar Toronto", 1981, "www.rockstartoronto.com");
+        XMLdevStudio developerStudio = new XMLdevStudio("Rockstar Toronto", 1981, "www.rockstartoronto.com");
         Assert.assertEquals(XML_to_JSON.parseXML("src/test/resources/TestInput.xml").getPublishers().get(0).
                         getDevStudios().get(0).getName(),
                 developerStudio.getName());
@@ -37,12 +37,12 @@ public class testXMLtoJSON {
         XML publishers = XML_to_JSON.parseXML("src/test/resources/TestInput.xml");
 
         //publisher
-        gamePublisher publisher = publishers.getPublishers().get(0);
+        XMLgamePublisher publisher = publishers.getPublishers().get(0);
         Assert.assertEquals(publisher.getName(), "Rockstar");
 
         //developer
 
-        devStudio devStudio = publisher.getDevStudios().get(0);
+        XMLdevStudio devStudio = publisher.getDevStudios().get(0);
         Assert.assertEquals(devStudio.getName(), "Rockstar Toronto");
 
         Assert.assertEquals(devStudio.getYearOfFoundation(), 1981);
@@ -50,7 +50,7 @@ public class testXMLtoJSON {
         Assert.assertEquals(devStudio.getURL(), "www.rockstartoronto.com");
 
         //games
-        game game = devStudio.getGames().get(0);
+        XMLgame game = devStudio.getGames().get(0);
         Assert.assertEquals(game.getName(), "The Warriors");
         Assert.assertEquals(game.getYear(), 2005);
 
@@ -59,7 +59,7 @@ public class testXMLtoJSON {
         Assert.assertEquals(game.getYear(), 2007);
 
         //platforms
-        platform platform = devStudio.getGames().get(0).getPlatforms().get(0);
+        XMLplatform platform = devStudio.getGames().get(0).getPlatforms().get(0);
         Assert.assertEquals(platform.getName(), "PlayStation 2");
         platform = devStudio.getGames().get(0).getPlatforms().get(1);
         Assert.assertEquals(platform.getName(), "PlayStation Portable");

@@ -3,19 +3,19 @@ package FileConverter.Classes.JSON;
 
 import java.util.ArrayList;
 
-public class game {
+public class JSONgame {
     private String name;
     private int year;
     private String gamePublisher;
-    private ArrayList<platform> platforms;
-    private ArrayList<devStudio> devStudios;
+    private ArrayList<JSONplatform> platforms;
+    private ArrayList<JSONdevStudio> devStudios;
 
-    public game(String name, int year, String gamePublisher) {
+    public JSONgame(String name, int year, String gamePublisher) {
         this.name = name;
         this.year = year;
         this.gamePublisher = gamePublisher;
-        this.platforms = new ArrayList<platform>();
-        this.devStudios = new ArrayList<devStudio>();
+        this.platforms = new ArrayList<JSONplatform>();
+        this.devStudios = new ArrayList<JSONdevStudio>();
     }
 
     public String getName() {
@@ -30,11 +30,11 @@ public class game {
         return gamePublisher;
     }
 
-    public ArrayList<platform> getPlatforms() {
+    public ArrayList<JSONplatform> getPlatforms() {
         return platforms;
     }
 
-    public ArrayList<devStudio> getDevStudios() {
+    public ArrayList<JSONdevStudio> getDevStudios() {
         return devStudios;
     }
 
@@ -51,9 +51,9 @@ public class game {
     }
 
     public void addPlatform(String name){
-        platforms.add(new platform(name));
+        platforms.add(new JSONplatform(name));
     }
     public void addDevStudio(String name, int yearOfFoundation, String URL){
-        devStudios.add(new devStudio(name,yearOfFoundation,URL));
+        devStudios.add(new JSONdevStudio(name,yearOfFoundation,URL));
     }
 }

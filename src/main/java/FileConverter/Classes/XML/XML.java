@@ -3,17 +3,17 @@ package FileConverter.Classes.XML;
 import java.util.ArrayList;
 
 public class XML {
-    private ArrayList<gamePublisher> publishers;
+    private ArrayList<XMLgamePublisher> publishers;
 
     public XML(){
-        publishers = new ArrayList<gamePublisher>();
+        publishers = new ArrayList<XMLgamePublisher>();
     }
 
     public void addPublisher(String name){
-        publishers.add(new gamePublisher(name));
+        publishers.add(new XMLgamePublisher(name));
     }
 
-    public ArrayList<gamePublisher> getPublishers(){
+    public ArrayList<XMLgamePublisher> getPublishers(){
         return publishers;
     }
 

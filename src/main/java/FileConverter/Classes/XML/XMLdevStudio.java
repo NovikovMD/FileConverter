@@ -2,18 +2,18 @@ package FileConverter.Classes.XML;
 
 import java.util.ArrayList;
 
-public class devStudio {
+public class XMLdevStudio {
 
     private String name;
     private int yearOfFoundation;
     private String URL;
-    private ArrayList<game> games;
+    private ArrayList<XMLgame> games;
 
-    public devStudio(String name, int yearOfFoundation, String URL) {
+    public XMLdevStudio(String name, int yearOfFoundation, String URL) {
         this.name = name;
         this.yearOfFoundation = yearOfFoundation;
         this.URL = URL;
-        games = new ArrayList<game>();
+        games = new ArrayList<XMLgame>();
     }
 
     public void setName(String name) {
@@ -40,12 +40,12 @@ public class devStudio {
         return URL;
     }
 
-    public ArrayList<game> getGames() {
+    public ArrayList<XMLgame> getGames() {
         return games;
     }
 
     public void addGame(String name, int year){
-        games.add(new game(name, year));
+        games.add(new XMLgame(name, year));
     }
 
     public int getLength(){

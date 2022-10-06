@@ -1,9 +1,9 @@
 package FileConverter.Classes.XML;
 
-public class platform {
+public class XMLplatform {
     private String name;
 
-    public platform(String name) {
+    public XMLplatform(String name) {
         this.name = name;
     }
 

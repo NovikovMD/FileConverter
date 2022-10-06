@@ -1,9 +1,9 @@
 package FileConverter.Classes.JSON;
 
-public class platform {
+public class JSONplatform {
     private String name;
 
-    public platform(String name) {
+    public JSONplatform(String name) {
         this.name = name;
     }
 

@@ -30,29 +30,29 @@ public class XML_to_JSON extends DefaultHandler {
 
         for (int i=0;i< gameIndustry.getLength();i++) {
             //get current publisher
-            gamePublisher publisher = gameIndustry.getPublishers().get(i);
+            XMLgamePublisher publisher = gameIndustry.getPublishers().get(i);
 
             for (int j=0;j<publisher.getLength();j++){
                 //get current developer
-                FileConverter.Classes.XML.devStudio developer = publisher.getDevStudios().get(j);
+                XMLdevStudio developer = publisher.getDevStudios().get(j);
 
                 for (int k=0;k<developer.getLength();k++) {
                     //get current game
-                    FileConverter.Classes.XML.game game = developer.getGames().get(k);
+                    XMLgame game = developer.getGames().get(k);
 
 
-                    FileConverter.Classes.JSON.game checker = getCurrentGame(game.getName(),jsonGames.getGames() );
+                    JSONgame checker = getCurrentGame(game.getName(),jsonGames.getGames() );
                     //add current game to list, if it doesn't exist so far
                     if (checker==null) {
                         //add new game to JSON list
                         jsonGames.addGame(game.getName(), game.getYear(), publisher.getName());
 
                         //create variable to collect platforms
-                        FileConverter.Classes.JSON.game jsonGame = jsonGames.getGames().get(jsonGames.returnLength() - 1);
+                        JSONgame jsonGame = jsonGames.getGames().get(jsonGames.returnLength() - 1);
 
                         //collect all platforms
                         for (int l = 0; l < game.getLength(); l++) {
-                            FileConverter.Classes.XML.platform platform = game.getPlatforms().get(l);
+                            XMLplatform platform = game.getPlatforms().get(l);
 
                             //add platform to JSON.game list
                             jsonGame.addPlatform(platform.getName());
@@ -80,12 +80,12 @@ public class XML_to_JSON extends DefaultHandler {
         mapper.writeValue(new File(path),json);
     }
 
-    private static FileConverter.Classes.JSON.game getCurrentGame(String nameToFind, ArrayList<FileConverter.Classes.JSON.game> listToLookIn){
-        FileConverter.Classes.JSON.game foundGame = null;
+    private static JSONgame getCurrentGame(String nameToFind, ArrayList<JSONgame> listToLookIn){
+        JSONgame foundGame = null;
 
-        for (int i=0;i<listToLookIn.size();i++){
-            if (listToLookIn.get(i).getName().equals(nameToFind))
-                foundGame = listToLookIn.get(i);
+        for (JSONgame jsoNgame : listToLookIn) {
+            if (jsoNgame.getName().equals(nameToFind))
+                foundGame = jsoNgame;
         }
 
         return foundGame;

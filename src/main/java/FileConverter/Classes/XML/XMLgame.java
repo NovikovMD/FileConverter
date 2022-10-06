@@ -2,12 +2,12 @@ package FileConverter.Classes.XML;
 
 import java.util.ArrayList;
 
-public class game {
+public class XMLgame {
     private String name;
     private int year;
-    private ArrayList<platform> platforms;
+    private ArrayList<XMLplatform> platforms;
 
-    public game(String name, int year) {
+    public XMLgame(String name, int year) {
         this.name = name;
         this.year = year;
         this.platforms = new ArrayList<>();
@@ -29,12 +29,12 @@ public class game {
         return year;
     }
 
-    public ArrayList<platform> getPlatforms() {
+    public ArrayList<XMLplatform> getPlatforms() {
         return platforms;
     }
 
     public void addPlatform(String name){
-        platforms.add(new platform(name));
+        platforms.add(new XMLplatform(name));
     }
 
     public int getLength(){
