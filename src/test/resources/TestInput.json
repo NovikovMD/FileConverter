@@ -5,13 +5,13 @@
       "year": "2005",
       "gamePublisher": "Rockstar",
       "platforms": [
-        "PlayStation 2",
-        "PlayStation Portable",
-        "XBox"
+        {"name": "PlayStation 2"},
+        {"name": "PlayStation Portable"},
+        {"name": "XBox"}
       ],
       "developer_studios": [
         {
-          "name": "Rockstar toronto",
+          "name": "Rockstar Toronto",
           "yearOfFoundation": "1981",
           "url": "www.rockstartoronto.com"
         }
@@ -22,10 +22,10 @@
       "year": "2007",
       "gamePublisher": "Rockstar",
       "platforms": [
-        "Microsoft Windows",
-        "PlayStation 2",
-        "PlayStation Portable",
-        "Wii"
+        {"name": "Microsoft Windows"},
+        {"name": "PlayStation 2"},
+        {"name": "PlayStation Portable"},
+        {"name": "Wii"}
       ],
       "developer_studios": [
         {
