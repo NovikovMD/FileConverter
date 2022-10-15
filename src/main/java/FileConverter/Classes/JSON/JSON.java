@@ -20,4 +20,11 @@ public class JSON {
     public int returnLength(){
         return games.size();
     }
+
+    public JSONgame getLastGame() {
+        if (games.size() > 0)
+            return games.get(games.size() - 1);
+        else
+            return null;
+    }
 }

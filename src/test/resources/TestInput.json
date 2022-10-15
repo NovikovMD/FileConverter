@@ -5,15 +5,9 @@
       "year": "2005",
       "gamePublisher": "Rockstar",
       "platforms": [
-        {
-          "name": "PlayStation 2"
-        },
-        {
-          "name": "PlayStation Portable"
-        },
-        {
-          "name": "XBox"
-        }
+        "PlayStation 2",
+        "PlayStation Portable",
+        "XBox"
       ],
       "developer_studios": [
         {
@@ -28,18 +22,10 @@
       "year": "2007",
       "gamePublisher": "Rockstar",
       "platforms": [
-        {
-          "name": "Microsoft Windows"
-        },
-        {
-          "name": "PlayStation 2"
-        },
-        {
-          "name": "PlayStation Portable"
-        },
-        {
-          "name": "Wii"
-        }
+        "Microsoft Windows",
+        "PlayStation 2",
+        "PlayStation Portable",
+        "Wii"
       ],
       "developer_studios": [
         {

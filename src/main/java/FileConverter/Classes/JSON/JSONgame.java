@@ -56,4 +56,8 @@ public class JSONgame {
     public void addDevStudio(String name, int yearOfFoundation, String URL){
         devStudios.add(new JSONdevStudio(name,yearOfFoundation,URL));
     }
+
+    public JSONdevStudio getLastDevStudio(){
+        return devStudios.get(devStudios.size()-1);
+    }
 }
