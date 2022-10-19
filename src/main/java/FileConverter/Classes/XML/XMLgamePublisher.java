@@ -27,7 +27,7 @@ public class XMLgamePublisher {
         return devStudios;
     }
 
-    public int getLength(){
+    public int returnLength(){
         return devStudios.size();
     }
 }

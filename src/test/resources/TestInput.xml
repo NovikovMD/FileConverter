@@ -36,6 +36,54 @@
                 </developerStudio>
             </developerStudios>
         </gamePublisher>
+        <gamePublisher name="Ubisoft">
+            <developerStudios>
+                <developerStudio name="Massive Entertainment" year_of_foundation="1997" URL="massive.se">
+                    <games>
+                        <game name = "Tom Clancy’s The Division 2" year="2019">
+                            <platforms>
+                                <platform name="PlayStation 4"/>
+                                <platform name="Windows"/>
+                                <platform name="XBox One"/>
+                            </platforms>
+                        </game>
+                        <game name = "Far Cry 3" year="2012">
+                            <platforms>
+                                <platform name="PlayStation 3"/>
+                                <platform name="Windows"/>
+                                <platform name="XBox 360"/>
+                            </platforms>
+                        </game>
+                    </games>
+                </developerStudio>
+                <developerStudio name="Red Storm Entertainment" year_of_foundation="1996" URL="redstorm.com">
+                    <games>
+                        <game name = "Tom Clancy’s The Division 2" year="2019">
+                            <platforms>
+                                <platform name="PlayStation 4"/>
+                                <platform name="Windows"/>
+                                <platform name="XBox One"/>
+                            </platforms>
+                        </game>
+                        <game name = "Far Cry 3" year="2012">
+                            <platforms>
+                                <platform name="PlayStation 3"/>
+                                <platform name="Windows"/>
+                                <platform name="XBox 360"/>
+                            </platforms>
+                        </game>
+                        <game name = "Far Cry 4" year="2014">
+                            <platforms>
+                                <platform name="PlayStation 3"/>
+                                <platform name="PlayStation 4"/>
+                                <platform name="Windows"/>
+                                <platform name="XBox 360"/>
+                            </platforms>
+                        </game>
+                    </games>
+                </developerStudio>
+            </developerStudios>
+        </gamePublisher>
     </gamePublishers>
 </GameIndustry>
 

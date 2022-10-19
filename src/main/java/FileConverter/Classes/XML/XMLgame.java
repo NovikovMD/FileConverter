@@ -37,7 +37,7 @@ public class XMLgame {
         platforms.add(new XMLplatform(name));
     }
 
-    public int getLength(){
+    public int returnLength(){
         return platforms.size();
     }
 }

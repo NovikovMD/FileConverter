@@ -57,7 +57,7 @@ public class JSONgame {
         devStudios.add(new JSONdevStudio(name,yearOfFoundation,URL));
     }
 
-    public JSONdevStudio getLastDevStudio(){
+    public JSONdevStudio returnLastDevStudio(){
         return devStudios.get(devStudios.size()-1);
     }
 }

@@ -5,6 +5,7 @@ import FileConverter.JSON_to_XML.JSON_to_XML;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -32,14 +33,14 @@ public class TestJSONtoXML {
     }
     @Test
     public void tryParseAll() throws IOException {
-        JSON some = JSON_to_XML.parseJSON("src/test/resources/TestInput.json");
+        JSON some = JSON_to_XML.parseJSON("src\\test\\resources\\TestInput.json");
         JSONgame oneGame = some.getGames().get(0);
 
         Assert.assertEquals(oneGame.getPlatforms().get(0).getName(), "PlayStation 2");
         Assert.assertEquals(oneGame.getPlatforms().get(1).getName(), "PlayStation Portable");
         Assert.assertEquals(oneGame.getPlatforms().get(2).getName(), "XBox");
 
-        Assert.assertEquals(oneGame.getDevStudios().get(0).getName(), "Rockstar toronto");
+        Assert.assertEquals(oneGame.getDevStudios().get(0).getName(), "Rockstar Toronto");
         Assert.assertEquals(oneGame.getDevStudios().get(0).getYearOfFoundation(), 1981);
         Assert.assertEquals(oneGame.getDevStudios().get(0).getURL(), "www.rockstartoronto.com");
 
@@ -51,7 +52,7 @@ public class TestJSONtoXML {
         Assert.assertEquals(oneGame.getPlatforms().get(2).getName(), "PlayStation Portable");
         Assert.assertEquals(oneGame.getPlatforms().get(3).getName(), "Wii");
 
-        Assert.assertEquals(oneGame.getDevStudios().get(0).getName(), "Rockstar toronto");
+        Assert.assertEquals(oneGame.getDevStudios().get(0).getName(), "Rockstar Toronto");
         Assert.assertEquals(oneGame.getDevStudios().get(0).getYearOfFoundation(), 1981);
         Assert.assertEquals(oneGame.getDevStudios().get(0).getURL(), "www.rockstartoronto.com");
 
@@ -80,5 +81,16 @@ public class TestJSONtoXML {
         Assert.assertEquals(platforms.get(1).getName(),"PlayStation Portable");
         Assert.assertEquals(platforms.get(2).getName(),"XBox");
 
+    }
+
+    @Test
+    public void tryCreteXML() throws IOException {
+        JSON_to_XML.parseJSON("src/test/resources/TestInput.json");
+        XML converted = JSON_to_XML.convert();
+        JSON_to_XML.createXML(converted, "src/test/resources/NewXML.xml");
+
+        File fl = new File("src/test/resources/NewXML.xml");
+
+        Assert.assertTrue(fl.exists());
     }
 }

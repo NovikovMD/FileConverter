@@ -3,8 +3,13 @@ package org.example;
 import FileConverter.FileConverter;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         FileConverter fl = new FileConverter();
-        fl.convertToJson("src\\test\\resources\\TestInput.xml", "NewName");
+        if (args[0].contains(".json"))
+            fl.convertToXML(args[0], args[1]);
+        else if (args[0].contains(".xml"))
+            fl.convertToJson(args[0], args[1]);
+        else
+            throw new Exception("Wrong input");
     }
 }

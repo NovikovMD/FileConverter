@@ -21,22 +21,23 @@ public class XML_to_JSON extends DefaultHandler {
         SAXParserFactory factory = SAXParserFactory.newInstance();
         SAXParser parser = factory.newSAXParser();
         XMLHandler handler = new XMLHandler();
-        parser.parse(new File(path), handler);
+        File fl = new File(path);
+        parser.parse(fl, handler);
         return gameIndustry;
     }
 
     public static JSON convert(){
         JSON jsonGames = new JSON();
 
-        for (int i=0;i< gameIndustry.getLength();i++) {
+        for (int i = 0; i< gameIndustry.returnLength(); i++) {
             //get current publisher
             XMLgamePublisher publisher = gameIndustry.getPublishers().get(i);
 
-            for (int j=0;j<publisher.getLength();j++){
+            for (int j = 0; j<publisher.returnLength(); j++){
                 //get current developer
                 XMLdevStudio developer = publisher.getDevStudios().get(j);
 
-                for (int k=0;k<developer.getLength();k++) {
+                for (int k = 0; k<developer.returnLength(); k++) {
                     //get current game
                     XMLgame game = developer.getGames().get(k);
 
@@ -51,7 +52,7 @@ public class XML_to_JSON extends DefaultHandler {
                         JSONgame jsonGame = jsonGames.getGames().get(jsonGames.returnLength() - 1);
 
                         //collect all platforms
-                        for (int l = 0; l < game.getLength(); l++) {
+                        for (int l = 0; l < game.returnLength(); l++) {
                             XMLplatform platform = game.getPlatforms().get(l);
 
                             //add platform to JSON.game list
@@ -103,20 +104,20 @@ public class XML_to_JSON extends DefaultHandler {
                 String name = attributes.getValue("name");
                 Integer year = Integer.parseInt(attributes.getValue("year_of_foundation"));
                 String URL = attributes.getValue("URL");
-                gameIndustry.getPublishers().get(gameIndustry.getLength()-1).addDevStudio(name,year,URL);
+                gameIndustry.getPublishers().get(gameIndustry.returnLength()-1).addDevStudio(name,year,URL);
             }
             else if (qName.equals("game")){
                 String name = attributes.getValue("name");
                 int year = Integer.parseInt(attributes.getValue("year"));
-                gameIndustry.getPublishers().get(gameIndustry.getLength()-1).getDevStudios()
-                        .get(gameIndustry.getPublishers().get(gameIndustry.getLength()-1).getLength()-1).addGame(name,year);
+                gameIndustry.getPublishers().get(gameIndustry.returnLength()-1).getDevStudios()
+                        .get(gameIndustry.getPublishers().get(gameIndustry.returnLength()-1).returnLength()-1).addGame(name,year);
             }
             else if (qName.equals("platform")){
                 String name = attributes.getValue("name");
-                gameIndustry.getPublishers().get(gameIndustry.getLength()-1).getDevStudios()
-                        .get(gameIndustry.getPublishers().get(gameIndustry.getLength()-1).getLength()-1).getGames()
-                        .get(gameIndustry.getPublishers().get(gameIndustry.getLength()-1).getDevStudios().
-                                get(gameIndustry.getPublishers().get(gameIndustry.getLength()-1).getLength()-1).getLength()-1).addPlatform(name);
+                gameIndustry.getPublishers().get(gameIndustry.returnLength()-1).getDevStudios()
+                        .get(gameIndustry.getPublishers().get(gameIndustry.returnLength()-1).returnLength()-1).getGames()
+                        .get(gameIndustry.getPublishers().get(gameIndustry.returnLength()-1).getDevStudios().
+                                get(gameIndustry.getPublishers().get(gameIndustry.returnLength()-1).returnLength()-1).returnLength()-1).addPlatform(name);
             }
         }
     }

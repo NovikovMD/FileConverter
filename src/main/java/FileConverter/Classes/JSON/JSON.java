@@ -21,7 +21,7 @@ public class JSON {
         return games.size();
     }
 
-    public JSONgame getLastGame() {
+    public JSONgame returnLastGame() {
         if (games.size() > 0)
             return games.get(games.size() - 1);
         else

@@ -2,36 +2,55 @@
   "games": [
     {
       "name": "The Warriors",
-      "year": "2005",
+      "year": 2005,
       "gamePublisher": "Rockstar",
       "platforms": [
-        {"name": "PlayStation 2"},
-        {"name": "PlayStation Portable"},
-        {"name": "XBox"}
+        {
+          "name": "PlayStation 2"
+        },
+        {
+          "name": "PlayStation Portable"
+        },
+        {
+          "name": "XBox"
+        }
       ],
-      "developer_studios": [
+      "devStudios": [
         {
           "name": "Rockstar Toronto",
-          "yearOfFoundation": "1981",
+          "yearOfFoundation": 1981,
           "url": "www.rockstartoronto.com"
         }
       ]
     },
     {
       "name": "Manhunt 2",
-      "year": "2007",
+      "year": 2007,
       "gamePublisher": "Rockstar",
       "platforms": [
-        {"name": "Microsoft Windows"},
-        {"name": "PlayStation 2"},
-        {"name": "PlayStation Portable"},
-        {"name": "Wii"}
-      ],
-      "developer_studios": [
         {
-          "name": "Rockstar toronto",
-          "yearOfFoundation": "1981",
+          "name": "Microsoft Windows"
+        },
+        {
+          "name": "PlayStation 2"
+        },
+        {
+          "name": "PlayStation Portable"
+        },
+        {
+          "name": "Wii"
+        }
+      ],
+      "devStudios": [
+        {
+          "name": "Rockstar Toronto",
+          "yearOfFoundation": 1981,
           "url": "www.rockstartoronto.com"
+        },
+        {
+          "name": "Rockstar London",
+          "yearOfFoundation": 2005,
+          "url": "www.rockstarlondon.com"
         }
       ]
     }

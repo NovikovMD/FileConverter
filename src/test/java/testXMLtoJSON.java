@@ -123,9 +123,9 @@ public class testXMLtoJSON {
     public void tryCreateJsonFile() throws IOException, ParserConfigurationException, SAXException {
         XML_to_JSON.parseXML("src/test/resources/TestInput.xml");
         JSON converted = XML_to_JSON.convert();
-        XML_to_JSON.createJSON(converted, "src/test/resources/newName");
+        XML_to_JSON.createJSON(converted, "src/test/resources/newName.json");
 
-        File fl = new File("src/test/resources/Created.json");
+        File fl = new File("src/test/resources/newName.json");
 
         Assert.assertNotNull(fl);
 

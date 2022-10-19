@@ -48,7 +48,7 @@ public class XMLdevStudio {
         games.add(new XMLgame(name, year));
     }
 
-    public int getLength(){
+    public int returnLength(){
         return games.size();
     }
 }

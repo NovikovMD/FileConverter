@@ -8,8 +8,13 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 public class JSON_to_XML {
@@ -38,26 +43,24 @@ public class JSON_to_XML {
                 if (key.equals("name")) {
                     games.addGame("place_holder", -1, "place_holder");
                     parser.nextToken();
-                    games.getLastGame().setName(parser.getText());
+                    games.returnLastGame().setName(parser.getText());
                 } else if (key.equals("year")) {
                     parser.nextToken();
-                    games.getLastGame().setYear(Integer.parseInt(parser.getText()));
+                    games.returnLastGame().setYear(Integer.parseInt(parser.getText()));
                 } else if (key.equals("gamePublisher")) {
                     parser.nextToken();
-                    games.getLastGame().setGamePublisher(parser.getText());
+                    games.returnLastGame().setGamePublisher(parser.getText());
                 } else if (key.equals("platforms")) {
                     parser.nextToken();
                     while (parser.nextToken() != JsonToken.END_ARRAY) {
                         parser.nextToken();
-                        String some = parser.getText();
                         if (parser.getCurrentName().equals("name")) {
                             parser.nextToken();
-                            some = parser.getText();
-                            games.getLastGame().addPlatform(parser.getText());
+                            games.returnLastGame().addPlatform(parser.getText());
                             parser.nextToken();
                         }
                     }
-                } else if (key.equals("developer_studios")) {
+                } else if (key.equals("devStudios")) {
                     parser.nextToken();
                     parser.nextToken();
 
@@ -69,13 +72,13 @@ public class JSON_to_XML {
                             continue;
                         if (parser.getCurrentName().equals("name")) {
                             parser.nextToken();
-                            games.getLastGame().addDevStudio(parser.getText(), -1, "place_holder");
+                            games.returnLastGame().addDevStudio(parser.getText(), -1, "place_holder");
                         } else if (parser.getCurrentName().equals("yearOfFoundation")) {
                             parser.nextToken();
-                            games.getLastGame().getLastDevStudio().setYearOfFoundation(Integer.parseInt(parser.getText()));
+                            games.returnLastGame().returnLastDevStudio().setYearOfFoundation(Integer.parseInt(parser.getText()));
                         } else if (parser.getCurrentName().equals("url")) {
                             parser.nextToken();
-                            games.getLastGame().getLastDevStudio().setURL(parser.getText());
+                            games.returnLastGame().returnLastDevStudio().setURL(parser.getText());
                         }
                     }
                 }
@@ -135,7 +138,7 @@ public class JSON_to_XML {
                 XMLdev.addGame(jsonGame.getName(), jsonGame.getYear());
 
                 //set all platforms
-                XMLgame XMLgame = XMLdev.getGames().get(XMLdev.getLength()-1);
+                XMLgame XMLgame = XMLdev.getGames().get(XMLdev.returnLength()-1);
                 for (String xmlPlatform : XMLplatforms) {
                     XMLgame.addPlatform(xmlPlatform);
                 }
@@ -145,6 +148,88 @@ public class JSON_to_XML {
         return gameIndustry;
     }
 
+    public static void createXML(XML xmlClass, String path) {
+        try(FileOutputStream out = new FileOutputStream(path)){
+            writeXml(out, xmlClass);
+        } catch (IOException | XMLStreamException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void writeXml(OutputStream out, XML xmlClass) throws XMLStreamException {
+        //stax cursor
+        XMLOutputFactory output = XMLOutputFactory.newInstance();
+
+        XMLStreamWriter writer = output.createXMLStreamWriter(out);
+
+        writer.writeStartDocument("utf-8", "1.0");
+
+        //header
+        writer.writeStartElement("GameIndustry");
+
+
+        writer.writeStartElement("gamePublishers");
+
+
+        // insides
+
+        for (int i = 0; i < xmlClass.returnLength(); i++) {
+            writer.writeStartElement("gamePublisher");
+            writer.writeAttribute("name", xmlClass.getPublishers().get(i).getName());
+
+            writer.writeStartElement("developerStudios");
+
+
+            for (int j = 0; j < xmlClass.getPublishers().get(i).getDevStudios().size(); j++) {
+                XMLdevStudio dev = xmlClass.getPublishers().get(i).getDevStudios().get(j);
+
+                writer.writeStartElement("developerStudio");
+                writer.writeAttribute("name", dev.getName());
+                writer.writeAttribute("year_of_foundation", ((Integer)dev.getYearOfFoundation()).toString());
+                writer.writeAttribute("URL", dev.getURL());
+
+                writer.writeStartElement("games");
+
+                for (int k = 0; k < dev.getGames().size(); k++) {
+                    XMLgame game = dev.getGames().get(k);
+
+                    writer.writeStartElement("game");
+                    writer.writeAttribute("name", game.getName());
+                    writer.writeAttribute("year", ((Integer)game.getYear()).toString());
+
+                    writer.writeStartElement("platforms");
+
+                    for (int l = 0; l < game.getPlatforms().size(); l++) {
+                        XMLplatform xmLplatform = game.getPlatforms().get(l);
+
+                        writer.writeStartElement("platform");
+                        writer.writeAttribute("name", xmLplatform.getName());
+                        writer.writeEndElement();
+
+                    }
+                    writer.writeEndElement();//end platforms
+                    writer.writeEndElement();//end game
+
+                }
+                writer.writeEndElement();//end games
+                writer.writeEndElement();//end dev
+            }
+            writer.writeEndElement();//end devs
+            writer.writeEndElement();//end publisher
+
+        }
+
+        writer.writeEndElement();//end publishers
+        writer.writeEndElement();//end GameIndustry
+
+
+
+        writer.flush();
+
+        writer.close();
+    }
+
+    //region Utils
     private static boolean checkIfDevExists(String name, ArrayList<XMLdevStudio> devs){
         for (XMLdevStudio dev : devs) {
             if (dev.getName().equals(name))
@@ -173,5 +258,7 @@ public class JSON_to_XML {
         }
         return null;
     }
+
+    //endregion
 
 }

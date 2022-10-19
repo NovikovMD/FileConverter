@@ -17,7 +17,7 @@ public class XML {
         return publishers;
     }
 
-    public int getLength(){
+    public int returnLength(){
         return publishers.size();
     }
 }
