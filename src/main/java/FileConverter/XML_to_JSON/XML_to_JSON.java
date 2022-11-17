@@ -15,7 +15,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class XML_to_JSON extends DefaultHandler {
-    private static XML gameIndustry = new XML();
+    private static final XML gameIndustry = new XML();
+
+    public static XML getGameIndustry() {
+        return gameIndustry;
+    }
 
     public static XML parseXML(String path) throws ParserConfigurationException, SAXException, IOException {
         SAXParserFactory factory = SAXParserFactory.newInstance();

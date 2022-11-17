@@ -1,8 +1,7 @@
 package FileConverter.Classes.XML;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class XMLgamePublisher {
@@ -46,4 +45,30 @@ public class XMLgamePublisher {
             stream.filter(x -> x.getName().equals(devsName)).forEach(x -> x.addGame(gameName, gameYear));
         }
     }
+
+    public void sortByGameName(){
+        Stream<XMLdevStudio> stream = devStudios.stream();
+
+        stream.forEach(x -> x.getGames().sort(Comparator.comparing(XMLgame::getName)));
+    }
+
+    public List<XMLdevStudio> getAllStartingWith(char start){
+        Stream<XMLdevStudio> stream = devStudios.stream();
+
+        return stream.filter(x -> x.getName().charAt(0) == start).distinct().collect(Collectors.toList());
+    }
+
+    public List<XMLdevStudio> getAllSorted(){
+        Stream<XMLdevStudio> stream = devStudios.stream();
+
+        return stream.sorted(Comparator.comparing(XMLdevStudio::getName)).collect(Collectors.toList());
+    }
+
+    public void appendInAllNames(String append){
+        Stream<XMLdevStudio> stream = devStudios.stream();
+
+        stream.forEach(x -> x.setName(x.getName() + append));
+    }
+
+
 }
