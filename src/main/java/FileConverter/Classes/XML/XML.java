@@ -20,4 +20,6 @@ public class XML {
     public int returnLength(){
         return publishers.size();
     }
+
+
 }
