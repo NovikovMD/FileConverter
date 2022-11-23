@@ -1,50 +1,49 @@
+/*
+ * 23 November 2022
+ *
+ * The author disclaims copyright to this source code. In place of
+ * a legal notice, here is a blessing:
+ *    May you do good and not evil.
+ *    May you find forgiveness for yourself and forgive others.
+ *    May you share freely, never taking more than you give.
+ */
 package FileConverter;
 
-import FileConverter.Classes.XML.XMLgamePublisher;
-import FileConverter.JSON_to_XML.JSON_to_XML;
-import FileConverter.XML_to_JSON.XML_to_JSON;
+import FileConverter.JSON_to_XML.JsonToXml;
+import FileConverter.XML_to_JSON.XmlToJson;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 
+/**
+ * Converter XML\Json files in both directions
+ * @author Novikov Matthew
+ * @version 1.0
+ */
 public class FileConverter {
-    public void convertToJson(String pathToXML, String pathToNewFile)  {
+
+    /**
+     * Starts parse for XML file, then creates Json file
+     * @param pathToXML absolute path to existing XML file
+     * @param pathToNewFile absolute path to new Json file
+     */
+    public void convertToJson(String pathToXML, String pathToNewFile) {
+        XmlToJson.parseXml(pathToXML);
+        XmlToJson.createJson(XmlToJson.convert(), pathToNewFile);
+    }
+
+    /**
+     * Starts parse for Json file, then creates XML file
+     * @param pathToJSON absolute path to existing Json file
+     * @param pathToNewFile absolute path to new XML file
+     */
+    public void convertToXML(String pathToJSON, String pathToNewFile) {
         try {
-            XML_to_JSON.parseXML(pathToXML);
-            XML_to_JSON.createJSON(XML_to_JSON.convert(), pathToNewFile);
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            JsonToXml.parseJson(pathToJSON);
+        } catch (IOException e) {
+            throw new RuntimeException("Method parseJson caused exception. Failed to parse file:\n" + e);
         }
+
+        JsonToXml.createXML(JsonToXml.convert(), pathToNewFile);
     }
 
-
-    public void convertToXML(String pathToJSON, String pathToNewFile)  {
-        try {
-            JSON_to_XML.parseJSON(pathToJSON);
-            JSON_to_XML.createXML(JSON_to_XML.convert(), pathToNewFile);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void doSum(){
-        var w = XML_to_JSON.getGameIndustry();
-        for (XMLgamePublisher publisher : w.getPublishers()) {
-            /*List<String> hoody = new ArrayList<>();
-            hoody.add("Rockstar Toronto");
-            hoody.add("Rockstar London");
-            publisher.addGameToDevs(hoody,"GTA 5", 2012);*/
-
-
-            //publisher.sortByGameName();
-
-            //var get = publisher.getAllStartingWith('r');
-
-            //var get = publisher.getAllSorted();
-
-            //publisher.appendInAllNames("Noooo");
-
-            int y = 2;
-        }
-    }
 }
