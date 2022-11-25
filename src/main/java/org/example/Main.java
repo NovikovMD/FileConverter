@@ -15,11 +15,11 @@ import java.util.Scanner;
 
 /**
  * Starter class for FileConverter
- * @author Novikov Matthew
  */
 public class Main {
     /**
      * Starts converting for xml or json file depending on the input data
+     *
      * @param args Required 2 parameters: 1 - path to existing file; 2 - path to new file
      */
     public static void main(String[] args) {
@@ -35,17 +35,19 @@ public class Main {
             newPath = inp.nextLine();
         } else {
             path = args[0];
-            newPath = args[1];
+            newPath  = args[1];
         }
 
         FileConverter fl = new FileConverter();
-        if (args[0].contains(".json")) {
+
+        String firstExtension = path.lastIndexOf(".") > -1 ? path.substring(path.lastIndexOf(".") + 1) : "";
+        String secondExtension = newPath.lastIndexOf(".") > -1 ? newPath.substring(newPath.lastIndexOf(".") + 1) : "";
+
+        if (firstExtension.equals("json") && secondExtension.equals("xml")) {
             fl.convertToXML(path, newPath);
-        }
-        else if (args[0].contains(".xml")) {
+        } else if (firstExtension.equals("xml") && secondExtension.equals("json")) {
             fl.convertToJson(path, newPath);
-        }
-        else {
+        } else {
             System.out.print("Wrong input");
         }
     }
