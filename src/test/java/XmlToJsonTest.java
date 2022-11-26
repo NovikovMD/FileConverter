@@ -114,10 +114,7 @@ public class XmlToJsonTest {
     }
 
     @Test
-    public void wrongConvert() throws ParserConfigurationException, IOException, SAXException {
-
-        XmlUpperClass xmlClass = XML_TO_JSON_PARSER.parseXml("src/test/resources/TestInput.xml");
-
+    public void wrongConvert() {
         try {
             JsonUpperClass compare = XML_TO_JSON_PARSER.convert(null);
             Assert.fail("Illigal null argument");

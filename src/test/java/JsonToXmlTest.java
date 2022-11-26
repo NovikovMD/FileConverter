@@ -96,10 +96,7 @@ public class JsonToXmlTest {
     }
 
     @Test
-    public void wrongConvert() throws IOException {
-
-        JsonUpperClass json = JSON_TO_XML_PARSER.parseJson("src/test/resources/TestInput.json");
-
+    public void wrongConvert() {
         try {
             XmlUpperClass compare = JSON_TO_XML_PARSER.convert(null);
             Assert.fail("Illigal null argument");
