@@ -1,7 +1,7 @@
-import FileConverter.Classes.JSON.JsonUpperClass;
-import FileConverter.Classes.JSON.JsonGame;
-import FileConverter.Classes.XML.*;
-import FileConverter.JSON_to_XML.JsonToXml;
+import file_converter.classes.json.JsonUpperClass;
+import file_converter.classes.json.JsonGame;
+import file_converter.classes.xml.*;
+import file_converter.json_to_xml.JsonToXml;
 import org.junit.Assert;
 import org.junit.Test;
 

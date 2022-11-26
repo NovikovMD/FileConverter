@@ -7,7 +7,7 @@
  *    May you find forgiveness for yourself and forgive others.
  *    May you share freely, never taking more than you give.
  */
-package FileConverter.Classes.XML;
+package file_converter.classes.xml;
 
 import java.util.ArrayList;
 
@@ -20,8 +20,8 @@ import java.util.ArrayList;
 public class XmlDevStudio {
 
     private String name;
-    private int yearOfFoundation;
-    private String url;
+    private final int yearOfFoundation;
+    private final String url;
     private final ArrayList<XmlGame> games;
 
     public XmlDevStudio(String name, int yearOfFoundation, String url) {
@@ -39,16 +39,8 @@ public class XmlDevStudio {
         return name;
     }
 
-    public void setYearOfFoundation(int yearOfFoundation) {
-        this.yearOfFoundation = yearOfFoundation;
-    }
-
     public int getYearOfFoundation() {
         return yearOfFoundation;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
     }
 
     public String getUrl() {

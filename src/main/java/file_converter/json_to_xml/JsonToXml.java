@@ -7,12 +7,12 @@
  *    May you find forgiveness for yourself and forgive others.
  *    May you share freely, never taking more than you give.
  */
-package FileConverter.JSON_to_XML;
+package file_converter.json_to_xml;
 
-import FileConverter.Classes.JSON.JsonUpperClass;
-import FileConverter.Classes.JSON.JsonDevStudio;
-import FileConverter.Classes.JSON.JsonGame;
-import FileConverter.Classes.XML.*;
+import file_converter.classes.json.JsonUpperClass;
+import file_converter.classes.json.JsonDevStudio;
+import file_converter.classes.json.JsonGame;
+import file_converter.classes.xml.*;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;

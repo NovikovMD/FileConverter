@@ -7,18 +7,18 @@
  *    May you find forgiveness for yourself and forgive others.
  *    May you share freely, never taking more than you give.
  */
-package FileConverter.Classes.XML;
+package file_converter.classes.json;
 
 /**
- * Fifth node in XML file.
- * Contains its name.
+ * Third node in Json file
+ * Contains its name;
  *
  * @author Novikov Matthew
  */
-public class XmlPlatform {
+public class JsonPlatform {
     private String name;
 
-    public XmlPlatform(String name) {
+    public JsonPlatform(String name) {
         this.name = name;
     }
 
