@@ -40,7 +40,7 @@ public class JsonGame {
         return year;
     }
 
-    public String getGamePublisher() {
+    public String getGamePublisherName() {
         return gamePublisher;
     }
 

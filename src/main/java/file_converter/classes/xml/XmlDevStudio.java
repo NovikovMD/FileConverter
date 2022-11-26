@@ -20,8 +20,8 @@ import java.util.ArrayList;
 public class XmlDevStudio {
 
     private String name;
-    private final int yearOfFoundation;
-    private final String url;
+    private int yearOfFoundation;
+    private String url;
     private final ArrayList<XmlGame> games;
 
     public XmlDevStudio(String name, int yearOfFoundation, String url) {

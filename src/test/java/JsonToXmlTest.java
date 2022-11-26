@@ -2,40 +2,44 @@ import file_converter.classes.json.JsonUpperClass;
 import file_converter.classes.json.JsonGame;
 import file_converter.classes.xml.*;
 import file_converter.json_to_xml.JsonToXml;
+import file_converter.xml_to_json.XmlToJson;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 
 public class JsonToXmlTest {
+
+    private static final JsonToXml jsonToXmlParser = new JsonToXml();
     @Test
     public void tryParse1lvl() throws IOException {
         JsonGame game = new JsonGame("The Warriors", 2005, "Rockstar");
-        JsonUpperClass some = JsonToXml.parseJson("src/test/resources/TestInput.json");
+        JsonUpperClass some = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
         assert some != null;
         JsonGame oneGame = some.getGames().get(0);
         Assert.assertEquals(oneGame.getName(), game.getName());
         Assert.assertEquals(oneGame.getYear(), game.getYear());
-        Assert.assertEquals(oneGame.getGamePublisher(), game.getGamePublisher());
+        Assert.assertEquals(oneGame.getGamePublisherName(), game.getGamePublisherName());
     }
 
     @Test
     public void tryParseSecondObject() throws IOException {
         JsonGame game = new JsonGame("Manhunt 2", 2007, "Rockstar");
-        JsonUpperClass some = JsonToXml.parseJson("src/test/resources/TestInput.json");
+        JsonUpperClass some = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
         assert some != null;
         JsonGame oneGame = some.getGames().get(1);
         Assert.assertEquals(oneGame.getName(), game.getName());
         Assert.assertEquals(oneGame.getYear(), game.getYear());
-        Assert.assertEquals(oneGame.getGamePublisher(), game.getGamePublisher());
+        Assert.assertEquals(oneGame.getGamePublisherName(), game.getGamePublisherName());
     }
 
     @Test
     public void tryParseAll() throws IOException {
-        JsonUpperClass some = JsonToXml.parseJson("src\\test\\resources\\TestInput.json");
+        JsonUpperClass some = jsonToXmlParser.parseJson("src\\test\\resources\\TestInput.json");
         JsonGame oneGame = some.getGames().get(0);
 
         Assert.assertEquals(oneGame.getPlatforms().get(0).getName(), "PlayStation 2");
@@ -62,9 +66,9 @@ public class JsonToXmlTest {
 
     @Test
     public void tryConvertXMLtoJSONAll() throws IOException {
-        JsonToXml.parseJson("src/test/resources/TestInput.json");
+        JsonUpperClass json = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
 
-        XmlUpperClass compare = JsonToXml.convert();
+        XmlUpperClass compare = jsonToXmlParser.convert(json);
         XmlGamePublisher gamePublisher = compare.getPublishers().get(0);
         XmlDevStudio dev = gamePublisher.getDevStudios().get(0);
         XmlGame game = dev.getGames().get(0);
@@ -86,10 +90,10 @@ public class JsonToXmlTest {
     }
 
     @Test
-    public void tryCreteXML() throws IOException {
-        JsonToXml.parseJson("src/test/resources/TestInput.json");
-        XmlUpperClass converted = JsonToXml.convert();
-        JsonToXml.createXML(converted, "src/test/resources/NewXML.xml");
+    public void tryCreteXML() throws IOException, XMLStreamException {
+        JsonUpperClass json = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
+        XmlUpperClass converted = jsonToXmlParser.convert(json);
+        jsonToXmlParser.createXML(converted, "src/test/resources/NewXML.xml");
 
         File fl = new File("src/test/resources/NewXML.xml");
 

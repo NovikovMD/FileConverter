@@ -95,11 +95,11 @@ public class XmlToJsonTest {
         JsonUpperClass compare = xmlToJsonParser.convert(xmlClass);
         Assert.assertEquals(compare.getGames().get(0).getName(), "The Warriors");
         Assert.assertEquals(compare.getGames().get(0).getYear(), 2005);
-        Assert.assertEquals(compare.getGames().get(0).getGamePublisher(), "Rockstar");
+        Assert.assertEquals(compare.getGames().get(0).getGamePublisherName(), "Rockstar");
 
         Assert.assertEquals(compare.getGames().get(1).getName(), "Manhunt 2");
         Assert.assertEquals(compare.getGames().get(1).getYear(), 2007);
-        Assert.assertEquals(compare.getGames().get(1).getGamePublisher(), "Rockstar");
+        Assert.assertEquals(compare.getGames().get(1).getGamePublisherName(), "Rockstar");
     }
 
     @Test

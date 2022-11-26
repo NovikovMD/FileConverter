@@ -49,38 +49,4 @@ public class XmlGamePublisher {
     public int returnLength() {
         return devStudios.size();
     }
-
-    //region methods that use streams
-    public void addGameToDevs(List<String> devsNames, String gameName, int gameYear) {
-        for (String devsName : devsNames) {
-            Stream<XmlDevStudio> stream = devStudios.stream();
-
-            stream.filter(x -> x.getName().equals(devsName)).forEach(x -> x.addGame(gameName, gameYear));
-        }
-    }
-
-    public void sortByGameName() {
-        Stream<XmlDevStudio> stream = devStudios.stream();
-
-        stream.forEach(x -> x.getGames().sort(Comparator.comparing(XmlGame::getName)));
-    }
-
-    public List<XmlDevStudio> getAllStartingWith(char start) {
-        Stream<XmlDevStudio> stream = devStudios.stream();
-
-        return stream.filter(x -> x.getName().charAt(0) == start).distinct().collect(Collectors.toList());
-    }
-
-    public List<XmlDevStudio> getAllSorted() {
-        Stream<XmlDevStudio> stream = devStudios.stream();
-
-        return stream.sorted(Comparator.comparing(XmlDevStudio::getName)).collect(Collectors.toList());
-    }
-
-    public void appendInAllNames(String append) {
-        Stream<XmlDevStudio> stream = devStudios.stream();
-        stream.forEach(x -> x.setName(x.getName() + append));
-    }
-    //endregion
-
 }

@@ -8,12 +8,15 @@
  *    May you share freely, never taking more than you give.
  */
 
+import file_converter.classes.json.JsonUpperClass;
 import file_converter.classes.xml.XmlUpperClass;
 import file_converter.json_to_xml.JsonToXml;
 import file_converter.xml_to_json.XmlToJson;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -22,6 +25,7 @@ import java.util.Scanner;
  */
 public class Main {
     private static final XmlToJson xmlToJsonParser = new XmlToJson();
+    private static final JsonToXml jsonToXmlParser = new JsonToXml();
     /**
      * Starts converting for xml or json file depending on the input data
      *
@@ -66,7 +70,7 @@ public class Main {
         try {
             parsedClass = xmlToJsonParser.parseXml(path);
         } catch (ParserConfigurationException | SAXException | IOException exception) {
-            System.out.println("Failed to parse xml file");
+            System.out.println("Failed to parse xml file.");
             exception.printStackTrace();
             return;
         }
@@ -74,17 +78,29 @@ public class Main {
         try {
             xmlToJsonParser.createJson(xmlToJsonParser.convert(parsedClass), newPath);
         } catch (IOException ioException) {
-            System.out.println("Failed to create json file");
+            System.out.println("Failed to create json file.");
             ioException.printStackTrace();
         }
     }
 
     private static void parseJson(String path, String newPath) {
+        JsonUpperClass jsonClass;
         try {
-            JsonToXml.parseJson(path);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            jsonClass = jsonToXmlParser.parseJson(path);
+        } catch (IOException exception) {
+            System.out.println("Failed to parse json file.");
+            exception.printStackTrace();
+            return;
         }
-        JsonToXml.createXML(JsonToXml.convert(), newPath);
+
+        try {
+            jsonToXmlParser.createXML(jsonToXmlParser.convert(jsonClass), newPath);
+        } catch (FileNotFoundException exception) {
+            System.out.println("File not found.");
+            exception.printStackTrace();
+        } catch (XMLStreamException exception) {
+            System.out.println("Failed to create json file.");
+            exception.printStackTrace();
+        }
     }
 }
