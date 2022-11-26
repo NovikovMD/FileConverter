@@ -99,7 +99,7 @@ public class JsonToXmlTest {
     public void wrongConvert() {
         try {
             XmlUpperClass compare = JSON_TO_XML_PARSER.convert(null);
-            Assert.fail("Illigal null argument");
+            Assert.fail("Illegal null argument");
         } catch (IllegalArgumentException exception) {
             Assert.assertNotEquals("", exception.toString());
         }

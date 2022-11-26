@@ -32,6 +32,10 @@ public class Main {
      *             2 - путь к новому json файлу.
      */
     public static void main(String[] args) {
+        if (args.length==1) {
+            System.out.println("Wrong input. Two elements needed");
+            return;
+        }
         String path;
         String newPath;
 
