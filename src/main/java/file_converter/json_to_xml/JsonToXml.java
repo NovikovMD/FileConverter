@@ -43,7 +43,13 @@ public class JsonToXml {
      */
     public JsonUpperClass parseJson(final String path) throws IOException {
         JsonUpperClass games = new JsonUpperClass();
-        JsonParser parser = factory.createParser(new File(path));
+
+
+        File fl = new File(path);
+        if (!fl.exists())
+            throw new IllegalArgumentException();
+
+        JsonParser parser = factory.createParser(fl);
 
         startParsing(games, parser);
 

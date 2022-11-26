@@ -24,18 +24,19 @@ import java.util.Scanner;
  * Главный класс для запуска
  */
 public class Main {
-    private static final XmlToJson XML_TO_JSON_PARSER = new XmlToJson();
-    private static final JsonToXml JSON_TO_XML_PARSER = new JsonToXml();
     /**
      * Запускает ковертирование xml\json файлов в зависимости от входных данных
      *
      * @param args Требуется два элемента:
-     *            1 - путь к существующему xml файлу;
-     *            2 - путь к новому json файлу.
+     *             1 - путь к существующему xml файлу;
+     *             2 - путь к новому json файлу.
      */
     public static void main(String[] args) {
         String path;
         String newPath;
+
+        final XmlToJson xmlToJsonParser = new XmlToJson();
+        final JsonToXml jsonToXmlParser = new JsonToXml();
 
         if (args.length == 0) {
             Scanner inp = new Scanner(System.in);
@@ -54,9 +55,9 @@ public class Main {
         String secondExtension = getExtension(newPath);
 
         if (firstExtension.equals("json") && secondExtension.equals("xml")) {
-            parseJson(path, newPath);
+            parseJson(path, newPath, jsonToXmlParser);
         } else if (firstExtension.equals("xml") && secondExtension.equals("json")) {
-            parseXml(path, newPath);
+            parseXml(path, newPath, xmlToJsonParser);
         } else {
             System.out.print("Wrong input");
         }
@@ -64,39 +65,47 @@ public class Main {
 
     private static String getExtension(final String newPath) {
         int index = newPath.lastIndexOf(".");
-        return index > -1 ? newPath.substring( index + 1) : "";
+        return index > -1 ? newPath.substring(index + 1) : "";
     }
 
-    private static void parseXml(final String path,final String newPath) {
+    private static void parseXml(final String path, final String newPath, XmlToJson parser) {
         XmlUpperClass parsedClass;
         try {
-            parsedClass = XML_TO_JSON_PARSER.parseXml(path);
+            parsedClass = parser.parseXml(path);
         } catch (ParserConfigurationException | SAXException | IOException exception) {
             System.out.println("Failed to parse xml file.");
+            exception.printStackTrace();
+            return;
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Wrong file path.");
             exception.printStackTrace();
             return;
         }
 
         try {
-            XML_TO_JSON_PARSER.createJson(XML_TO_JSON_PARSER.convert(parsedClass), newPath);
+            parser.createJson(parser.convert(parsedClass), newPath);
         } catch (IOException ioException) {
             System.out.println("Failed to create json file.");
             ioException.printStackTrace();
         }
     }
 
-    private static void parseJson(final String path,final String newPath) {
+    private static void parseJson(final String path, final String newPath, JsonToXml parser) {
         JsonUpperClass jsonClass;
         try {
-            jsonClass = JSON_TO_XML_PARSER.parseJson(path);
+            jsonClass = parser.parseJson(path);
         } catch (IOException exception) {
             System.out.println("Failed to parse json file.");
+            exception.printStackTrace();
+            return;
+        } catch (IllegalArgumentException exception) {
+            System.out.println("Wrong file path.");
             exception.printStackTrace();
             return;
         }
 
         try {
-            JSON_TO_XML_PARSER.createXML(JSON_TO_XML_PARSER.convert(jsonClass), newPath);
+            parser.createXML(parser.convert(jsonClass), newPath);
         } catch (FileNotFoundException exception) {
             System.out.println("File not found.");
             exception.printStackTrace();

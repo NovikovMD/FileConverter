@@ -4,7 +4,9 @@ import file_converter.classes.xml.*;
 import file_converter.json_to_xml.JsonToXml;
 import org.junit.Assert;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
@@ -13,11 +15,11 @@ import java.util.ArrayList;
 
 public class JsonToXmlTest {
 
-    private static final JsonToXml jsonToXmlParser = new JsonToXml();
+    private static final JsonToXml JSON_TO_XML_PARSER = new JsonToXml();
 
     @Test
     public void tryParseJson() throws IOException {
-        JsonUpperClass some = jsonToXmlParser.parseJson("src\\test\\resources\\TestInput.json");
+        JsonUpperClass some = JSON_TO_XML_PARSER.parseJson("src\\test\\resources\\TestInput.json");
         JsonGame oneGame = some.getGames().get(0);
 
         Assert.assertEquals("The Warriors", oneGame.getName());
@@ -50,14 +52,14 @@ public class JsonToXmlTest {
 
     @Test
     public void tryConvertXmlToJson() throws IOException {
-        JsonUpperClass json = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
-        XmlUpperClass compare = jsonToXmlParser.convert(json);
+        JsonUpperClass json = JSON_TO_XML_PARSER.parseJson("src/test/resources/TestInput.json");
+        XmlUpperClass compare = JSON_TO_XML_PARSER.convert(json);
 
-        json = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
-        compare = jsonToXmlParser.convert(json);
+        json = JSON_TO_XML_PARSER.parseJson("src/test/resources/TestInput.json");
+        compare = JSON_TO_XML_PARSER.convert(json);
 
-        json = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
-        compare = jsonToXmlParser.convert(json);
+        json = JSON_TO_XML_PARSER.parseJson("src/test/resources/TestInput.json");
+        compare = JSON_TO_XML_PARSER.convert(json);
 
         XmlGamePublisher gamePublisher = compare.getPublishers().get(0);
         Assert.assertEquals("Rockstar", gamePublisher.getName());
@@ -77,15 +79,25 @@ public class JsonToXmlTest {
         Assert.assertEquals("XBox", platforms.get(2).getName());
     }
 
-
     @Test
     public void tryCreateXml() throws IOException, XMLStreamException {
-        JsonUpperClass json = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
-        XmlUpperClass converted = jsonToXmlParser.convert(json);
-        jsonToXmlParser.createXML(converted, "src/test/resources/NewXML.xml");
+        JsonUpperClass json = JSON_TO_XML_PARSER.parseJson("src/test/resources/TestInput.json");
+        XmlUpperClass converted = JSON_TO_XML_PARSER.convert(json);
+        JSON_TO_XML_PARSER.createXML(converted, "src/test/resources/NewXML.xml");
 
         File fl = new File("src/test/resources/NewXML.xml");
 
         Assert.assertTrue(fl.exists());
+    }
+
+    @Test
+    public void wrongFile() throws ParserConfigurationException, IOException, SAXException {
+        try {
+            JsonUpperClass json = JSON_TO_XML_PARSER.parseJson("src/test/resources/NoSuchFile.json");
+            Assert.fail("Not existing file found");
+        }
+        catch(IllegalArgumentException exception){
+            Assert.assertNotEquals("",exception.toString());
+        }
     }
 }

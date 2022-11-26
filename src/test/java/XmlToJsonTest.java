@@ -16,10 +16,6 @@ public class XmlToJsonTest {
     @Test
     public void parseXml() throws ParserConfigurationException, IOException, SAXException {
         XmlUpperClass publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
-        //try parse multiple times
-        publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
-        publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
-        publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
 
         //publisher
         XmlGamePublisher publisher = publishers.getPublishers().get(0);
