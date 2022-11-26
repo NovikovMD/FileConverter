@@ -4,9 +4,7 @@ import file_converter.classes.xml.*;
 import file_converter.json_to_xml.JsonToXml;
 import org.junit.Assert;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
@@ -55,12 +53,6 @@ public class JsonToXmlTest {
         JsonUpperClass json = JSON_TO_XML_PARSER.parseJson("src/test/resources/TestInput.json");
         XmlUpperClass compare = JSON_TO_XML_PARSER.convert(json);
 
-        json = JSON_TO_XML_PARSER.parseJson("src/test/resources/TestInput.json");
-        compare = JSON_TO_XML_PARSER.convert(json);
-
-        json = JSON_TO_XML_PARSER.parseJson("src/test/resources/TestInput.json");
-        compare = JSON_TO_XML_PARSER.convert(json);
-
         XmlGamePublisher gamePublisher = compare.getPublishers().get(0);
         Assert.assertEquals("Rockstar", gamePublisher.getName());
 
@@ -91,7 +83,7 @@ public class JsonToXmlTest {
     }
 
     @Test
-    public void wrongFile() throws ParserConfigurationException, IOException, SAXException {
+    public void wrongFile() throws IOException {
         try {
             JsonUpperClass json = JSON_TO_XML_PARSER.parseJson("src/test/resources/NoSuchFile.json");
             Assert.fail("Not existing file found");
