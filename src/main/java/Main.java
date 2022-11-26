@@ -21,15 +21,17 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * Starter class for FileConverter
+ * Главный класс для запуска
  */
 public class Main {
     private static final XmlToJson XML_TO_JSON_PARSER = new XmlToJson();
     private static final JsonToXml JSON_TO_XML_PARSER = new JsonToXml();
     /**
-     * Starts converting for xml or json file depending on the input data
+     * Запускает ковертирование xml\json файлов в зависимости от входных данных
      *
-     * @param args Required 2 parameters: 1 - path to existing file; 2 - path to new file
+     * @param args Требуется два элемента:
+     *            1 - путь к существующему xml файлу;
+     *            2 - путь к новому json файлу.
      */
     public static void main(String[] args) {
         String path;

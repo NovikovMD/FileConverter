@@ -24,14 +24,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Provides three methods:
- * 1) parseXml - reads value from XML file using SAX.
- * 2) convert - converts XML classes to Json classes.
- * 3) createJson - creates Json file using Jackson-databind.
- * <p>
- * Extends DefaultHandler to XMLHandler to provide parsing of XML file using SAX
- *
- * @author Novikov Matthew
+ * Предоставляет доступ к трем методам:
+ * 1) parseXml - считывает XML файл, используя SAX. Сохраняет данные в gameIndustry
+ * 2) convert - конвертирует данные из Xml класса в Json класс.
+ * 3) createJson - создает Json файл используя Jackson-databind.
+ * Расширяет класс DefaultHandler в XMLHandler для работы с Xml файлом, используя SAX
  */
 public class XmlToJson {
     //Инициализируется в XmlHandler
@@ -41,10 +38,10 @@ public class XmlToJson {
     private final ObjectMapper mapper = new ObjectMapper();
 
     /**
-     * Reads value from XML file.
+     * Считывает данные из Xml файла.
      *
-     * @param path absolute path to existing XML file.
-     * @return XML data holder if needed.
+     * @param path абсолютный путь к существующему Xml файлу.
+     * @return класс, содержащий даныне из исходного Xml файла.
      */
     public XmlUpperClass parseXml(final String path) throws ParserConfigurationException, SAXException, IOException {
         SAXParser parser = factory.newSAXParser();
@@ -55,9 +52,9 @@ public class XmlToJson {
     }
 
     /**
-     * Converts XML classes to Json classes.
+     * Конвертирует Xml классы данных в Json классы.
      *
-     * @return Json data holder class.
+     * @return класс, содержащий данные подобно Json файлу.
      */
     public JsonUpperClass convert(final XmlUpperClass gameIndustry) {
         JsonUpperClass jsonUpperClassGames = new JsonUpperClass();
@@ -140,10 +137,11 @@ public class XmlToJson {
     //endregion
 
     /**
-     * Creates Json file.
+     * Создает Json файл
      *
-     * @param jsonUpperClass Json data holder class (Filled in convert method).
-     * @param path           absolute path to new Json file.
+     * @param jsonUpperClass класс, содержащий данные для Json файла
+     *                       (заполняется в методе convert).
+     * @param path           абсолютный путь к новому Json файлу.
      */
     public void createJson(final JsonUpperClass jsonUpperClass,final String path) throws IOException {
         mapper.writeValue(new File(path), jsonUpperClass);
@@ -154,21 +152,6 @@ public class XmlToJson {
             gameIndustry = new XmlUpperClass();
         }
 
-        /**
-         * Provides parsing of XML file using DefaultHandler.
-         *
-         * @param uri        The Namespace URI, or the empty string if the
-         *                   element has no Namespace URI or if Namespace
-         *                   processing is not being performed.
-         * @param localName  The local name (without prefix), or the
-         *                   empty string if Namespace processing is not being
-         *                   performed.
-         * @param qName      The qualified name (with prefix), or the
-         *                   empty string if qualified names are not available.
-         * @param attributes The attributes attached to the element.  If
-         *                   there are no attributes, it shall be an empty
-         *                   Attributes object.
-         */
         @Override
         public void startElement(final String uri,final String localName,final String qName,final Attributes attributes) {
             switch (qName) {

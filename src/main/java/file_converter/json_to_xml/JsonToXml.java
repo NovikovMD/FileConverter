@@ -25,23 +25,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Provides three methods:
- * 1) parseJson - reads value from Json file using Jackson.
- * 2) convert - converts Json classes to XML classes.
- * 3) createXML - creates XML file using StAX.
- *
- * @author Novikov Matthew
+ * Предоставляет доступ к трем методам:
+ * 1) parseJson - считывает данные из Json файла, используя Jackson.
+ * 2) convert - конвертирует Json классы данных в XML классы.
+ * 3) createXML - создает XML файл, используя StAX.
  */
 public class JsonToXml {
     private final JsonFactory factory = new JsonFactory();
     private final XMLOutputFactory output = XMLOutputFactory.newInstance();
 
     /**
-     * Reads value from Json file.
+     * Считывает данные из Json файла.
      *
-     * @param path absolute path to existing Json file.
-     * @return Json data holder if needed.
-     * @throws IOException if failed to read Json file
+     * @param path абсолютный путь к существующему Json файлу.
+     * @return класс, содержащий даныне из исходного Json файла.
+     * @throws IOException если считывание Json файла было прервано.
      */
     public JsonUpperClass parseJson(final String path) throws IOException {
         JsonUpperClass games = new JsonUpperClass();
@@ -137,9 +135,9 @@ public class JsonToXml {
     //endregion
 
     /**
-     * converts Json classes to XML classes.
+     * Конвертирует Json классы данных в XML классы.
      *
-     * @return XML data holder.
+     * @return класс, содержащий данные подобно Json файлу.
      */
     public XmlUpperClass convert(final JsonUpperClass games) {
         XmlUpperClass gameIndustry = new XmlUpperClass();
@@ -226,10 +224,11 @@ public class JsonToXml {
     //endregion
 
     /**
-     * Starts StAX parser
+     * Запускает создание файла.
      *
-     * @param xmlUpperClassClass XML data holder (Filled in convert method).
-     * @param path               absolute path to new XML file.
+     * @param xmlUpperClassClass класс, содержащий данные для Xml файла
+     *                           (заполняется в методе convert).
+     * @param path               абсолютный путь к новому Xml файлу.
      */
     public void createXML(final XmlUpperClass xmlUpperClassClass, final String path)
             throws FileNotFoundException, XMLStreamException {
@@ -238,14 +237,6 @@ public class JsonToXml {
     }
 
     //region createXml private methods
-
-    /**
-     * Creates XML file using StAX
-     *
-     * @param out                OutputStream to write the file to
-     * @param xmlUpperClassClass XML data holder (Filled in convert method).
-     * @throws XMLStreamException if failed to write XML file.
-     */
     private void writeXml(final OutputStream out, final XmlUpperClass xmlUpperClassClass) throws XMLStreamException {
         XMLStreamWriter writer = output.createXMLStreamWriter(out);
 
