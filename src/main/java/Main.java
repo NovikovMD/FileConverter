@@ -24,8 +24,8 @@ import java.util.Scanner;
  * Starter class for FileConverter
  */
 public class Main {
-    private static final XmlToJson xmlToJsonParser = new XmlToJson();
-    private static final JsonToXml jsonToXmlParser = new JsonToXml();
+    private static final XmlToJson XML_TO_JSON_PARSER = new XmlToJson();
+    private static final JsonToXml JSON_TO_XML_PARSER = new JsonToXml();
     /**
      * Starts converting for xml or json file depending on the input data
      *
@@ -60,15 +60,15 @@ public class Main {
         }
     }
 
-    private static String getExtension(String newPath) {
+    private static String getExtension(final String newPath) {
         int index = newPath.lastIndexOf(".");
         return index > -1 ? newPath.substring( index + 1) : "";
     }
 
-    private static void parseXml(String path, String newPath) {
+    private static void parseXml(final String path,final String newPath) {
         XmlUpperClass parsedClass;
         try {
-            parsedClass = xmlToJsonParser.parseXml(path);
+            parsedClass = XML_TO_JSON_PARSER.parseXml(path);
         } catch (ParserConfigurationException | SAXException | IOException exception) {
             System.out.println("Failed to parse xml file.");
             exception.printStackTrace();
@@ -76,17 +76,17 @@ public class Main {
         }
 
         try {
-            xmlToJsonParser.createJson(xmlToJsonParser.convert(parsedClass), newPath);
+            XML_TO_JSON_PARSER.createJson(XML_TO_JSON_PARSER.convert(parsedClass), newPath);
         } catch (IOException ioException) {
             System.out.println("Failed to create json file.");
             ioException.printStackTrace();
         }
     }
 
-    private static void parseJson(String path, String newPath) {
+    private static void parseJson(final String path,final String newPath) {
         JsonUpperClass jsonClass;
         try {
-            jsonClass = jsonToXmlParser.parseJson(path);
+            jsonClass = JSON_TO_XML_PARSER.parseJson(path);
         } catch (IOException exception) {
             System.out.println("Failed to parse json file.");
             exception.printStackTrace();
@@ -94,7 +94,7 @@ public class Main {
         }
 
         try {
-            jsonToXmlParser.createXML(jsonToXmlParser.convert(jsonClass), newPath);
+            JSON_TO_XML_PARSER.createXML(JSON_TO_XML_PARSER.convert(jsonClass), newPath);
         } catch (FileNotFoundException exception) {
             System.out.println("File not found.");
             exception.printStackTrace();

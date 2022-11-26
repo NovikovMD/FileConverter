@@ -14,6 +14,7 @@ import java.util.ArrayList;
 public class JsonToXmlTest {
 
     private static final JsonToXml jsonToXmlParser = new JsonToXml();
+
     @Test
     public void tryParse1lvl() throws IOException {
         JsonGame game = new JsonGame("The Warriors", 2005, "Rockstar");
@@ -85,12 +86,42 @@ public class JsonToXmlTest {
         Assert.assertEquals(platforms.get(0).getName(), "PlayStation 2");
         Assert.assertEquals(platforms.get(1).getName(), "PlayStation Portable");
         Assert.assertEquals(platforms.get(2).getName(), "XBox");
+    }
 
+    @Test
+    public void tryConvertXMLtoJSONAllSeveralTimes() throws IOException {
+        JsonUpperClass json = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
+
+        XmlUpperClass compare = jsonToXmlParser.convert(json);
+
+        json = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
+        compare = jsonToXmlParser.convert(json);
+
+        json = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
+        compare = jsonToXmlParser.convert(json);
+
+        XmlGamePublisher gamePublisher = compare.getPublishers().get(0);
+        XmlDevStudio dev = gamePublisher.getDevStudios().get(0);
+        XmlGame game = dev.getGames().get(0);
+        ArrayList<XmlPlatform> platforms = game.getPlatforms();
+
+        Assert.assertEquals(gamePublisher.getName(), "Rockstar");
+
+        Assert.assertEquals(dev.getName(), "Rockstar Toronto");
+        Assert.assertEquals(dev.getYearOfFoundation(), 1981);
+        Assert.assertEquals(dev.getUrl(), "www.rockstartoronto.com");
+
+        Assert.assertEquals(game.getName(), "The Warriors");
+        Assert.assertEquals(game.getYear(), 2005);
+
+        Assert.assertEquals(platforms.get(0).getName(), "PlayStation 2");
+        Assert.assertEquals(platforms.get(1).getName(), "PlayStation Portable");
+        Assert.assertEquals(platforms.get(2).getName(), "XBox");
     }
 
     @Test
     public void tryCreteXML() throws IOException, XMLStreamException {
-        JsonUpperClass json = jsonToXmlParser.parseJson("src/test/resources/newName.json");
+        JsonUpperClass json = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
         XmlUpperClass converted = jsonToXmlParser.convert(json);
         jsonToXmlParser.createXML(converted, "src/test/resources/NewXML.xml");
 

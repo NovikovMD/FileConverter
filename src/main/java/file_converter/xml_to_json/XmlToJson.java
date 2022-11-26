@@ -34,6 +34,7 @@ import java.util.ArrayList;
  * @author Novikov Matthew
  */
 public class XmlToJson {
+    //Инициализируется в XmlHandler
     private XmlUpperClass gameIndustry;
     private final SAXParserFactory factory = SAXParserFactory.newInstance();
     private final XmlHandler handler = new XmlHandler();
@@ -48,8 +49,7 @@ public class XmlToJson {
     public XmlUpperClass parseXml(final String path) throws ParserConfigurationException, SAXException, IOException {
         SAXParser parser = factory.newSAXParser();
 
-        File fl = new File(path);
-        parser.parse(fl, handler);
+        parser.parse(new File(path), handler);
 
         return gameIndustry;
     }
@@ -59,7 +59,7 @@ public class XmlToJson {
      *
      * @return Json data holder class.
      */
-    public JsonUpperClass convert(XmlUpperClass gameIndustry) {
+    public JsonUpperClass convert(final XmlUpperClass gameIndustry) {
         JsonUpperClass jsonUpperClassGames = new JsonUpperClass();
 
         startConvert(gameIndustry, jsonUpperClassGames);
@@ -67,8 +67,8 @@ public class XmlToJson {
         return jsonUpperClassGames;
     }
 
-    //region convert private methods
-    private void startConvert(XmlUpperClass gameIndustry, JsonUpperClass jsonUpperClassGames) {
+    //region Convert private methods
+    private void startConvert(final XmlUpperClass gameIndustry,final JsonUpperClass jsonUpperClassGames) {
         for (int i = 0; i < gameIndustry.returnLength(); i++) {
             //get current publisher
             XmlGamePublisher publisher = gameIndustry.getPublishers().get(i);
@@ -77,7 +77,7 @@ public class XmlToJson {
         }
     }
 
-    private void getPublisher(JsonUpperClass jsonUpperClassGames, XmlGamePublisher publisher) {
+    private void getPublisher(final JsonUpperClass jsonUpperClassGames,final XmlGamePublisher publisher) {
         for (int j = 0; j < publisher.returnLength(); j++) {
             //get current developer
             XmlDevStudio developer = publisher.getDevStudios().get(j);
@@ -86,7 +86,8 @@ public class XmlToJson {
         }
     }
 
-    private void getDeveloper(JsonUpperClass jsonUpperClassGames, XmlGamePublisher publisher, XmlDevStudio developer) {
+    private void getDeveloper(final JsonUpperClass jsonUpperClassGames,final XmlGamePublisher publisher,
+                              final XmlDevStudio developer) {
         for (int k = 0; k < developer.returnLength(); k++) {
             //get current game
             XmlGame game = developer.getGames().get(k);
@@ -95,7 +96,8 @@ public class XmlToJson {
         }
     }
 
-    private void getGame(JsonUpperClass jsonUpperClassGames, XmlGamePublisher publisher, XmlDevStudio developer, XmlGame game) {
+    private void getGame(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher,
+                         final XmlDevStudio developer, final XmlGame game) {
         JsonGame checker = getCurrentGame(game.getName(), jsonUpperClassGames.getGames());
         //add current game to list, if it doesn't exist so far
         if (checker == null) {
@@ -106,7 +108,7 @@ public class XmlToJson {
         }
     }
 
-    private JsonGame getCurrentGame(String nameToFind, ArrayList<JsonGame> listToLookIn) {
+    private JsonGame getCurrentGame(final String nameToFind, final ArrayList<JsonGame> listToLookIn) {
         JsonGame foundGame = null;
 
         for (JsonGame jsoNgame : listToLookIn) {
@@ -118,7 +120,7 @@ public class XmlToJson {
         return foundGame;
     }
 
-    private void createNewGame(JsonUpperClass jsonUpperClassGames, XmlGamePublisher publisher,
+    private void createNewGame(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher,
                                XmlDevStudio developer, XmlGame game) {
         jsonUpperClassGames.addGame(game.getName(), game.getYear(), publisher.getName());
         JsonGame jsonGame = jsonUpperClassGames.getGames().get(jsonUpperClassGames.returnLength() - 1);
@@ -128,7 +130,7 @@ public class XmlToJson {
         jsonGame.addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
     }
 
-    private void getPlatform(XmlGame game, JsonGame jsonGame) {
+    private void getPlatform(final XmlGame game, final JsonGame jsonGame) {
         for (int l = 0; l < game.returnLength(); l++) {
             XmlPlatform platform = game.getPlatforms().get(l);
 
@@ -143,7 +145,7 @@ public class XmlToJson {
      * @param jsonUpperClass Json data holder class (Filled in convert method).
      * @param path           absolute path to new Json file.
      */
-    public void createJson(JsonUpperClass jsonUpperClass, String path) throws IOException {
+    public void createJson(final JsonUpperClass jsonUpperClass,final String path) throws IOException {
         mapper.writeValue(new File(path), jsonUpperClass);
     }
 
@@ -168,7 +170,7 @@ public class XmlToJson {
          *                   Attributes object.
          */
         @Override
-        public void startElement(String uri, String localName, String qName, Attributes attributes) {
+        public void startElement(final String uri,final String localName,final String qName,final Attributes attributes) {
             switch (qName) {
                 case "gamePublisher" -> getGamePublisherSAX(attributes);
                 case "developerStudio" -> getDeveloperStudioSAX(attributes);
@@ -177,19 +179,19 @@ public class XmlToJson {
             }
         }
 
-        private void getGamePublisherSAX(Attributes attributes) {
+        private void getGamePublisherSAX(final Attributes attributes) {
             String name = attributes.getValue("name");
             gameIndustry.addPublisher(name);
         }
 
-        private void getDeveloperStudioSAX(Attributes attributes) {
+        private void getDeveloperStudioSAX(final Attributes attributes) {
             String name = attributes.getValue("name");
             int year = Integer.parseInt(attributes.getValue("year_of_foundation"));
             String URL = attributes.getValue("URL");
             gameIndustry.getPublishers().get(gameIndustry.returnLength() - 1).addDevStudio(name, year, URL);
         }
 
-        private void getGameSAX(Attributes attributes) {
+        private void getGameSAX(final Attributes attributes) {
             String name = attributes.getValue("name");
             int year = Integer.parseInt(attributes.getValue("year"));
 
@@ -203,7 +205,7 @@ public class XmlToJson {
             devStudio.addGame(name, year);
         }
 
-        private void getPlatformSAX(Attributes attributes) {
+        private void getPlatformSAX(final Attributes attributes) {
             String name = attributes.getValue("name");
 
             int gameIndustryListLength = gameIndustry.returnLength() - 1;
