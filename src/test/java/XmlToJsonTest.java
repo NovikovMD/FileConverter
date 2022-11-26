@@ -14,7 +14,7 @@ public class XmlToJsonTest {
     private static final XmlToJson xmlToJsonParser = new XmlToJson();
 
     @Test
-    public void tryParse() throws ParserConfigurationException, IOException, SAXException {
+    public void tryParseXml() throws ParserConfigurationException, IOException, SAXException {
         XmlUpperClass publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
         //try parse multiple times
         publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
@@ -23,41 +23,41 @@ public class XmlToJsonTest {
 
         //publisher
         XmlGamePublisher publisher = publishers.getPublishers().get(0);
-        Assert.assertEquals(publisher.getName(), "Rockstar");
+        Assert.assertEquals("Rockstar", publisher.getName());
 
         //developer
         XmlDevStudio devStudio = publisher.getDevStudios().get(0);
-        Assert.assertEquals(devStudio.getName(), "Rockstar Toronto");
+        Assert.assertEquals("Rockstar Toronto", devStudio.getName());
 
-        Assert.assertEquals(devStudio.getYearOfFoundation(), 1981);
+        Assert.assertEquals(1981, devStudio.getYearOfFoundation());
 
-        Assert.assertEquals(devStudio.getUrl(), "www.rockstartoronto.com");
+        Assert.assertEquals("www.rockstartoronto.com", devStudio.getUrl());
 
         //games
         XmlGame game = devStudio.getGames().get(0);
-        Assert.assertEquals(game.getName(), "The Warriors");
-        Assert.assertEquals(game.getYear(), 2005);
+        Assert.assertEquals("The Warriors", game.getName());
+        Assert.assertEquals(2005, game.getYear());
 
         game = devStudio.getGames().get(1);
-        Assert.assertEquals(game.getName(), "Manhunt 2");
-        Assert.assertEquals(game.getYear(), 2007);
+        Assert.assertEquals("Manhunt 2", game.getName());
+        Assert.assertEquals(2007, game.getYear());
 
         //platforms
         XmlPlatform platform = devStudio.getGames().get(0).getPlatforms().get(0);
-        Assert.assertEquals(platform.getName(), "PlayStation 2");
+        Assert.assertEquals("PlayStation 2", platform.getName());
         platform = devStudio.getGames().get(0).getPlatforms().get(1);
-        Assert.assertEquals(platform.getName(), "PlayStation Portable");
+        Assert.assertEquals("PlayStation Portable", platform.getName());
         platform = devStudio.getGames().get(0).getPlatforms().get(2);
-        Assert.assertEquals(platform.getName(), "XBox");
+        Assert.assertEquals("XBox", platform.getName());
 
         platform = devStudio.getGames().get(1).getPlatforms().get(0);
-        Assert.assertEquals(platform.getName(), "Microsoft Windows");
+        Assert.assertEquals("Microsoft Windows", platform.getName());
         platform = devStudio.getGames().get(1).getPlatforms().get(1);
-        Assert.assertEquals(platform.getName(), "PlayStation 2");
+        Assert.assertEquals("PlayStation 2", platform.getName());
         platform = devStudio.getGames().get(1).getPlatforms().get(2);
-        Assert.assertEquals(platform.getName(), "PlayStation Portable");
+        Assert.assertEquals("PlayStation Portable", platform.getName());
         platform = devStudio.getGames().get(1).getPlatforms().get(3);
-        Assert.assertEquals(platform.getName(), "Wii");
+        Assert.assertEquals("Wii", platform.getName());
     }
 
     @Test
@@ -66,39 +66,39 @@ public class XmlToJsonTest {
 
         JsonUpperClass compare = xmlToJsonParser.convert(xmlClass);
 
-        Assert.assertEquals(compare.getGames().get(0).getName(), "The Warriors");
-        Assert.assertEquals(compare.getGames().get(0).getYear(), 2005);
-        Assert.assertEquals(compare.getGames().get(0).getGamePublisher(), "Rockstar");
+        Assert.assertEquals("The Warriors", compare.getGames().get(0).getName());
+        Assert.assertEquals(2005, compare.getGames().get(0).getYear());
+        Assert.assertEquals("Rockstar", compare.getGames().get(0).getGamePublisher());
 
-        Assert.assertEquals(compare.getGames().get(0).getPlatforms().get(0).getName(), "PlayStation 2");
-        Assert.assertEquals(compare.getGames().get(0).getPlatforms().get(1).getName(), "PlayStation Portable");
-        Assert.assertEquals(compare.getGames().get(0).getPlatforms().get(2).getName(), "XBox");
+        Assert.assertEquals("PlayStation 2", compare.getGames().get(0).getPlatforms().get(0).getName());
+        Assert.assertEquals("PlayStation Portable", compare.getGames().get(0).getPlatforms().get(1).getName());
+        Assert.assertEquals("XBox", compare.getGames().get(0).getPlatforms().get(2).getName());
 
-        Assert.assertEquals(compare.getGames().get(0).getDevStudios().get(0).getName(), "Rockstar Toronto");
-        Assert.assertEquals(compare.getGames().get(0).getDevStudios().get(0).getYearOfFoundation(), 1981);
-        Assert.assertEquals(compare.getGames().get(0).getDevStudios().get(0).getUrl(), "www.rockstartoronto.com");
+        Assert.assertEquals("Rockstar Toronto", compare.getGames().get(0).getDevStudios().get(0).getName());
+        Assert.assertEquals(1981, compare.getGames().get(0).getDevStudios().get(0).getYearOfFoundation());
+        Assert.assertEquals("www.rockstartoronto.com", compare.getGames().get(0).getDevStudios().get(0).getUrl());
 
 
-        Assert.assertEquals(compare.getGames().get(1).getName(), "Manhunt 2");
-        Assert.assertEquals(compare.getGames().get(1).getYear(), 2007);
-        Assert.assertEquals(compare.getGames().get(1).getGamePublisher(), "Rockstar");
+        Assert.assertEquals("Manhunt 2", compare.getGames().get(1).getName());
+        Assert.assertEquals(2007, compare.getGames().get(1).getYear());
+        Assert.assertEquals("Rockstar", compare.getGames().get(1).getGamePublisher());
 
-        Assert.assertEquals(compare.getGames().get(1).getPlatforms().get(0).getName(), "Microsoft Windows");
-        Assert.assertEquals(compare.getGames().get(1).getPlatforms().get(1).getName(), "PlayStation 2");
-        Assert.assertEquals(compare.getGames().get(1).getPlatforms().get(2).getName(), "PlayStation Portable");
-        Assert.assertEquals(compare.getGames().get(1).getPlatforms().get(3).getName(), "Wii");
+        Assert.assertEquals("Microsoft Windows", compare.getGames().get(1).getPlatforms().get(0).getName());
+        Assert.assertEquals("PlayStation 2", compare.getGames().get(1).getPlatforms().get(1).getName());
+        Assert.assertEquals("PlayStation Portable", compare.getGames().get(1).getPlatforms().get(2).getName());
+        Assert.assertEquals("Wii", compare.getGames().get(1).getPlatforms().get(3).getName());
 
-        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(0).getName(), "Rockstar Toronto");
-        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(0).getYearOfFoundation(), 1981);
-        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(0).getUrl(), "www.rockstartoronto.com");
-        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(1).getName(), "Rockstar London");
-        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(1).getYearOfFoundation(), 2005);
-        Assert.assertEquals(compare.getGames().get(1).getDevStudios().get(1).getUrl(), "www.rockstarlondon.com");
+        Assert.assertEquals("Rockstar Toronto", compare.getGames().get(1).getDevStudios().get(0).getName());
+        Assert.assertEquals(1981, compare.getGames().get(1).getDevStudios().get(0).getYearOfFoundation());
+        Assert.assertEquals("www.rockstartoronto.com", compare.getGames().get(1).getDevStudios().get(0).getUrl());
+        Assert.assertEquals("Rockstar London", compare.getGames().get(1).getDevStudios().get(1).getName());
+        Assert.assertEquals(2005, compare.getGames().get(1).getDevStudios().get(1).getYearOfFoundation());
+        Assert.assertEquals("www.rockstarlondon.com", compare.getGames().get(1).getDevStudios().get(1).getUrl());
     }
 
     @Test
-    public void tryCreateJsonFile() throws IOException, ParserConfigurationException, SAXException {
-        XmlUpperClass xmlClass =xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
+    public void tryCreateJson() throws IOException, ParserConfigurationException, SAXException {
+        XmlUpperClass xmlClass = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
         JsonUpperClass converted = xmlToJsonParser.convert(xmlClass);
         xmlToJsonParser.createJson(converted, "src/test/resources/newName.json");
 

@@ -16,7 +16,7 @@ public class JsonToXmlTest {
     private static final JsonToXml jsonToXmlParser = new JsonToXml();
 
     @Test
-    public void tryParse() throws IOException {
+    public void tryParseJson() throws IOException {
         JsonUpperClass some = jsonToXmlParser.parseJson("src\\test\\resources\\TestInput.json");
         JsonGame oneGame = some.getGames().get(0);
 
