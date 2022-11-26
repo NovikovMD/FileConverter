@@ -17,22 +17,22 @@ package file_converter.classes.json;
  */
 public class JsonDevStudio {
 
-    private String Name;
+    private String name;
     private int yearOfFoundation;
     private String url;
 
     public JsonDevStudio(String name, int yearOfFoundation, String url) {
-        this.Name = name;
+        this.name = name;
         this.yearOfFoundation = yearOfFoundation;
         this.url = url;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String mName) {
-        this.Name = mName;
+        this.name = mName;
     }
 
     public int getYearOfFoundation() {

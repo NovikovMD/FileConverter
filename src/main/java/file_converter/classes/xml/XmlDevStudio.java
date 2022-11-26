@@ -31,20 +31,29 @@ public class XmlDevStudio {
         games = new ArrayList<>();
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getYearOfFoundation() {
         return yearOfFoundation;
     }
 
+    public void setYearOfFoundation(int yearOfFoundation) {
+        this.yearOfFoundation = yearOfFoundation;
+    }
+
     public String getUrl() {
         return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public ArrayList<XmlGame> getGames() {

@@ -2,7 +2,6 @@ import file_converter.classes.json.JsonUpperClass;
 import file_converter.classes.json.JsonGame;
 import file_converter.classes.xml.*;
 import file_converter.json_to_xml.JsonToXml;
-import file_converter.xml_to_json.XmlToJson;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ public class JsonToXmlTest {
         JsonGame oneGame = some.getGames().get(0);
         Assert.assertEquals(oneGame.getName(), game.getName());
         Assert.assertEquals(oneGame.getYear(), game.getYear());
-        Assert.assertEquals(oneGame.getGamePublisherName(), game.getGamePublisherName());
+        Assert.assertEquals(oneGame.getGamePublisher(), game.getGamePublisher());
     }
 
     @Test
@@ -34,7 +33,7 @@ public class JsonToXmlTest {
         JsonGame oneGame = some.getGames().get(1);
         Assert.assertEquals(oneGame.getName(), game.getName());
         Assert.assertEquals(oneGame.getYear(), game.getYear());
-        Assert.assertEquals(oneGame.getGamePublisherName(), game.getGamePublisherName());
+        Assert.assertEquals(oneGame.getGamePublisher(), game.getGamePublisher());
     }
 
     @Test
@@ -91,7 +90,7 @@ public class JsonToXmlTest {
 
     @Test
     public void tryCreteXML() throws IOException, XMLStreamException {
-        JsonUpperClass json = jsonToXmlParser.parseJson("src/test/resources/TestInput.json");
+        JsonUpperClass json = jsonToXmlParser.parseJson("src/test/resources/newName.json");
         XmlUpperClass converted = jsonToXmlParser.convert(json);
         jsonToXmlParser.createXML(converted, "src/test/resources/NewXML.xml");
 

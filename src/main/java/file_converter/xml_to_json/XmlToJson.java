@@ -105,6 +105,7 @@ public class XmlToJson {
             checker.addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
         }
     }
+
     private JsonGame getCurrentGame(String nameToFind, ArrayList<JsonGame> listToLookIn) {
         JsonGame foundGame = null;
 
@@ -118,7 +119,7 @@ public class XmlToJson {
     }
 
     private void createNewGame(JsonUpperClass jsonUpperClassGames, XmlGamePublisher publisher,
-                                      XmlDevStudio developer, XmlGame game) {
+                               XmlDevStudio developer, XmlGame game) {
         jsonUpperClassGames.addGame(game.getName(), game.getYear(), publisher.getName());
         JsonGame jsonGame = jsonUpperClassGames.getGames().get(jsonUpperClassGames.returnLength() - 1);
 
@@ -126,7 +127,8 @@ public class XmlToJson {
 
         jsonGame.addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
     }
-    private  void getPlatform(XmlGame game, JsonGame jsonGame) {
+
+    private void getPlatform(XmlGame game, JsonGame jsonGame) {
         for (int l = 0; l < game.returnLength(); l++) {
             XmlPlatform platform = game.getPlatforms().get(l);
 
@@ -149,6 +151,7 @@ public class XmlToJson {
         public void startDocument() {
             gameIndustry = new XmlUpperClass();
         }
+
         /**
          * Provides parsing of XML file using DefaultHandler.
          *
@@ -167,18 +170,10 @@ public class XmlToJson {
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) {
             switch (qName) {
-                case "gamePublisher" -> {
-                    getGamePublisherSAX(attributes);
-                }
-                case "developerStudio" -> {
-                    getDeveloperStudioSAX(attributes);
-                }
-                case "game" -> {
-                    getGameSAX(attributes);
-                }
-                case "platform" -> {
-                    getPlatformSAX(attributes);
-                }
+                case "gamePublisher" -> getGamePublisherSAX(attributes);
+                case "developerStudio" -> getDeveloperStudioSAX(attributes);
+                case "game" -> getGameSAX(attributes);
+                case "platform" -> getPlatformSAX(attributes);
             }
         }
 

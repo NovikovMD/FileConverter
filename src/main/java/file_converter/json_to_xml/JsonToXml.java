@@ -150,7 +150,7 @@ public class JsonToXml {
     }
 
     private void startConvert(JsonUpperClass games, XmlUpperClass gameIndustry) {
-        gameIndustry.addPublisher(games.getGames().get(0).getGamePublisherName());
+        gameIndustry.addPublisher(games.getGames().get(0).getGamePublisher());
 
         for (int i = 0; i < games.returnLength(); i++) {
             //get current game in json
@@ -209,12 +209,12 @@ public class JsonToXml {
     private XmlGamePublisher findPublisher(JsonGame jsonGame, XmlUpperClass xml) {
         List<XmlGamePublisher> gamePublishers = xml.getPublishers();
         for (int i = gamePublishers.size() - 1; i >= 0; i--) {
-            if (gamePublishers.get(i).getName().equals(jsonGame.getGamePublisherName())) {
+            if (gamePublishers.get(i).getName().equals(jsonGame.getGamePublisher())) {
                 return gamePublishers.get(i);
             }
         }
 
-        xml.addPublisher(jsonGame.getGamePublisherName());
+        xml.addPublisher(jsonGame.getGamePublisher());
 
 
         int index = xml.returnLength();
