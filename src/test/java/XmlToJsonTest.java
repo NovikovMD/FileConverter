@@ -11,11 +11,11 @@ import java.io.IOException;
 
 public class XmlToJsonTest {
 
-    private static final XmlToJson xmlToJsonParser = new XmlToJson();
+    private static final XmlToJson XML_TO_JSON_PARSER = new XmlToJson();
 
     @Test
     public void parseXml() throws ParserConfigurationException, IOException, SAXException {
-        XmlUpperClass publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
+        XmlUpperClass publishers = XML_TO_JSON_PARSER.parseXml("src/test/resources/TestInput.xml");
 
         //publisher
         XmlGamePublisher publisher = publishers.getPublishers().get(0);
@@ -58,9 +58,9 @@ public class XmlToJsonTest {
 
     @Test
     public void convertXmlToJson() throws ParserConfigurationException, IOException, SAXException {
-        XmlUpperClass xmlClass = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
+        XmlUpperClass xmlClass = XML_TO_JSON_PARSER.parseXml("src/test/resources/TestInput.xml");
 
-        JsonUpperClass compare = xmlToJsonParser.convert(xmlClass);
+        JsonUpperClass compare = XML_TO_JSON_PARSER.convert(xmlClass);
 
         Assert.assertEquals("The Warriors", compare.getGames().get(0).getName());
         Assert.assertEquals(2005, compare.getGames().get(0).getYear());
@@ -94,9 +94,9 @@ public class XmlToJsonTest {
 
     @Test
     public void createJson() throws IOException, ParserConfigurationException, SAXException {
-        XmlUpperClass xmlClass = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
-        JsonUpperClass converted = xmlToJsonParser.convert(xmlClass);
-        xmlToJsonParser.createJson(converted, "src/test/resources/newName.json");
+        XmlUpperClass xmlClass = XML_TO_JSON_PARSER.parseXml("src/test/resources/TestInput.xml");
+        JsonUpperClass converted = XML_TO_JSON_PARSER.convert(xmlClass);
+        XML_TO_JSON_PARSER.createJson(converted, "src/test/resources/newName.json");
 
         File fl = new File("src/test/resources/newName.json");
 
@@ -106,11 +106,24 @@ public class XmlToJsonTest {
     @Test
     public void wrongFile() throws ParserConfigurationException, IOException, SAXException {
         try {
-            XmlUpperClass xmlClass = xmlToJsonParser.parseXml("src/test/resources/NoSuchFile.xml");
+            XmlUpperClass xmlClass = XML_TO_JSON_PARSER.parseXml("src/test/resources/NoSuchFile.xml");
             Assert.fail("Not existing file found");
+        } catch (IllegalArgumentException exception) {
+            Assert.assertNotEquals("", exception.toString());
         }
-        catch(IllegalArgumentException exception){
-            Assert.assertNotEquals("",exception.toString());
+    }
+
+    @Test
+    public void wrongConvert() throws ParserConfigurationException, IOException, SAXException {
+
+        XmlUpperClass xmlClass = XML_TO_JSON_PARSER.parseXml("src/test/resources/TestInput.xml");
+
+        try {
+            JsonUpperClass compare = XML_TO_JSON_PARSER.convert(null);
+            Assert.fail("Illigal null argument");
+        } catch (IllegalArgumentException exception) {
+            Assert.assertNotEquals("", exception.toString());
         }
+
     }
 }

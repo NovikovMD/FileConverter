@@ -144,8 +144,12 @@ public class JsonToXml {
      * Конвертирует Json классы данных в XML классы.
      *
      * @return класс, содержащий данные подобно Json файлу.
+     * @throws IllegalArgumentException в случае передачи параметром null.
      */
-    public XmlUpperClass convert(final JsonUpperClass games) {
+    public XmlUpperClass convert(final JsonUpperClass games) throws IllegalArgumentException {
+        if (games == null)
+            throw new IllegalArgumentException();
+
         XmlUpperClass gameIndustry = new XmlUpperClass();
 
         startConvert(games, gameIndustry);

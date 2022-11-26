@@ -87,6 +87,9 @@ public class Main {
         } catch (IOException ioException) {
             System.out.println("Failed to create json file.");
             ioException.printStackTrace();
+        }catch (IllegalArgumentException exception){
+            System.out.println("Illegal null argument.");
+            exception.printStackTrace();
         }
     }
 
@@ -111,6 +114,9 @@ public class Main {
             exception.printStackTrace();
         } catch (XMLStreamException exception) {
             System.out.println("Failed to create json file.");
+            exception.printStackTrace();
+        } catch (IllegalArgumentException exception){
+            System.out.println("Illegal null argument.");
             exception.printStackTrace();
         }
     }

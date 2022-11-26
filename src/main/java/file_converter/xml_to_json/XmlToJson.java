@@ -39,13 +39,14 @@ public class XmlToJson {
 
     /**
      * Считывает данные из Xml файла.
+     *
      * @param path абсолютный путь к существующему Xml файлу.
      * @return класс, содержащий даныне из исходного Xml файла.
      * @throws ParserConfigurationException парсер не может быть создан
-     *                                      в соответствии с заданной окнфигурацией
-     * @throws SAXException в случае любой ошибки SAX парсера
-     * @throws IOException в случае любой IO ошибки
-     * @throws IllegalArgumentException в случае любой передачи параметром несуществующего файла
+     *                                      в соответствии с заданной окнфигурацией.
+     * @throws SAXException                 в случае любой ошибки SAX парсера.
+     * @throws IOException                  в случае любой IO ошибки.
+     * @throws IllegalArgumentException     в случае передачи параметром несуществующего файла.
      */
     public XmlUpperClass parseXml(final String path) throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
         SAXParser parser = factory.newSAXParser();
@@ -63,8 +64,12 @@ public class XmlToJson {
      * Конвертирует Xml классы данных в Json классы.
      *
      * @return класс, содержащий данные подобно Json файлу.
+     * @throws IllegalArgumentException в случае передачи параметром null.
      */
-    public JsonUpperClass convert(final XmlUpperClass gameIndustry) {
+    public JsonUpperClass convert(final XmlUpperClass gameIndustry) throws IllegalArgumentException {
+        if (gameIndustry == null)
+            throw new IllegalArgumentException();
+
         JsonUpperClass jsonUpperClassGames = new JsonUpperClass();
 
         startConvert(gameIndustry, jsonUpperClassGames);
@@ -73,7 +78,7 @@ public class XmlToJson {
     }
 
     //region Convert private methods
-    private void startConvert(final XmlUpperClass gameIndustry,final JsonUpperClass jsonUpperClassGames) {
+    private void startConvert(final XmlUpperClass gameIndustry, final JsonUpperClass jsonUpperClassGames) {
         for (int i = 0; i < gameIndustry.returnLength(); i++) {
             //get current publisher
             XmlGamePublisher publisher = gameIndustry.getPublishers().get(i);
@@ -82,7 +87,7 @@ public class XmlToJson {
         }
     }
 
-    private void getPublisher(final JsonUpperClass jsonUpperClassGames,final XmlGamePublisher publisher) {
+    private void getPublisher(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher) {
         for (int j = 0; j < publisher.returnLength(); j++) {
             //get current developer
             XmlDevStudio developer = publisher.getDevStudios().get(j);
@@ -91,7 +96,7 @@ public class XmlToJson {
         }
     }
 
-    private void getDeveloper(final JsonUpperClass jsonUpperClassGames,final XmlGamePublisher publisher,
+    private void getDeveloper(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher,
                               final XmlDevStudio developer) {
         for (int k = 0; k < developer.returnLength(); k++) {
             //get current game
@@ -151,7 +156,7 @@ public class XmlToJson {
      *                       (заполняется в методе convert).
      * @param path           абсолютный путь к новому Json файлу.
      */
-    public void createJson(final JsonUpperClass jsonUpperClass,final String path) throws IOException {
+    public void createJson(final JsonUpperClass jsonUpperClass, final String path) throws IOException {
         mapper.writeValue(new File(path), jsonUpperClass);
     }
 
@@ -161,7 +166,7 @@ public class XmlToJson {
         }
 
         @Override
-        public void startElement(final String uri,final String localName,final String qName,final Attributes attributes) {
+        public void startElement(final String uri, final String localName, final String qName, final Attributes attributes) {
             switch (qName) {
                 case "gamePublisher" -> getGamePublisherSAX(attributes);
                 case "developerStudio" -> getDeveloperStudioSAX(attributes);

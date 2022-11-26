@@ -4,7 +4,9 @@ import file_converter.classes.xml.*;
 import file_converter.json_to_xml.JsonToXml;
 import org.junit.Assert;
 import org.junit.Test;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
@@ -91,5 +93,19 @@ public class JsonToXmlTest {
         catch(IllegalArgumentException exception){
             Assert.assertNotEquals("",exception.toString());
         }
+    }
+
+    @Test
+    public void wrongConvert() throws IOException {
+
+        JsonUpperClass json = JSON_TO_XML_PARSER.parseJson("src/test/resources/TestInput.json");
+
+        try {
+            XmlUpperClass compare = JSON_TO_XML_PARSER.convert(null);
+            Assert.fail("Illigal null argument");
+        } catch (IllegalArgumentException exception) {
+            Assert.assertNotEquals("", exception.toString());
+        }
+
     }
 }
