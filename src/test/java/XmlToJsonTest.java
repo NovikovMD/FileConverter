@@ -14,46 +14,18 @@ public class XmlToJsonTest {
     private static final XmlToJson xmlToJsonParser = new XmlToJson();
 
     @Test
-    public void tryParse1lvl() throws ParserConfigurationException, IOException, SAXException {
-        XmlGamePublisher publisher = new XmlGamePublisher("Rockstar");
-        Assert.assertEquals(xmlToJsonParser.parseXml("src/test/resources/TestInput.xml").getPublishers().get(0).getName(),
-                publisher.getName());
-    }
-
-    @Test
-    public void tryParse2lvl() throws ParserConfigurationException, IOException, SAXException {
-        XmlDevStudio developerStudio
-                = new XmlDevStudio("Rockstar Toronto", 1981,
-                "www.rockstartoronto.com");
-        Assert.assertEquals(xmlToJsonParser.parseXml("src/test/resources/TestInput.xml")
-                        .getPublishers().get(0)
-                        .getDevStudios().get(0)
-                        .getName(),
-                developerStudio.getName());
-
-        Assert.assertEquals(xmlToJsonParser.parseXml("src/test/resources/TestInput.xml")
-                        .getPublishers().get(0)
-                        .getDevStudios().get(0)
-                        .getYearOfFoundation(),
-                developerStudio.getYearOfFoundation());
-
-        Assert.assertEquals(xmlToJsonParser.parseXml("src/test/resources/TestInput.xml")
-                        .getPublishers().get(0)
-                        .getDevStudios().get(0)
-                        .getUrl(),
-                developerStudio.getUrl());
-    }
-
-    @Test
-    public void tryParseAll() throws ParserConfigurationException, IOException, SAXException {
+    public void tryParse() throws ParserConfigurationException, IOException, SAXException {
         XmlUpperClass publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
+        //try parse multiple times
+        publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
+        publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
+        publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
 
         //publisher
         XmlGamePublisher publisher = publishers.getPublishers().get(0);
         Assert.assertEquals(publisher.getName(), "Rockstar");
 
         //developer
-
         XmlDevStudio devStudio = publisher.getDevStudios().get(0);
         Assert.assertEquals(devStudio.getName(), "Rockstar Toronto");
 
@@ -89,24 +61,15 @@ public class XmlToJsonTest {
     }
 
     @Test
-    public void tryConvertXMLtoJSON_lvl1() throws ParserConfigurationException, IOException, SAXException {
+    public void tryConvertXmlToJson() throws ParserConfigurationException, IOException, SAXException {
         XmlUpperClass xmlClass = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
 
         JsonUpperClass compare = xmlToJsonParser.convert(xmlClass);
+
         Assert.assertEquals(compare.getGames().get(0).getName(), "The Warriors");
         Assert.assertEquals(compare.getGames().get(0).getYear(), 2005);
         Assert.assertEquals(compare.getGames().get(0).getGamePublisher(), "Rockstar");
 
-        Assert.assertEquals(compare.getGames().get(1).getName(), "Manhunt 2");
-        Assert.assertEquals(compare.getGames().get(1).getYear(), 2007);
-        Assert.assertEquals(compare.getGames().get(1).getGamePublisher(), "Rockstar");
-    }
-
-    @Test
-    public void tryConvertXMLtoJSON_all() throws ParserConfigurationException, IOException, SAXException {
-        XmlUpperClass xmlClass = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
-
-        JsonUpperClass compare = xmlToJsonParser.convert(xmlClass);
         Assert.assertEquals(compare.getGames().get(0).getPlatforms().get(0).getName(), "PlayStation 2");
         Assert.assertEquals(compare.getGames().get(0).getPlatforms().get(1).getName(), "PlayStation Portable");
         Assert.assertEquals(compare.getGames().get(0).getPlatforms().get(2).getName(), "XBox");
@@ -115,6 +78,10 @@ public class XmlToJsonTest {
         Assert.assertEquals(compare.getGames().get(0).getDevStudios().get(0).getYearOfFoundation(), 1981);
         Assert.assertEquals(compare.getGames().get(0).getDevStudios().get(0).getUrl(), "www.rockstartoronto.com");
 
+
+        Assert.assertEquals(compare.getGames().get(1).getName(), "Manhunt 2");
+        Assert.assertEquals(compare.getGames().get(1).getYear(), 2007);
+        Assert.assertEquals(compare.getGames().get(1).getGamePublisher(), "Rockstar");
 
         Assert.assertEquals(compare.getGames().get(1).getPlatforms().get(0).getName(), "Microsoft Windows");
         Assert.assertEquals(compare.getGames().get(1).getPlatforms().get(1).getName(), "PlayStation 2");
@@ -137,6 +104,6 @@ public class XmlToJsonTest {
 
         File fl = new File("src/test/resources/newName.json");
 
-        Assert.assertNotNull(fl);
+        Assert.assertTrue(fl.exists());
     }
 }

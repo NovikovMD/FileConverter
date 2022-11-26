@@ -149,6 +149,8 @@ public class JsonToXml {
         return gameIndustry;
     }
 
+    //region Convert private methods
+
     private void startConvert(final JsonUpperClass games, final XmlUpperClass gameIndustry) {
         gameIndustry.addPublisher(games.getGames().get(0).getGamePublisher());
 
@@ -172,7 +174,8 @@ public class JsonToXml {
         return XmlPlatforms;
     }
 
-    private void convertDevStudios(final JsonGame jsonGame, final XmlGamePublisher XmlPublisher, final ArrayList<String> XmlPlatforms) {
+    private void convertDevStudios(final JsonGame jsonGame, final XmlGamePublisher XmlPublisher,
+                                   final ArrayList<String> XmlPlatforms) {
         for (int j = 0; j < jsonGame.getDevStudios().size(); j++) {
             //get current devStudio in json
             JsonDevStudio jsonDevStudio = jsonGame.getDevStudios().get(j);
@@ -190,7 +193,6 @@ public class JsonToXml {
         }
     }
 
-    //region Utils
     private XmlDevStudio findDev(final JsonDevStudio devStudio, final XmlGamePublisher publisher) {
         List<XmlDevStudio> devs = publisher.getDevStudios();
         for (int i = devs.size() - 1; i >= 0; i--) {
@@ -229,10 +231,13 @@ public class JsonToXml {
      * @param xmlUpperClassClass XML data holder (Filled in convert method).
      * @param path               absolute path to new XML file.
      */
-    public void createXML(final XmlUpperClass xmlUpperClassClass, final String path) throws FileNotFoundException, XMLStreamException {
+    public void createXML(final XmlUpperClass xmlUpperClassClass, final String path)
+            throws FileNotFoundException, XMLStreamException {
         FileOutputStream out = new FileOutputStream(path);
         writeXml(out, xmlUpperClassClass);
     }
+
+    //region createXml private methods
 
     /**
      * Creates XML file using StAX
@@ -250,7 +255,8 @@ public class JsonToXml {
         writer.close();
     }
 
-    private static void startWriting(final XmlUpperClass xmlUpperClassClass, final XMLStreamWriter writer) throws XMLStreamException {
+    private static void startWriting(final XmlUpperClass xmlUpperClassClass,
+                                     final XMLStreamWriter writer) throws XMLStreamException {
         writer.writeStartDocument("utf-8", "1.0");
 
         // header
@@ -263,7 +269,8 @@ public class JsonToXml {
         writer.writeEndElement();//end GameIndustry
     }
 
-    private static void writeGamePublishers(final XmlUpperClass xmlUpperClassClass, final XMLStreamWriter writer) throws XMLStreamException {
+    private static void writeGamePublishers(final XmlUpperClass xmlUpperClassClass,
+                                            final XMLStreamWriter writer) throws XMLStreamException {
         for (int i = 0; i < xmlUpperClassClass.returnLength(); i++) {
             writer.writeStartElement("gamePublisher");
             writer.writeAttribute("name", xmlUpperClassClass.getPublishers().get(i).getName());
@@ -277,7 +284,8 @@ public class JsonToXml {
         }
     }
 
-    private static void writeDevStudios(final XmlGamePublisher xmlDevStudio, final XMLStreamWriter writer) throws XMLStreamException {
+    private static void writeDevStudios(final XmlGamePublisher xmlDevStudio,
+                                        final XMLStreamWriter writer) throws XMLStreamException {
         for (int j = 0; j < xmlDevStudio.getDevStudios().size(); j++) {
             XmlDevStudio dev = xmlDevStudio.getDevStudios().get(j);
 
@@ -319,4 +327,5 @@ public class JsonToXml {
             writer.writeEndElement();
         }
     }
+    //endregion
 }

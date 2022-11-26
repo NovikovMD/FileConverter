@@ -39,8 +39,8 @@ public class JsonUpperClass {
     public JsonGame returnLastGame() {
         if (games.size() > 0) {
             return games.get(games.size() - 1);
-        } else {
-            return null;
         }
+
+        return null;
     }
 }
