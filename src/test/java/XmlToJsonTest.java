@@ -14,7 +14,7 @@ public class XmlToJsonTest {
     private static final XmlToJson xmlToJsonParser = new XmlToJson();
 
     @Test
-    public void tryParseXml() throws ParserConfigurationException, IOException, SAXException {
+    public void parseXml() throws ParserConfigurationException, IOException, SAXException {
         XmlUpperClass publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
         //try parse multiple times
         publishers = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
@@ -61,7 +61,7 @@ public class XmlToJsonTest {
     }
 
     @Test
-    public void tryConvertXmlToJson() throws ParserConfigurationException, IOException, SAXException {
+    public void convertXmlToJson() throws ParserConfigurationException, IOException, SAXException {
         XmlUpperClass xmlClass = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
 
         JsonUpperClass compare = xmlToJsonParser.convert(xmlClass);
@@ -97,7 +97,7 @@ public class XmlToJsonTest {
     }
 
     @Test
-    public void tryCreateJson() throws IOException, ParserConfigurationException, SAXException {
+    public void createJson() throws IOException, ParserConfigurationException, SAXException {
         XmlUpperClass xmlClass = xmlToJsonParser.parseXml("src/test/resources/TestInput.xml");
         JsonUpperClass converted = xmlToJsonParser.convert(xmlClass);
         xmlToJsonParser.createJson(converted, "src/test/resources/newName.json");
@@ -105,5 +105,16 @@ public class XmlToJsonTest {
         File fl = new File("src/test/resources/newName.json");
 
         Assert.assertTrue(fl.exists());
+    }
+
+    @Test
+    public void wrongFile() throws ParserConfigurationException, IOException, SAXException {
+        try {
+            XmlUpperClass xmlClass = xmlToJsonParser.parseXml("src/test/resources/NoSuchFile.xml");
+            Assert.fail("Not existing file found");
+        }
+        catch(IllegalArgumentException exception){
+            Assert.assertNotEquals("",exception.toString());
+        }
     }
 }

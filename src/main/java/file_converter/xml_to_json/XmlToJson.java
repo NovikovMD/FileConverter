@@ -39,14 +39,22 @@ public class XmlToJson {
 
     /**
      * Считывает данные из Xml файла.
-     *
      * @param path абсолютный путь к существующему Xml файлу.
      * @return класс, содержащий даныне из исходного Xml файла.
+     * @throws ParserConfigurationException парсер не может быть создан
+     *                                      в соответствии с заданной окнфигурацией
+     * @throws SAXException в случае любой ошибки SAX парсера
+     * @throws IOException в случае любой IO ошибки
+     * @throws IllegalArgumentException в случае любой передачи параметром несуществующего файла
      */
-    public XmlUpperClass parseXml(final String path) throws ParserConfigurationException, SAXException, IOException {
+    public XmlUpperClass parseXml(final String path) throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
         SAXParser parser = factory.newSAXParser();
 
-        parser.parse(new File(path), handler);
+        File fl = new File(path);
+        if (!fl.exists())
+            throw new IllegalArgumentException();
+
+        parser.parse(fl, handler);
 
         return gameIndustry;
     }
