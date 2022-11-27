@@ -10,13 +10,20 @@ import org.apache.log4j.PropertyConfigurator;
 public class Logger {
     private static Logger instance;
     private final org.apache.log4j.Logger logger;
-    private static final String PATH_TO_PROPERTIES = "src/main/java/logger/logger.properties";
-    private static final Level DEFAULT_LEVEL = Level.INFO;
+    private final String pathToProperties = "src/main/java/logger/logger.properties";
+    private Level defaultLevel = Level.INFO;
 
     private Logger(){
         logger = LogManager.getLogger(Logger.class);
-        PropertyConfigurator.configure(PATH_TO_PROPERTIES);
-        logger.setLevel(DEFAULT_LEVEL);
+        PropertyConfigurator.configure(pathToProperties);
+        logger.setLevel(defaultLevel);
+    }
+
+    public String getPathToProperties() {
+        return pathToProperties;
+    }
+    public void setLevel(Level lvl) {
+        defaultLevel = lvl;
     }
 
     public static Logger getInstance(){

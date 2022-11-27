@@ -35,6 +35,11 @@ public class Main {
     public static void main(String[] args) {
         Logger.getInstance().info("Начало работы программы");
 
+        if (args == null){
+            Logger.getInstance().error("Пустой ввод данных. Завершение программы.");
+            return;
+        }
+
         if (args.length==1) {
             Logger.getInstance().error("Некорректный ввод данных. Завершение программы.");
             return;
@@ -68,7 +73,7 @@ public class Main {
         } else if (firstExtension.equals("xml") && secondExtension.equals("json")) {
             parseXml(path, newPath, xmlToJsonParser);
         } else {
-            System.out.println("Wrong input");
+            System.err.println("Wrong input");
             Logger.getInstance().fatal("Некорректный формат входных данных. Завершение программы.");
         }
     }
@@ -86,12 +91,12 @@ public class Main {
             parsedClass = parser.parseXml(path);
         } catch (ParserConfigurationException | SAXException | IOException exception) {
             Logger.getInstance().fatal("Не удалось считать файл XML.",  exception);
-            System.out.println("Failed to parse xml file.");
+            System.err.println("Failed to parse xml file.");
             exception.printStackTrace();
             return;
         } catch (IllegalArgumentException exception) {
             Logger.getInstance().error("Неверный путь к XML файлу.",  exception);
-            System.out.println("Wrong file path.");
+            System.err.println("Wrong file path.");
             exception.printStackTrace();
             return;
         }
@@ -101,11 +106,11 @@ public class Main {
             parser.createJson(parser.convert(parsedClass), newPath);
         } catch (IOException ioException) {
             Logger.getInstance().fatal("Не удалось создать JSON файл.",  ioException);
-            System.out.println("Failed to create json file.");
+            System.err.println("Failed to create json file.");
             ioException.printStackTrace();
         }catch (IllegalArgumentException exception){
             Logger.getInstance().fatal("Не удалось конвертировать XML классы в JSON.",  exception);
-            System.out.println("Failed to convert data.");
+            System.err.println("Failed to convert data.");
             exception.printStackTrace();
         }
 
@@ -120,12 +125,12 @@ public class Main {
             jsonClass = parser.parseJson(path);
         } catch (IOException exception) {
             Logger.getInstance().fatal("Не удалось считать файл JSON.",  exception);
-            System.out.println("Failed to parse json file.");
+            System.err.println("Failed to parse json file.");
             exception.printStackTrace();
             return;
         } catch (IllegalArgumentException exception) {
             Logger.getInstance().error("Неверный путь к JSON файлу.",  exception);
-            System.out.println("Wrong file path.");
+            System.err.println("Wrong file path.");
             exception.printStackTrace();
             return;
         }
@@ -135,15 +140,15 @@ public class Main {
             parser.createXML(parser.convert(jsonClass), newPath);
         } catch (FileNotFoundException exception) {
             Logger.getInstance().error("Введен неверный путь к файлу XML.",  exception);
-            System.out.println("Incorrect file path.");
+            System.err.println("Incorrect file path.");
             exception.printStackTrace();
         } catch (XMLStreamException exception) {
             Logger.getInstance().fatal("Не удалось создать XML файл.",  exception);
-            System.out.println("Failed to create xml file.");
+            System.err.println("Failed to create xml file.");
             exception.printStackTrace();
         } catch (IllegalArgumentException exception){
             Logger.getInstance().fatal("Не удалось конвертировать JSON классы в XML.",  exception);
-            System.out.println("Failed to convert data.");
+            System.err.println("Failed to convert data.");
             exception.printStackTrace();
         }
 
