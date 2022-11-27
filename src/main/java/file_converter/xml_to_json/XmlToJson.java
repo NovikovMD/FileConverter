@@ -12,6 +12,7 @@ package file_converter.xml_to_json;
 import file_converter.classes.json.*;
 import file_converter.classes.xml.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import logger.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -81,29 +82,36 @@ public class XmlToJson {
     //region Convert private methods
     private void startConvert(final XmlUpperClass gameIndustry, final JsonUpperClass jsonUpperClassGames) {
         for (int i = 0; i < gameIndustry.returnLength(); i++) {
+            Logger.getInstance().debug("Начало обработки gamePublisher"+i);
             //get current publisher
             XmlGamePublisher publisher = gameIndustry.getPublishers().get(i);
 
             getPublisher(jsonUpperClassGames, publisher);
+            Logger.getInstance().debug("Конец обработки gamePublisher"+i);
         }
     }
 
     private void getPublisher(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher) {
         for (int j = 0; j < publisher.returnLength(); j++) {
+            Logger.getInstance().debug("Начало обработки devStudio"+j);
             //get current developer
             XmlDevStudio developer = publisher.getDevStudios().get(j);
 
             getDeveloper(jsonUpperClassGames, publisher, developer);
+            Logger.getInstance().debug("Конец обработки devStudio"+j);
         }
     }
 
     private void getDeveloper(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher,
                               final XmlDevStudio developer) {
         for (int k = 0; k < developer.returnLength(); k++) {
+
+            Logger.getInstance().debug("Начало обработки game"+k);
             //get current game
             XmlGame game = developer.getGames().get(k);
 
             getGame(jsonUpperClassGames, publisher, developer, game);
+            Logger.getInstance().debug("Конец обработки game"+k);
         }
     }
 
@@ -112,8 +120,10 @@ public class XmlToJson {
         JsonGame checker = getCurrentGame(game.getName(), jsonUpperClassGames.getGames());
         //add current game to list, if it doesn't exist so far
         if (checker == null) {
+            Logger.getInstance().debug("Создание ранее не существующей game");
             createNewGame(jsonUpperClassGames, publisher, developer, game);
         } else {
+            Logger.getInstance().debug("Добавление к game нового developer");
             //if we have current game in list, we need to add developer studio to it
             checker.addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
         }
@@ -142,11 +152,13 @@ public class XmlToJson {
     }
 
     private void getPlatform(final XmlGame game, final JsonGame jsonGame) {
+        Logger.getInstance().debug("Начало считывания platform");
         for (int l = 0; l < game.returnLength(); l++) {
             XmlPlatform platform = game.getPlatforms().get(l);
 
             jsonGame.addPlatform(platform.getName());
         }
+        Logger.getInstance().debug("Конец считывания platform");
     }
     //endregion
 
@@ -158,6 +170,7 @@ public class XmlToJson {
      * @param path           абсолютный путь к новому Json файлу.
      */
     public void createJson(final JsonUpperClass jsonUpperClass, final String path) throws IOException {
+        Logger.getInstance().debug("Начало создания файла JSON");
         mapper.writeValue(new File(path), jsonUpperClass);
     }
 
