@@ -69,6 +69,7 @@ public class XmlToJson {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     public JsonUpperClass convert(final XmlUpperClass gameIndustry) throws IllegalArgumentException {
+        Logger.getInstance().debug("Начало конвертирования классов");
         if (gameIndustry == null)
             throw new IllegalArgumentException();
 
@@ -76,6 +77,7 @@ public class XmlToJson {
 
         startConvert(gameIndustry, jsonUpperClassGames);
 
+        Logger.getInstance().info("Успешно завершено конвертирование классов");
         return jsonUpperClassGames;
     }
 

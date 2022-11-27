@@ -16,6 +16,7 @@ import file_converter.classes.xml.*;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import logger.Logger;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -39,9 +40,11 @@ public class JsonToXml {
      *
      * @param path абсолютный путь к существующему Json файлу.
      * @return класс, содержащий даныне из исходного Json файла.
-     * @throws IOException если считывание Json файла было прервано.
+     * @throws IOException              если считывание Json файла было прервано.
+     * @throws IllegalArgumentException если передан неверный путь к Json файлу
+     *                                  или неккоректная структура файла.
      */
-    public JsonUpperClass parseJson(final String path) throws IOException {
+    public JsonUpperClass parseJson(final String path) throws IOException, IllegalArgumentException {
         JsonUpperClass games = new JsonUpperClass();
 
 
@@ -63,7 +66,9 @@ public class JsonToXml {
         parser.nextToken();
 
         if (parser.nextToken() != JsonToken.START_ARRAY)
-            throw new RuntimeException("Invalid file structure");
+            throw new IllegalArgumentException("Invalid file structure");
+
+        Logger.getInstance().debug("Начало обработки файла");
 
         //loop until token equal to "]"
         while (parser.nextToken() != JsonToken.END_ARRAY) {
@@ -73,13 +78,18 @@ public class JsonToXml {
                 continue;
             }
 
+            Logger.getInstance().debug("Начало обработки токена: " + parser.getCurrentName());
+
             switch (parser.getCurrentName()) {
                 case "name" -> getName(games, parser);
                 case "year" -> getYear(games, parser);
                 case "gamePublisher" -> getGamePublisher(games, parser);
                 case "platforms" -> getPlatforms(games, parser);
                 case "devStudios" -> getDevStudios(games, parser);
-                default -> throw new RuntimeException("Invalid file structure");
+                default -> {
+                    Logger.getInstance().debug("Неверная стуктура файла");
+                    throw new IllegalArgumentException("Invalid file structure");
+                }
             }
         }
     }
@@ -147,6 +157,8 @@ public class JsonToXml {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     public XmlUpperClass convert(final JsonUpperClass games) throws IllegalArgumentException {
+        Logger.getInstance().debug("Начало конвертирования классов");
+
         if (games == null)
             throw new IllegalArgumentException();
 
@@ -154,6 +166,8 @@ public class JsonToXml {
 
         startConvert(games, gameIndustry);
 
+
+        Logger.getInstance().info("Успешно завершено конвертирование классов");
         return gameIndustry;
     }
 
@@ -242,8 +256,11 @@ public class JsonToXml {
      */
     public void createXML(final XmlUpperClass xmlUpperClassClass, final String path)
             throws FileNotFoundException, XMLStreamException {
+
+        Logger.getInstance().debug("Начало записи в файл");
         FileOutputStream out = new FileOutputStream(path);
         writeXml(out, xmlUpperClassClass);
+        Logger.getInstance().debug("Успешно завершена запись в файл");
     }
 
     //region createXml private methods
