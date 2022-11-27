@@ -12,6 +12,7 @@ import file_converter.classes.json.JsonUpperClass;
 import file_converter.classes.xml.XmlUpperClass;
 import file_converter.json_to_xml.JsonToXml;
 import file_converter.xml_to_json.XmlToJson;
+import logger.Logger;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -32,8 +33,10 @@ public class Main {
      *             2 - путь к новому json файлу.
      */
     public static void main(String[] args) {
+        Logger.getInstance().info("Начало работы программы");
+
         if (args.length==1) {
-            System.out.println("Wrong input. Two elements needed");
+            Logger.getInstance().error("Некорректный ввод данных. Завершение программы.");
             return;
         }
         String path;
@@ -43,6 +46,8 @@ public class Main {
         final JsonToXml jsonToXmlParser = new JsonToXml();
 
         if (args.length == 0) {
+            Logger.getInstance().warn("Нет входных данных. Попытка запроса у пользователя.");
+
             Scanner inp = new Scanner(System.in);
             System.out.print("Input full path to file: ");
             path = inp.nextLine();
@@ -63,7 +68,8 @@ public class Main {
         } else if (firstExtension.equals("xml") && secondExtension.equals("json")) {
             parseXml(path, newPath, xmlToJsonParser);
         } else {
-            System.out.print("Wrong input");
+            System.out.println("Wrong input");
+            Logger.getInstance().fatal("Некорректный формат входных данных. Завершение программы.");
         }
     }
 
@@ -73,14 +79,18 @@ public class Main {
     }
 
     private static void parseXml(final String path, final String newPath, XmlToJson parser) {
+        Logger.getInstance().info("Начало работы парсинга XML");
+
         XmlUpperClass parsedClass;
         try {
             parsedClass = parser.parseXml(path);
         } catch (ParserConfigurationException | SAXException | IOException exception) {
+            Logger.getInstance().fatal("Не удалось считать файл XML.",  exception);
             System.out.println("Failed to parse xml file.");
             exception.printStackTrace();
             return;
         } catch (IllegalArgumentException exception) {
+            Logger.getInstance().error("Неверный путь к XML файлу.",  exception);
             System.out.println("Wrong file path.");
             exception.printStackTrace();
             return;
@@ -89,23 +99,31 @@ public class Main {
         try {
             parser.createJson(parser.convert(parsedClass), newPath);
         } catch (IOException ioException) {
+            Logger.getInstance().fatal("Не удалось создать JSON файл.",  ioException);
             System.out.println("Failed to create json file.");
             ioException.printStackTrace();
         }catch (IllegalArgumentException exception){
-            System.out.println("Illegal null argument.");
+            Logger.getInstance().fatal("Не удалось конвертировать XML классы в JSON.",  exception);
+            System.out.println("Failed to convert data.");
             exception.printStackTrace();
         }
+
+        Logger.getInstance().info("Успешное завершение парсинга JSON. Создан XML файл.");
     }
 
     private static void parseJson(final String path, final String newPath, JsonToXml parser) {
+        Logger.getInstance().info("Начало работы парсинга JSON");
+
         JsonUpperClass jsonClass;
         try {
             jsonClass = parser.parseJson(path);
         } catch (IOException exception) {
+            Logger.getInstance().fatal("Не удалось считать файл JSON.",  exception);
             System.out.println("Failed to parse json file.");
             exception.printStackTrace();
             return;
         } catch (IllegalArgumentException exception) {
+            Logger.getInstance().error("Неверный путь к JSON файлу.",  exception);
             System.out.println("Wrong file path.");
             exception.printStackTrace();
             return;
@@ -114,14 +132,19 @@ public class Main {
         try {
             parser.createXML(parser.convert(jsonClass), newPath);
         } catch (FileNotFoundException exception) {
-            System.out.println("File not found.");
+            Logger.getInstance().error("Введен неверный путь к файлу XML.",  exception);
+            System.out.println("Incorrect file path.");
             exception.printStackTrace();
         } catch (XMLStreamException exception) {
-            System.out.println("Failed to create json file.");
+            Logger.getInstance().fatal("Не удалось создать XML файл.",  exception);
+            System.out.println("Failed to create xml file.");
             exception.printStackTrace();
         } catch (IllegalArgumentException exception){
-            System.out.println("Illegal null argument.");
+            Logger.getInstance().fatal("Не удалось конвертировать JSON классы в XML.",  exception);
+            System.out.println("Failed to convert data.");
             exception.printStackTrace();
         }
+
+        Logger.getInstance().info("Успешное завершение парсинга XML. Создан JSON файл.");
     }
 }

@@ -1,5 +1,6 @@
 package logger;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -10,10 +11,12 @@ public class Logger {
     private static Logger instance;
     private final org.apache.log4j.Logger logger;
     private static final String PATH_TO_PROPERTIES = "src/main/java/logger/logger.properties";
+    private static final Level DEFAULT_LEVEL = Level.ALL;
 
     private Logger(){
         logger = LogManager.getLogger(Logger.class);
         PropertyConfigurator.configure(PATH_TO_PROPERTIES);
+        logger.setLevel(DEFAULT_LEVEL);
     }
 
     public static Logger getInstance(){
@@ -60,5 +63,13 @@ public class Logger {
 
     public void error(Object message){
         logger.error(message);
+    }
+
+    public void fatal(Object message, Throwable t){
+        logger.fatal(message,t);
+    }
+
+    public void fatal(Object message){
+        logger.fatal(message);
     }
 }
