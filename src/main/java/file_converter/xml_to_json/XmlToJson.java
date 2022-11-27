@@ -48,7 +48,8 @@ public class XmlToJson {
      * @throws IOException                  в случае любой IO ошибки.
      * @throws IllegalArgumentException     в случае передачи параметром несуществующего файла.
      */
-    public XmlUpperClass parseXml(final String path) throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
+    public XmlUpperClass parseXml(final String path)
+            throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
         SAXParser parser = factory.newSAXParser();
 
         File fl = new File(path);

@@ -95,6 +95,7 @@ public class Main {
             exception.printStackTrace();
             return;
         }
+        Logger.getInstance().info("Успешное завершение парсинга XML.");
 
         try {
             parser.createJson(parser.convert(parsedClass), newPath);
@@ -108,7 +109,7 @@ public class Main {
             exception.printStackTrace();
         }
 
-        Logger.getInstance().info("Успешное завершение парсинга JSON. Создан XML файл.");
+        Logger.getInstance().info("Успешно создан JSON файл.");
     }
 
     private static void parseJson(final String path, final String newPath, JsonToXml parser) {
@@ -128,6 +129,7 @@ public class Main {
             exception.printStackTrace();
             return;
         }
+        Logger.getInstance().info("Успешное завершение парсинга JSON.");
 
         try {
             parser.createXML(parser.convert(jsonClass), newPath);
@@ -145,6 +147,6 @@ public class Main {
             exception.printStackTrace();
         }
 
-        Logger.getInstance().info("Успешное завершение парсинга XML. Создан JSON файл.");
+        Logger.getInstance().info("Успешно создан XML файл.");
     }
 }
