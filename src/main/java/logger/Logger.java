@@ -11,7 +11,7 @@ public class Logger {
     private static Logger instance;
     private final org.apache.log4j.Logger logger;
     private static final String PATH_TO_PROPERTIES = "src/main/java/logger/logger.properties";
-    private static final Level DEFAULT_LEVEL = Level.ALL;
+    private static final Level DEFAULT_LEVEL = Level.INFO;
 
     private Logger(){
         logger = LogManager.getLogger(Logger.class);
