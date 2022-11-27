@@ -110,10 +110,12 @@ public class Main {
             Logger.getInstance().fatal("Не удалось создать JSON файл.",  ioException);
             System.err.println("Failed to create json file.");
             ioException.printStackTrace();
+            return;
         }catch (IllegalArgumentException exception){
             Logger.getInstance().fatal("Не удалось конвертировать XML классы в JSON.",  exception);
             System.err.println("Failed to convert data.");
             exception.printStackTrace();
+            return;
         }
 
         Logger.getInstance().info("Успешно создан JSON файл.");
@@ -144,14 +146,17 @@ public class Main {
             Logger.getInstance().error("Введен неверный путь к файлу XML.",  exception);
             System.err.println("Incorrect file path.");
             exception.printStackTrace();
+            return;
         } catch (XMLStreamException exception) {
             Logger.getInstance().fatal("Не удалось создать XML файл.",  exception);
             System.err.println("Failed to create xml file.");
             exception.printStackTrace();
+            return;
         } catch (IllegalArgumentException exception){
             Logger.getInstance().fatal("Не удалось конвертировать JSON классы в XML.",  exception);
             System.err.println("Failed to convert data.");
             exception.printStackTrace();
+            return;
         }
 
         Logger.getInstance().info("Успешно создан XML файл.");
