@@ -76,6 +76,8 @@ public class Main {
             System.err.println("Wrong input");
             Logger.getInstance().fatal("Некорректный формат входных данных. Завершение программы.");
         }
+
+        Logger.getInstance().info("Успешное завершение работы программы");
     }
 
     private static String getExtension(final String newPath) {
