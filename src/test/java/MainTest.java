@@ -10,7 +10,7 @@ import java.io.IOException;
 public class MainTest {
     @Before
     public void setProperties(){
-        Logger.getInstance().setLevel(Level.DEBUG);
+        Logger.getInstance().setLevel(Level.ALL);
     }
 
     @Test
