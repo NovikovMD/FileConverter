@@ -12,6 +12,7 @@ import file_converter.classes.json.JsonUpperClass;
 import file_converter.classes.xml.XmlUpperClass;
 import file_converter.json_to_xml.JsonToXml;
 import file_converter.xml_to_json.XmlToJson;
+import logger.Logger;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
