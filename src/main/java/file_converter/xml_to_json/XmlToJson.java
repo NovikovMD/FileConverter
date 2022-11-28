@@ -84,23 +84,23 @@ public class XmlToJson {
     //region Convert private methods
     private void startConvert(final XmlUpperClass gameIndustry, final JsonUpperClass jsonUpperClassGames) {
         for (int i = 0; i < gameIndustry.returnLength(); i++) {
-            Logger.getInstance().debug("Начало обработки gamePublisher"+i);
+            Logger.getInstance().debug("Начало обработки gamePublisher" + i);
             //get current publisher
             XmlGamePublisher publisher = gameIndustry.getPublishers().get(i);
 
             getPublisher(jsonUpperClassGames, publisher);
-            Logger.getInstance().debug("Конец обработки gamePublisher"+i);
+            Logger.getInstance().debug("Конец обработки gamePublisher" + i);
         }
     }
 
     private void getPublisher(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher) {
         for (int j = 0; j < publisher.returnLength(); j++) {
-            Logger.getInstance().debug("Начало обработки devStudio"+j);
+            Logger.getInstance().debug("Начало обработки devStudio" + j);
             //get current developer
             XmlDevStudio developer = publisher.getDevStudios().get(j);
 
             getDeveloper(jsonUpperClassGames, publisher, developer);
-            Logger.getInstance().debug("Конец обработки devStudio"+j);
+            Logger.getInstance().debug("Конец обработки devStudio" + j);
         }
     }
 
@@ -108,12 +108,12 @@ public class XmlToJson {
                               final XmlDevStudio developer) {
         for (int k = 0; k < developer.returnLength(); k++) {
 
-            Logger.getInstance().debug("Начало обработки game"+k);
+            Logger.getInstance().debug("Начало обработки game" + k);
             //get current game
             XmlGame game = developer.getGames().get(k);
 
             getGame(jsonUpperClassGames, publisher, developer, game);
-            Logger.getInstance().debug("Конец обработки game"+k);
+            Logger.getInstance().debug("Конец обработки game" + k);
         }
     }
 
