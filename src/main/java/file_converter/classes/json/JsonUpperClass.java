@@ -17,11 +17,7 @@ import java.util.ArrayList;
 @Getter
 @Setter
 public class JsonUpperClass {
-    private final ArrayList<JsonGame> games;
-
-    public JsonUpperClass() {
-        this.games = new ArrayList<>();
-    }
+    private final ArrayList<JsonGame> games= new ArrayList<>();;
 
     public void addGame(String name, int year, String gamePublisher) {
         games.add(new JsonGame(name, year, gamePublisher));
