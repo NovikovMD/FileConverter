@@ -9,38 +9,19 @@
  */
 package file_converter.classes.xml;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class XmlGame {
     private String name;
     private int year;
-    private final ArrayList<XmlPlatform> platforms;
-
-    public XmlGame(String name, int year) {
-        this.name = name;
-        this.year = year;
-        this.platforms = new ArrayList<>();
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public ArrayList<XmlPlatform> getPlatforms() {
-        return platforms;
-    }
+    private final ArrayList<XmlPlatform> platforms= new ArrayList<>();
 
     public void addPlatform(String name) {
         platforms.add(new XmlPlatform(name));

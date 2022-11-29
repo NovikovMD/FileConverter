@@ -9,6 +9,7 @@
  */
 package file_converter.classes.json;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,20 +17,13 @@ import java.util.ArrayList;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class JsonGame {
     private String name;
     private int year;
     private String gamePublisher;
-    private final ArrayList<JsonPlatform> platforms;
-    private final ArrayList<JsonDevStudio> devStudios;
-
-    public JsonGame(String name, int year, String gamePublisher) {
-        this.name = name;
-        this.year = year;
-        this.gamePublisher = gamePublisher;
-        this.platforms = new ArrayList<>();
-        this.devStudios = new ArrayList<>();
-    }
+    private final ArrayList<JsonPlatform> platforms = new ArrayList<>();
+    private final ArrayList<JsonDevStudio> devStudios = new ArrayList<>();
 
     public void addPlatform(String name) {
         platforms.add(new JsonPlatform(name));

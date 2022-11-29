@@ -9,31 +9,21 @@
  */
 package file_converter.classes.xml;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 
+@Getter
+@Setter
+@AllArgsConstructor
 public class XmlGamePublisher {
     private String name;
-    private final ArrayList<XmlDevStudio> devStudios;
-
-    public XmlGamePublisher(String name) {
-        this.name = name;
-        this.devStudios = new ArrayList<>();
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
+    private final ArrayList<XmlDevStudio> devStudios= new ArrayList<>();
 
     public void addDevStudio(String name, int yearOfFoundation, String url) {
         devStudios.add(new XmlDevStudio(name, yearOfFoundation, url));
-    }
-
-    public ArrayList<XmlDevStudio> getDevStudios() {
-        return devStudios;
     }
 
     public int returnLength() {
