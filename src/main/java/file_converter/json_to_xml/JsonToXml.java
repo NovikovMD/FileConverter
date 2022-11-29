@@ -89,17 +89,20 @@ public class JsonToXml {
     private static void getName(final JsonUpperClass games, final JsonParser parser) throws IOException {
         games.addGame("place_holder", -1, "place_holder");
         parser.nextToken();
-        games.returnLastGame().setName(parser.getText());
+        games.returnLastGame()
+                .setName(parser.getText());
     }
 
     private static void getYear(final JsonUpperClass games, final JsonParser parser) throws IOException {
         parser.nextToken();
-        games.returnLastGame().setYear(Integer.parseInt(parser.getText()));
+        games.returnLastGame()
+                .setYear(Integer.parseInt(parser.getText()));
     }
 
     private static void getGamePublisher(final JsonUpperClass games, final JsonParser parser) throws IOException {
         parser.nextToken();
-        games.returnLastGame().setGamePublisher(parser.getText());
+        games.returnLastGame()
+                .setGamePublisher(parser.getText());
     }
 
     private static void getPlatforms(final JsonUpperClass games, final JsonParser parser) throws IOException {
@@ -108,7 +111,8 @@ public class JsonToXml {
             parser.nextToken();
             if (parser.getCurrentName().equals("name")) {
                 parser.nextToken();
-                games.returnLastGame().addPlatform(parser.getText());
+                games.returnLastGame()
+                        .addPlatform(parser.getText());
                 parser.nextToken();
             }
         }
@@ -125,14 +129,20 @@ public class JsonToXml {
 
             if (parser.getCurrentName().equals("name")) {
                 parser.nextToken();
-                games.returnLastGame().addDevStudio(parser.getText(), -1, "place_holder");
+                games.returnLastGame()
+                        .addDevStudio(parser.getText(),
+                                -1,
+                                "place_holder");
             } else if (parser.getCurrentName().equals("yearOfFoundation")) {
                 parser.nextToken();
-                games.returnLastGame().returnLastDevStudio()
+                games.returnLastGame()
+                        .returnLastDevStudio()
                         .setYearOfFoundation(Integer.parseInt(parser.getText()));
             } else if (parser.getCurrentName().equals("url")) {
                 parser.nextToken();
-                games.returnLastGame().returnLastDevStudio().setUrl(parser.getText());
+                games.returnLastGame()
+                        .returnLastDevStudio()
+                        .setUrl(parser.getText());
             }
         }
     }
@@ -201,7 +211,8 @@ public class JsonToXml {
         }
 
         publisher.addDevStudio(devStudio.getName(),
-                devStudio.getYearOfFoundation(), devStudio.getUrl());
+                devStudio.getYearOfFoundation(),
+                devStudio.getUrl());
 
         return publisher.getDevStudios().get(publisher.returnLength() - 1);
     }
@@ -215,7 +226,6 @@ public class JsonToXml {
         }
 
         xml.addPublisher(jsonGame.getGamePublisher());
-
 
         return xml.getPublishers().get(xml.returnLength() - 1);
     }
@@ -265,6 +275,7 @@ public class JsonToXml {
                                             final XMLStreamWriter writer) throws XMLStreamException {
         for (int index = 0; index < xmlUpperClassClass.returnLength(); index++) {
             writer.writeStartElement("gamePublisher");
+
             writer.writeAttribute("name", xmlUpperClassClass.getPublishers().get(index).getName());
 
             writer.writeStartElement("developerStudios");
@@ -280,9 +291,12 @@ public class JsonToXml {
                                         final XMLStreamWriter writer) throws XMLStreamException {
         for (int index = 0; index < xmlDevStudio.getDevStudios().size(); index++) {
             writer.writeStartElement("developerStudio");
+
             writer.writeAttribute("name", xmlDevStudio.getDevStudios().get(index).getName());
             writer.writeAttribute("year_of_foundation",
-                    ((Integer) xmlDevStudio.getDevStudios().get(index).getYearOfFoundation()).toString());
+                    ((Integer) xmlDevStudio.getDevStudios()
+                            .get(index)
+                            .getYearOfFoundation()).toString());
             writer.writeAttribute("URL", xmlDevStudio.getDevStudios().get(index).getUrl());
 
             writer.writeStartElement("games");
@@ -297,6 +311,7 @@ public class JsonToXml {
     private static void writeGames(final XMLStreamWriter writer, final XmlDevStudio dev) throws XMLStreamException {
         for (int index = 0; index < dev.getGames().size(); index++) {
             writer.writeStartElement("game");
+
             writer.writeAttribute("name", dev.getGames().get(index).getName());
             writer.writeAttribute("year",
                     ((Integer) dev.getGames().get(index).getYear()).toString());
@@ -304,6 +319,7 @@ public class JsonToXml {
             writer.writeStartElement("platforms");
 
             writePlatforms(writer, dev.getGames().get(index));
+
             writer.writeEndElement();//конец platforms
             writer.writeEndElement();//конец game
         }

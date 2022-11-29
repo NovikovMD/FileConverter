@@ -19,7 +19,6 @@ import java.util.ArrayList;
 @Setter
 @AllArgsConstructor
 public class XmlDevStudio {
-
     private String name;
     private int yearOfFoundation;
     private String url;

@@ -19,7 +19,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.File;
 import java.io.IOException;
@@ -54,13 +53,12 @@ public class XmlToJson {
     public XmlUpperClass parseXml(final String path)
             throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
         log.info("Начало работы парсинга XML");
-        final SAXParser parser = factory.newSAXParser();
 
         final File file = new File(path);
         if (!file.exists())
             throw new IllegalArgumentException();
 
-        parser.parse(file, handler);
+        factory.newSAXParser().parse(file, handler);
 
         log.info("Успешное завершение парсинга XML.");
         return gameIndustry;
@@ -137,8 +135,8 @@ public class XmlToJson {
     }
 
     private void getPlatform(final XmlGame game, final JsonGame jsonGame) {
-        for (int l = 0; l < game.returnLength(); l++) {
-            jsonGame.addPlatform(game.getPlatforms().get(l).getName());
+        for (int index = 0; index < game.returnLength(); index++) {
+            jsonGame.addPlatform(game.getPlatforms().get(index).getName());
         }
     }
     //endregion
@@ -179,28 +177,34 @@ public class XmlToJson {
         }
 
         private void getDeveloperStudioSAX(final Attributes attributes) {
-            gameIndustry.getPublishers().get(gameIndustry.returnLength() - 1)
+            gameIndustry.getPublishers()
+                    .get(gameIndustry.returnLength() - 1)
                     .addDevStudio(attributes.getValue("name"),
                             Integer.parseInt(attributes.getValue("year_of_foundation")),
                             attributes.getValue("URL"));
         }
 
         private void getGameSAX(final Attributes attributes) {
-            XmlGamePublisher publisher = gameIndustry.getPublishers().get(gameIndustry.returnLength() - 1);
+            XmlGamePublisher publisher = gameIndustry.getPublishers()
+                    .get(gameIndustry.returnLength() - 1);
 
-            XmlDevStudio devStudio = publisher.getDevStudios().get(publisher.returnLength() - 1);
+            XmlDevStudio devStudio = publisher.getDevStudios()
+                    .get(publisher.returnLength() - 1);
 
             devStudio.addGame(attributes.getValue("name"),
                     Integer.parseInt(attributes.getValue("year")));
         }
 
         private void getPlatformSAX(final Attributes attributes) {
-            XmlGamePublisher publisher = gameIndustry.getPublishers().get(gameIndustry.returnLength() - 1);
+            XmlGamePublisher publisher = gameIndustry.getPublishers()
+                    .get(gameIndustry.returnLength() - 1);
 
-            XmlDevStudio devStudio = publisher.getDevStudios().get(publisher.returnLength() - 1);
+            XmlDevStudio devStudio = publisher.getDevStudios()
+                    .get(publisher.returnLength() - 1);
 
-            XmlGame game = devStudio.getGames().get(devStudio.returnLength() - 1);
-            game.addPlatform(attributes.getValue("name"));
+            devStudio.getGames()
+                    .get(devStudio.returnLength() - 1)
+                    .addPlatform(attributes.getValue("name"));
         }
     }
 }
