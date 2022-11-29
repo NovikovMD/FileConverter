@@ -53,7 +53,7 @@ public class XmlToJson {
             throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
         final SAXParser parser = factory.newSAXParser();
 
-        File file = new File(path);
+        final File file = new File(path);
         if (!file.exists())
             throw new IllegalArgumentException();
 

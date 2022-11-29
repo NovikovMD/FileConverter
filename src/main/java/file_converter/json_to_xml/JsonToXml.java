@@ -45,10 +45,10 @@ public class JsonToXml {
      *                                  или неккоректная структура файла.
      */
     public JsonUpperClass parseJson(final String path) throws IOException, IllegalArgumentException {
-        JsonUpperClass games = new JsonUpperClass();
+        final JsonUpperClass games = new JsonUpperClass();
 
 
-        File fl = new File(path);
+        final File fl = new File(path);
         if (!fl.exists())
             throw new IllegalArgumentException();
 
@@ -59,19 +59,16 @@ public class JsonToXml {
 
     //region parseJson private methods
 
-    private void startParsing(final JsonUpperClass games, JsonParser parser) throws IOException {
+    private void startParsing(final JsonUpperClass games,final JsonParser parser) throws IOException {
         parser.nextToken();
         parser.nextToken();
 
         if (parser.nextToken() != JsonToken.START_ARRAY)
-            throw new IllegalArgumentException("Invalid file structure");
+            throw new IllegalArgumentException("Неверная стуктура файла");
 
         Logger.getInstance().debug("Начало обработки файла");
 
-        //loop until token equal to "]"
         while (parser.nextToken() != JsonToken.END_ARRAY) {
-
-            //checker if we're looking at "{" / "}"
             if (parser.getCurrentName() == null) {
                 continue;
             }
@@ -86,29 +83,29 @@ public class JsonToXml {
                 case "devStudios" -> getDevStudios(games, parser);
                 default -> {
                     Logger.getInstance().debug("Неверная стуктура файла");
-                    throw new IllegalArgumentException("Invalid file structure");
+                    throw new IllegalArgumentException("Неверная стуктура файла");
                 }
             }
         }
     }
 
-    private static void getName(final JsonUpperClass games, JsonParser parser) throws IOException {
+    private static void getName(final JsonUpperClass games,final JsonParser parser) throws IOException {
         games.addGame("place_holder", -1, "place_holder");
         parser.nextToken();
         games.returnLastGame().setName(parser.getText());
     }
 
-    private static void getYear(final JsonUpperClass games, JsonParser parser) throws IOException {
+    private static void getYear(final JsonUpperClass games,final JsonParser parser) throws IOException {
         parser.nextToken();
         games.returnLastGame().setYear(Integer.parseInt(parser.getText()));
     }
 
-    private static void getGamePublisher(final JsonUpperClass games, JsonParser parser) throws IOException {
+    private static void getGamePublisher(final JsonUpperClass games,final JsonParser parser) throws IOException {
         parser.nextToken();
         games.returnLastGame().setGamePublisher(parser.getText());
     }
 
-    private static void getPlatforms(final JsonUpperClass games, JsonParser parser) throws IOException {
+    private static void getPlatforms(final JsonUpperClass games,final JsonParser parser) throws IOException {
         parser.nextToken();
         while (parser.nextToken() != JsonToken.END_ARRAY) {
             parser.nextToken();
@@ -120,14 +117,11 @@ public class JsonToXml {
         }
     }
 
-    private static void getDevStudios(final JsonUpperClass games, JsonParser parser) throws IOException {
+    private static void getDevStudios(final JsonUpperClass games, final JsonParser parser) throws IOException {
         parser.nextToken();
         parser.nextToken();
 
-        //loop until end of devStudios
         while (parser.nextToken() != JsonToken.END_ARRAY) {
-
-            //checker if we're looking at "{" / "}"
             if (parser.getCurrentName() == null) {
                 continue;
             }
@@ -160,7 +154,7 @@ public class JsonToXml {
         if (games == null)
             throw new IllegalArgumentException();
 
-        XmlUpperClass gameIndustry = new XmlUpperClass();
+        final XmlUpperClass gameIndustry = new XmlUpperClass();
 
         startConvert(games, gameIndustry);
 
@@ -174,49 +168,45 @@ public class JsonToXml {
     private void startConvert(final JsonUpperClass games, final XmlUpperClass gameIndustry) {
         gameIndustry.addPublisher(games.getGames().get(0).getGamePublisher());
 
-        for (int i = 0; i < games.returnLength(); i++) {
-            //get current game in json
-
-            convertDevStudios(games.getGames().get(i),
-                    findPublisher(games.getGames().get(i), gameIndustry),
-                    collectPlatforms(games.getGames().get(i)));
+        for (int index = 0; index < games.returnLength(); index++) {
+            convertDevStudios(games.getGames().get(index),
+                    findPublisher(games.getGames().get(index), gameIndustry),
+                    collectPlatforms(games.getGames().get(index)));
         }
     }
 
     private static ArrayList<String> collectPlatforms(final JsonGame jsonGame) {
-        ArrayList<String> XmlPlatforms = new ArrayList<>();
-        for (int j = 0; j < jsonGame.getPlatforms().size(); j++) {
-            XmlPlatforms.add(jsonGame.getPlatforms().get(j).getName());
+        final ArrayList<String> XmlPlatforms = new ArrayList<>();
+        for (int index = 0; index < jsonGame.getPlatforms().size(); index++) {
+            XmlPlatforms.add(jsonGame.getPlatforms().get(index).getName());
         }
         return XmlPlatforms;
     }
 
     private void convertDevStudios(final JsonGame jsonGame, final XmlGamePublisher XmlPublisher,
                                    final ArrayList<String> XmlPlatforms) {
-        for (int j = 0; j < jsonGame.getDevStudios().size(); j++) {
-            //get current devStudio in json
+        for (int index = 0; index < jsonGame.getDevStudios().size(); index++) {
 
-            XmlDevStudio xmlDev = findDev(jsonGame.getDevStudios().get(j), XmlPublisher);
+            findDev(jsonGame.getDevStudios().get(index), XmlPublisher)
+                    .addGame(jsonGame.getName(), jsonGame.getYear());
 
-            //add game
-            xmlDev.addGame(jsonGame.getName(), jsonGame.getYear());
-
-            //set all platforms
-            XmlGame xmlGame = xmlDev.getGames().get(xmlDev.returnLength() - 1);
             for (String xmlPlatform : XmlPlatforms) {
-                xmlGame.addPlatform(xmlPlatform);
+                findDev(jsonGame.getDevStudios().get(index), XmlPublisher)
+                        .getGames()
+                        .get(findDev(jsonGame.getDevStudios().get(index), XmlPublisher).returnLength() - 1)
+                        .addPlatform(xmlPlatform);
             }
         }
     }
 
     private XmlDevStudio findDev(final JsonDevStudio devStudio, final XmlGamePublisher publisher) {
         List<XmlDevStudio> devs = publisher.getDevStudios();
-        for (int i = devs.size() - 1; i >= 0; i--) {
-            if (devs.get(i).getName().equals(devStudio.getName())) {
-                return devs.get(i);
+        for (int index = devs.size() - 1; index >= 0; index--) {
+            if (devs.get(index).getName().equals(devStudio.getName())) {
+                return devs.get(index);
             }
         }
-        //create new dev
+
         publisher.addDevStudio(devStudio.getName(),
                 devStudio.getYearOfFoundation(), devStudio.getUrl());
 
@@ -225,9 +215,9 @@ public class JsonToXml {
 
     private XmlGamePublisher findPublisher(final JsonGame jsonGame, final XmlUpperClass xml) {
         List<XmlGamePublisher> gamePublishers = xml.getPublishers();
-        for (int i = gamePublishers.size() - 1; i >= 0; i--) {
-            if (gamePublishers.get(i).getName().equals(jsonGame.getGamePublisher())) {
-                return gamePublishers.get(i);
+        for (int index = gamePublishers.size() - 1; index >= 0; index--) {
+            if (gamePublishers.get(index).getName().equals(jsonGame.getGamePublisher())) {
+                return gamePublishers.get(index);
             }
         }
 
@@ -256,7 +246,7 @@ public class JsonToXml {
 
     //region createXml private methods
     private void writeXml(final OutputStream out, final XmlUpperClass xmlUpperClassClass) throws XMLStreamException {
-        XMLStreamWriter writer = output.createXMLStreamWriter(out);
+        final XMLStreamWriter writer = output.createXMLStreamWriter(out);
 
         startWriting(xmlUpperClassClass, writer);
 
@@ -268,69 +258,67 @@ public class JsonToXml {
                                      final XMLStreamWriter writer) throws XMLStreamException {
         writer.writeStartDocument("utf-8", "1.0");
 
-        // header
         writer.writeStartElement("GameIndustry");
         writer.writeStartElement("gamePublishers");
 
         writeGamePublishers(xmlUpperClassClass, writer);
 
-        writer.writeEndElement();//end publishers
-        writer.writeEndElement();//end GameIndustry
+        writer.writeEndElement();//конец publishers
+        writer.writeEndElement();//конец GameIndustry
     }
 
     private static void writeGamePublishers(final XmlUpperClass xmlUpperClassClass,
                                             final XMLStreamWriter writer) throws XMLStreamException {
-        for (int i = 0; i < xmlUpperClassClass.returnLength(); i++) {
+        for (int index = 0; index < xmlUpperClassClass.returnLength(); index++) {
             writer.writeStartElement("gamePublisher");
-            writer.writeAttribute("name", xmlUpperClassClass.getPublishers().get(i).getName());
+            writer.writeAttribute("name", xmlUpperClassClass.getPublishers().get(index).getName());
 
             writer.writeStartElement("developerStudios");
 
-            writeDevStudios(xmlUpperClassClass.getPublishers().get(i), writer);
-            writer.writeEndElement();//end devs
-            writer.writeEndElement();//end publisher
+            writeDevStudios(xmlUpperClassClass.getPublishers().get(index), writer);
+
+            writer.writeEndElement();//конец devs
+            writer.writeEndElement();//конец publisher
         }
     }
 
     private static void writeDevStudios(final XmlGamePublisher xmlDevStudio,
                                         final XMLStreamWriter writer) throws XMLStreamException {
-        for (int j = 0; j < xmlDevStudio.getDevStudios().size(); j++) {
-            XmlDevStudio dev = xmlDevStudio.getDevStudios().get(j);
-
+        for (int index = 0; index < xmlDevStudio.getDevStudios().size(); index++) {
             writer.writeStartElement("developerStudio");
-            writer.writeAttribute("name", dev.getName());
-            writer.writeAttribute("year_of_foundation", ((Integer) dev.getYearOfFoundation()).toString());
-            writer.writeAttribute("URL", dev.getUrl());
+            writer.writeAttribute("name", xmlDevStudio.getDevStudios().get(index).getName());
+            writer.writeAttribute("year_of_foundation",
+                    ((Integer) xmlDevStudio.getDevStudios().get(index).getYearOfFoundation()).toString());
+            writer.writeAttribute("URL", xmlDevStudio.getDevStudios().get(index).getUrl());
 
             writer.writeStartElement("games");
 
-            writeGames(writer, dev);
-            writer.writeEndElement();//end games
-            writer.writeEndElement();//end dev
+            writeGames(writer, xmlDevStudio.getDevStudios().get(index));
+
+            writer.writeEndElement();//конец games
+            writer.writeEndElement();//конец dev
         }
     }
 
     private static void writeGames(final XMLStreamWriter writer, final XmlDevStudio dev) throws XMLStreamException {
-        for (int k = 0; k < dev.getGames().size(); k++) {
-            XmlGame game = dev.getGames().get(k);
-
+        for (int index = 0; index < dev.getGames().size(); index++) {
             writer.writeStartElement("game");
-            writer.writeAttribute("name", game.getName());
-            writer.writeAttribute("year", ((Integer) game.getYear()).toString());
+            writer.writeAttribute("name", dev.getGames().get(index).getName());
+            writer.writeAttribute("year",
+                    ((Integer) dev.getGames().get(index).getYear()).toString());
 
             writer.writeStartElement("platforms");
 
-            writePlatforms(writer, game);
-            writer.writeEndElement();//end platforms
-            writer.writeEndElement();//end game
+            writePlatforms(writer, dev.getGames().get(index));
+            writer.writeEndElement();//конец platforms
+            writer.writeEndElement();//конец game
         }
     }
 
     private static void writePlatforms(final XMLStreamWriter writer, final XmlGame game) throws XMLStreamException {
-        for (int l = 0; l < game.getPlatforms().size(); l++) {
-
+        for (int index = 0; index < game.getPlatforms().size(); index++) {
             writer.writeStartElement("platform");
-            writer.writeAttribute("name", game.getPlatforms().get(l).getName());
+            writer.writeAttribute("name", game.getPlatforms().get(index).getName());
             writer.writeEndElement();
         }
     }
