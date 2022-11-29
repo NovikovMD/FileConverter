@@ -132,15 +132,13 @@ public class XmlToJson {
     }
 
     private JsonGame getCurrentGame(final String nameToFind, final ArrayList<JsonGame> listToLookIn) {
-        JsonGame foundGame = null;
-
         for (JsonGame jsoNgame : listToLookIn) {
             if (jsoNgame.getName().equals(nameToFind)) {
-                foundGame = jsoNgame;
+                return jsoNgame;
             }
         }
 
-        return foundGame;
+        return null;
     }
 
     private void createNewGame(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher,

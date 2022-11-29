@@ -31,48 +31,48 @@ public class Logger {
         return instance;
     }
 
-    public void info(Object message, Throwable t) {
-        logger.info(message, t);
+    public void info(Object message, Throwable throwable) {
+        logger.info(message, throwable);
     }
 
     public void info(Object message) {
         logger.info(message);
     }
 
-    public void warn(Object message, Throwable t) {
-        logger.warn(message, t);
+    public void warn(Object message, Throwable throwable) {
+        logger.warn(message, throwable);
     }
 
     public void warn(Object message) {
         logger.warn(message);
     }
 
-    public void trace(Object message, Throwable t) {
-        logger.trace(message, t);
+    public void trace(Object message, Throwable throwable) {
+        logger.trace(message, throwable);
     }
 
     public void trace(Object message) {
         logger.trace(message);
     }
 
-    public void debug(Object message, Throwable t) {
-        logger.debug(message, t);
+    public void debug(Object message, Throwable throwable) {
+        logger.debug(message, throwable);
     }
 
     public void debug(Object message) {
         logger.debug(message);
     }
 
-    public void error(Object message, Throwable t) {
-        logger.error(message, t);
+    public void error(Object message, Throwable throwable) {
+        logger.error(message, throwable);
     }
 
     public void error(Object message) {
         logger.error(message);
     }
 
-    public void fatal(Object message, Throwable t) {
-        logger.fatal(message, t);
+    public void fatal(Object message, Throwable throwable) {
+        logger.fatal(message, throwable);
     }
 
     public void fatal(Object message) {
