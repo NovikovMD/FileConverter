@@ -23,7 +23,7 @@ public class FileConverter {
     private static final XmlToJson XML_TO_JSON = new XmlToJson();
 
     /**
-     * Проверяет коректность входных данных
+     * Проверяет корректность входных данных
      * и запускает процесс конвертирования файлов.
      * @param params Требуется два элемента:
      *               1) - путь к существующему xml\json файлу.

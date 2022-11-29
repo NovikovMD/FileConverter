@@ -9,6 +9,11 @@
  */
 package file_converter.classes.json;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class JsonDevStudio {
 
     private String name;
@@ -18,30 +23,6 @@ public class JsonDevStudio {
     public JsonDevStudio(String name, int yearOfFoundation, String url) {
         this.name = name;
         this.yearOfFoundation = yearOfFoundation;
-        this.url = url;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String mName) {
-        this.name = mName;
-    }
-
-    public int getYearOfFoundation() {
-        return yearOfFoundation;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setYearOfFoundation(int yearOfFoundation) {
-        this.yearOfFoundation = yearOfFoundation;
-    }
-
-    public void setUrl(String url) {
         this.url = url;
     }
 }
