@@ -11,12 +11,6 @@ package file_converter.classes.json;
 
 import java.util.ArrayList;
 
-/**
- * Second node in Json file.
- * Contains its name, year in which it was released, game publisher, a list of platforms and a list of developer studios.
- *
- * @author Novikov Matthew
- */
 public class JsonGame {
     private String name;
     private int year;

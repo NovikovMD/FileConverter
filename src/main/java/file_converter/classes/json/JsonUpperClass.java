@@ -11,12 +11,6 @@ package file_converter.classes.json;
 
 import java.util.ArrayList;
 
-/**
- * First node in Json file.
- * Contains a list of games.
- *
- * @author Novikov Matthew
- */
 public class JsonUpperClass {
     private final ArrayList<JsonGame> games;
 

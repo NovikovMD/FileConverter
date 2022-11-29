@@ -11,12 +11,6 @@ package file_converter.classes.xml;
 
 import java.util.ArrayList;
 
-/**
- * Second node in XML file.
- * Contains its name and a list of developer studios managed by.
- *
- * @author Novikov Matthew
- */
 public class XmlGamePublisher {
     private String name;
     private final ArrayList<XmlDevStudio> devStudios;

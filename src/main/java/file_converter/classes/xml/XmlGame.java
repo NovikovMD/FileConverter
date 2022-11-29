@@ -11,12 +11,6 @@ package file_converter.classes.xml;
 
 import java.util.ArrayList;
 
-/**
- * Fourth node in XML file.
- * Contains its name, year and a list of platforms on which it is released.
- *
- * @author Novikov Matthew
- */
 public class XmlGame {
     private String name;
     private int year;

@@ -9,12 +9,6 @@
  */
 package file_converter.classes.json;
 
-/**
- * Third node in Json file.
- * Contains its name, year of foundation and url to website.
- *
- * @author Novikov Matthew
- */
 public class JsonDevStudio {
 
     private String name;

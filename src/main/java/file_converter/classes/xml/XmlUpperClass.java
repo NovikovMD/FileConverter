@@ -11,12 +11,6 @@ package file_converter.classes.xml;
 
 import java.util.ArrayList;
 
-/**
- * First node in XML file.
- * Contains a list of publishers.
- *
- * @author Novikov Matthew
- */
 public class XmlUpperClass {
     private final ArrayList<XmlGamePublisher> publishers;
 

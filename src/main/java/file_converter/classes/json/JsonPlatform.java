@@ -9,12 +9,6 @@
  */
 package file_converter.classes.json;
 
-/**
- * Third node in Json file
- * Contains its name;
- *
- * @author Novikov Matthew
- */
 public class JsonPlatform {
     private String name;
 

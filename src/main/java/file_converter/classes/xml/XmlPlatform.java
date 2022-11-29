@@ -9,12 +9,6 @@
  */
 package file_converter.classes.xml;
 
-/**
- * Fifth node in XML file.
- * Contains its name.
- *
- * @author Novikov Matthew
- */
 public class XmlPlatform {
     private String name;
 

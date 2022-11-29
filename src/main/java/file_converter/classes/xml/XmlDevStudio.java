@@ -11,12 +11,6 @@ package file_converter.classes.xml;
 
 import java.util.ArrayList;
 
-/**
- * Third node in XML file.
- * Contains its name, year of foundation, url and a list of games that it has developed.
- *
- * @author Novikov Matthew
- */
 public class XmlDevStudio {
 
     private String name;
