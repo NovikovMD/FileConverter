@@ -52,9 +52,7 @@ public class JsonToXml {
         if (!fl.exists())
             throw new IllegalArgumentException();
 
-        JsonParser parser = factory.createParser(fl);
-
-        startParsing(games, parser);
+        startParsing(games, factory.createParser(fl));
 
         return games;
     }
@@ -178,13 +176,10 @@ public class JsonToXml {
 
         for (int i = 0; i < games.returnLength(); i++) {
             //get current game in json
-            JsonGame jsonGame = games.getGames().get(i);
 
-            XmlGamePublisher XmlPublisher = findPublisher(jsonGame, gameIndustry);
-
-            ArrayList<String> XmlPlatforms = collectPlatforms(jsonGame);
-
-            convertDevStudios(jsonGame, XmlPublisher, XmlPlatforms);
+            convertDevStudios(games.getGames().get(i),
+                    findPublisher(games.getGames().get(i), gameIndustry),
+                    collectPlatforms(games.getGames().get(i)));
         }
     }
 
@@ -200,9 +195,8 @@ public class JsonToXml {
                                    final ArrayList<String> XmlPlatforms) {
         for (int j = 0; j < jsonGame.getDevStudios().size(); j++) {
             //get current devStudio in json
-            JsonDevStudio jsonDevStudio = jsonGame.getDevStudios().get(j);
 
-            XmlDevStudio xmlDev = findDev(jsonDevStudio, XmlPublisher);
+            XmlDevStudio xmlDev = findDev(jsonGame.getDevStudios().get(j), XmlPublisher);
 
             //add game
             xmlDev.addGame(jsonGame.getName(), jsonGame.getYear());
@@ -226,8 +220,7 @@ public class JsonToXml {
         publisher.addDevStudio(devStudio.getName(),
                 devStudio.getYearOfFoundation(), devStudio.getUrl());
 
-        int index = publisher.returnLength();
-        return publisher.getDevStudios().get(index - 1);
+        return publisher.getDevStudios().get(publisher.returnLength() - 1);
     }
 
     private XmlGamePublisher findPublisher(final JsonGame jsonGame, final XmlUpperClass xml) {
@@ -241,8 +234,7 @@ public class JsonToXml {
         xml.addPublisher(jsonGame.getGamePublisher());
 
 
-        int index = xml.returnLength();
-        return xml.getPublishers().get(index - 1);
+        return xml.getPublishers().get(xml.returnLength() - 1);
     }
 
     //endregion
@@ -258,8 +250,7 @@ public class JsonToXml {
             throws FileNotFoundException, XMLStreamException {
 
         Logger.getInstance().debug("Начало записи в файл");
-        FileOutputStream out = new FileOutputStream(path);
-        writeXml(out, xmlUpperClassClass);
+        writeXml(new FileOutputStream(path), xmlUpperClassClass);
         Logger.getInstance().debug("Успешно завершена запись в файл");
     }
 
@@ -295,8 +286,7 @@ public class JsonToXml {
 
             writer.writeStartElement("developerStudios");
 
-            XmlGamePublisher xmlDevStudio = xmlUpperClassClass.getPublishers().get(i);
-            writeDevStudios(xmlDevStudio, writer);
+            writeDevStudios(xmlUpperClassClass.getPublishers().get(i), writer);
             writer.writeEndElement();//end devs
             writer.writeEndElement();//end publisher
         }
@@ -338,10 +328,9 @@ public class JsonToXml {
 
     private static void writePlatforms(final XMLStreamWriter writer, final XmlGame game) throws XMLStreamException {
         for (int l = 0; l < game.getPlatforms().size(); l++) {
-            XmlPlatform xmLplatform = game.getPlatforms().get(l);
 
             writer.writeStartElement("platform");
-            writer.writeAttribute("name", xmLplatform.getName());
+            writer.writeAttribute("name", game.getPlatforms().get(l).getName());
             writer.writeEndElement();
         }
     }
