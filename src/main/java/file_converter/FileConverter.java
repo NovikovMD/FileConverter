@@ -25,6 +25,7 @@ public class FileConverter {
     /**
      * Проверяет корректность входных данных
      * и запускает процесс конвертирования файлов.
+     *
      * @param params Требуется два элемента:
      *               1) - путь к существующему xml\json файлу.
      *               2) - путь к новому xmk\json файлу.
@@ -61,12 +62,9 @@ public class FileConverter {
         }
 
 
-        String firstExtension = getExtension(path);
-        String secondExtension = getExtension(newPath);
-
-        if (firstExtension.equals("json") && secondExtension.equals("xml")) {
+        if (getExtension(path).equals("json") && getExtension(newPath).equals("xml")) {
             parseJson(path, newPath);
-        } else if (firstExtension.equals("xml") && secondExtension.equals("json")) {
+        } else if (getExtension(path).equals("xml") && getExtension(newPath).equals("json")) {
             parseXml(path, newPath);
         } else {
             log.error("Некорректный формат входных данных. Завершение программы.");
