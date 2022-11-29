@@ -39,12 +39,13 @@ public class JsonToXml {
      * Считывает данные из Json файла.
      *
      * @param path абсолютный путь к существующему Json файлу.
-     * @return класс, содержащий даныне из исходного Json файла.
+     * @return класс, содержащий данные из исходного Json файла.
      * @throws IOException              если считывание Json файла было прервано.
      * @throws IllegalArgumentException если передан неверный путь к Json файлу
-     *                                  или неккоректная структура файла.
+     *                                  или некорректная структура файла.
      */
     public JsonUpperClass parseJson(final String path) throws IOException, IllegalArgumentException {
+        Logger.getInstance().info("Начало работы парсинга Json");
         final JsonUpperClass games = new JsonUpperClass();
 
 
@@ -54,26 +55,23 @@ public class JsonToXml {
 
         startParsing(games, factory.createParser(fl));
 
+        Logger.getInstance().info("Успешное завершение парсинга Json.");
         return games;
     }
 
     //region parseJson private methods
 
-    private void startParsing(final JsonUpperClass games,final JsonParser parser) throws IOException {
+    private void startParsing(final JsonUpperClass games, final JsonParser parser) throws IOException {
         parser.nextToken();
         parser.nextToken();
 
         if (parser.nextToken() != JsonToken.START_ARRAY)
-            throw new IllegalArgumentException("Неверная стуктура файла");
-
-        Logger.getInstance().debug("Начало обработки файла");
+            throw new IllegalArgumentException("Неверная структура файла");
 
         while (parser.nextToken() != JsonToken.END_ARRAY) {
             if (parser.getCurrentName() == null) {
                 continue;
             }
-
-            Logger.getInstance().debug("Начало обработки токена: " + parser.getCurrentName());
 
             switch (parser.getCurrentName()) {
                 case "name" -> getName(games, parser);
@@ -81,31 +79,28 @@ public class JsonToXml {
                 case "gamePublisher" -> getGamePublisher(games, parser);
                 case "platforms" -> getPlatforms(games, parser);
                 case "devStudios" -> getDevStudios(games, parser);
-                default -> {
-                    Logger.getInstance().debug("Неверная стуктура файла");
-                    throw new IllegalArgumentException("Неверная стуктура файла");
-                }
+                default -> throw new IllegalArgumentException("Неверная структура файла");
             }
         }
     }
 
-    private static void getName(final JsonUpperClass games,final JsonParser parser) throws IOException {
+    private static void getName(final JsonUpperClass games, final JsonParser parser) throws IOException {
         games.addGame("place_holder", -1, "place_holder");
         parser.nextToken();
         games.returnLastGame().setName(parser.getText());
     }
 
-    private static void getYear(final JsonUpperClass games,final JsonParser parser) throws IOException {
+    private static void getYear(final JsonUpperClass games, final JsonParser parser) throws IOException {
         parser.nextToken();
         games.returnLastGame().setYear(Integer.parseInt(parser.getText()));
     }
 
-    private static void getGamePublisher(final JsonUpperClass games,final JsonParser parser) throws IOException {
+    private static void getGamePublisher(final JsonUpperClass games, final JsonParser parser) throws IOException {
         parser.nextToken();
         games.returnLastGame().setGamePublisher(parser.getText());
     }
 
-    private static void getPlatforms(final JsonUpperClass games,final JsonParser parser) throws IOException {
+    private static void getPlatforms(final JsonUpperClass games, final JsonParser parser) throws IOException {
         parser.nextToken();
         while (parser.nextToken() != JsonToken.END_ARRAY) {
             parser.nextToken();
@@ -149,7 +144,7 @@ public class JsonToXml {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     public XmlUpperClass convert(final JsonUpperClass games) throws IllegalArgumentException {
-        Logger.getInstance().debug("Начало конвертирования классов");
+        Logger.getInstance().info("Начало конвертирования классов");
 
         if (games == null)
             throw new IllegalArgumentException();
@@ -159,7 +154,7 @@ public class JsonToXml {
         startConvert(games, gameIndustry);
 
 
-        Logger.getInstance().info("Успешно завершено конвертирование классов");
+        Logger.getInstance().info("Конвертирование классов прошло успешно");
         return gameIndustry;
     }
 
@@ -238,10 +233,11 @@ public class JsonToXml {
      */
     public void createXML(final XmlUpperClass xmlUpperClassClass, final String path)
             throws FileNotFoundException, XMLStreamException {
+        Logger.getInstance().info("Начало создания файла XML");
 
-        Logger.getInstance().debug("Начало записи в файл");
         writeXml(new FileOutputStream(path), xmlUpperClassClass);
-        Logger.getInstance().debug("Успешно завершена запись в файл");
+
+        Logger.getInstance().info("Создание файла прошло успешно");
     }
 
     //region createXml private methods

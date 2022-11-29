@@ -26,10 +26,10 @@ import java.util.ArrayList;
 
 /**
  * Предоставляет доступ к трем методам:
- * 1) parseXml - считывает XML файл, используя SAX. Сохраняет данные в gameIndustry
+ * 1) parseXml - считывает XML файл, используя SAX.
  * 2) convert - конвертирует данные из Xml класса в Json класс.
  * 3) createJson - создает Json файл используя Jackson-databind.
- * Расширяет класс DefaultHandler в XMLHandler для работы с Xml файлом, используя SAX
+ * Расширяет класс DefaultHandler в XMLHandler для работы с Xml файлом, используя SAX.
  */
 public class XmlToJson {
     //Инициализируется в XmlHandler
@@ -42,15 +42,16 @@ public class XmlToJson {
      * Считывает данные из Xml файла.
      *
      * @param path абсолютный путь к существующему Xml файлу.
-     * @return класс, содержащий даныне из исходного Xml файла.
+     * @return класс, содержащий данные из исходного Xml файла.
      * @throws ParserConfigurationException парсер не может быть создан
-     *                                      в соответствии с заданной окнфигурацией.
+     *                                      в соответствии с заданной конфигурацией.
      * @throws SAXException                 в случае любой ошибки SAX парсера.
      * @throws IOException                  в случае любой IO ошибки.
      * @throws IllegalArgumentException     в случае передачи параметром несуществующего файла.
      */
     public XmlUpperClass parseXml(final String path)
             throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
+        Logger.getInstance().info("Начало работы парсинга XML");
         final SAXParser parser = factory.newSAXParser();
 
         final File file = new File(path);
@@ -59,6 +60,7 @@ public class XmlToJson {
 
         parser.parse(file, handler);
 
+        Logger.getInstance().info("Успешное завершение парсинга XML.");
         return gameIndustry;
     }
 
@@ -69,7 +71,8 @@ public class XmlToJson {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     public JsonUpperClass convert(final XmlUpperClass gameIndustry) throws IllegalArgumentException {
-        Logger.getInstance().debug("Начало конвертирования классов");
+        Logger.getInstance().info("Начало конвертирования классов");
+
         if (gameIndustry == null)
             throw new IllegalArgumentException();
 
@@ -77,39 +80,27 @@ public class XmlToJson {
 
         startConvert(gameIndustry, jsonUpperClassGames);
 
-        Logger.getInstance().info("Успешно завершено конвертирование классов");
+        Logger.getInstance().info("Конвертирование классов прошло успешно");
         return jsonUpperClassGames;
     }
 
     //region Convert private methods
     private void startConvert(final XmlUpperClass gameIndustry, final JsonUpperClass jsonUpperClassGames) {
         for (int index = 0; index < gameIndustry.returnLength(); index++) {
-            Logger.getInstance().debug("Начало обработки gamePublisher" + index);
-
             getPublisher(jsonUpperClassGames, gameIndustry.getPublishers().get(index));
-
-            Logger.getInstance().debug("Конец обработки gamePublisher" + index);
         }
     }
 
     private void getPublisher(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher) {
         for (int index = 0; index < publisher.returnLength(); index++) {
-            Logger.getInstance().debug("Начало обработки devStudio" + index);
-
             getDeveloper(jsonUpperClassGames, publisher, publisher.getDevStudios().get(index));
-
-            Logger.getInstance().debug("Конец обработки devStudio" + index);
         }
     }
 
     private void getDeveloper(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher,
                               final XmlDevStudio developer) {
         for (int index = 0; index < developer.returnLength(); index++) {
-            Logger.getInstance().debug("Начало обработки game" + index);
-
             getGame(jsonUpperClassGames, publisher, developer, developer.getGames().get(index));
-
-            Logger.getInstance().debug("Конец обработки game" + index);
         }
     }
 
@@ -118,12 +109,9 @@ public class XmlToJson {
         final JsonGame checker = getCurrentGame(game.getName(), jsonUpperClassGames.getGames());
 
         if (checker == null) {
-            Logger.getInstance().debug("Создание ранее не существующей game");
             createNewGame(jsonUpperClassGames, publisher, developer, game);
             return;
         }
-
-        Logger.getInstance().debug("Добавление к game нового developer");
 
         checker.addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
 
@@ -150,11 +138,9 @@ public class XmlToJson {
     }
 
     private void getPlatform(final XmlGame game, final JsonGame jsonGame) {
-        Logger.getInstance().debug("Начало считывания platform");
         for (int l = 0; l < game.returnLength(); l++) {
             jsonGame.addPlatform(game.getPlatforms().get(l).getName());
         }
-        Logger.getInstance().debug("Конец считывания platform");
     }
     //endregion
 
@@ -166,8 +152,11 @@ public class XmlToJson {
      * @param path           абсолютный путь к новому Json файлу.
      */
     public void createJson(final JsonUpperClass jsonUpperClass, final String path) throws IOException {
-        Logger.getInstance().debug("Начало создания файла JSON");
+        Logger.getInstance().info("Начало создания файла JSON");
+
         mapper.writeValue(new File(path), jsonUpperClass);
+
+        Logger.getInstance().info("Создание файла прошло успешно");
     }
 
     private class XmlHandler extends DefaultHandler {
@@ -215,5 +204,4 @@ public class XmlToJson {
             game.addPlatform(attributes.getValue("name"));
         }
     }
-
 }

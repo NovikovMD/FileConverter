@@ -5,7 +5,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.PropertyConfigurator;
 
 /**
- * Базовый логгер для FineConverter
+ * Базовый логгер для FileConverter
  */
 public class Logger {
     private static Logger instance;

@@ -22,11 +22,11 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * Главный класс для запуска
+ * Главный класс для запуска сервиса
  */
 public class Main {
     /**
-     * Запускает ковертирование xml\json файлов в зависимости от входных данных
+     * Запускает конвертирование xml\json файлов в зависимости от входных данных
      *
      * @param args Требуется два элемента:
      *             1 - путь к существующему xml файлу;
@@ -36,7 +36,7 @@ public class Main {
         Logger.getInstance().info("Начало работы программы");
 
         if (args == null) {
-            Logger.getInstance().error("Пустой ввод данных. Завершение программы.");
+            Logger.getInstance().error("Некорректный ввод данных. Завершение программы.");
             throw new Exception("Некорректный ввод данных.");
         }
 
@@ -52,10 +52,10 @@ public class Main {
             Logger.getInstance().warn("Нет входных данных. Попытка запроса у пользователя.");
 
             Scanner inp = new Scanner(System.in);
-            System.out.print("Input full path to file: ");
+            System.out.print("Введите абсолютный путь к файлу: ");
             path = inp.nextLine();
 
-            System.out.print("Input full path to new file: ");
+            System.out.print("Введите абсолютный путь к создаваемому файлу: ");
             newPath = inp.nextLine();
         } else {
             path = args[0];
@@ -113,8 +113,6 @@ public class Main {
     }
 
     private static void parseJson(final String path, final String newPath) throws Exception {
-        Logger.getInstance().info("Начало работы парсинга JSON");
-
         final JsonToXml parser = new JsonToXml();
         final JsonUpperClass jsonClass;
         try {
@@ -126,7 +124,6 @@ public class Main {
             Logger.getInstance().error("Неверный путь к JSON файлу.", exception);
             throw new Exception("Неверный путь к JSON файлу.", exception);
         }
-        Logger.getInstance().info("Успешное завершение парсинга JSON.");
 
         try {
             parser.createXML(parser.convert(jsonClass), newPath);
