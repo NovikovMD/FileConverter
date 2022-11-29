@@ -4,9 +4,7 @@ import file_converter.classes.xml.*;
 import file_converter.json_to_xml.JsonToXml;
 import org.junit.Assert;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.IOException;
@@ -87,7 +85,7 @@ public class JsonToXmlTest {
     @Test
     public void wrongFile() throws IOException {
         try {
-            JsonUpperClass json = JSON_TO_XML_PARSER.parseJson("src/test/resources/NoSuchFile.json");
+            JSON_TO_XML_PARSER.parseJson("src/test/resources/NoSuchFile.json");
             Assert.fail("Not existing file found");
         }
         catch(IllegalArgumentException exception){
@@ -98,9 +96,9 @@ public class JsonToXmlTest {
     @Test
     public void wrongConvert() {
         try {
-            XmlUpperClass compare = JSON_TO_XML_PARSER.convert(null);
+            JSON_TO_XML_PARSER.convert(null);
             Assert.fail("Illegal null argument");
-        } catch (IllegalArgumentException exception) {
+        } catch (NullPointerException exception) {
             Assert.assertNotEquals("", exception.toString());
         }
 

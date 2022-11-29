@@ -106,7 +106,7 @@ public class XmlToJsonTest {
     @Test
     public void wrongFile() throws ParserConfigurationException, IOException, SAXException {
         try {
-            XmlUpperClass xmlClass = XML_TO_JSON_PARSER.parseXml("src/test/resources/NoSuchFile.xml");
+            XML_TO_JSON_PARSER.parseXml("src/test/resources/NoSuchFile.xml");
             Assert.fail("Not existing file found");
         } catch (IllegalArgumentException exception) {
             Assert.assertNotEquals("", exception.toString());
@@ -116,9 +116,9 @@ public class XmlToJsonTest {
     @Test
     public void wrongConvert() {
         try {
-            JsonUpperClass compare = XML_TO_JSON_PARSER.convert(null);
-            Assert.fail("Illigal null argument");
-        } catch (IllegalArgumentException exception) {
+            XML_TO_JSON_PARSER.convert(null);
+            Assert.fail("Illegal null argument");
+        } catch (NullPointerException exception) {
             Assert.assertNotEquals("", exception.toString());
         }
 
