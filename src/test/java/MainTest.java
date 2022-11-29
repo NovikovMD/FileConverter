@@ -14,7 +14,7 @@ public class MainTest {
     }
 
     @Test
-    public void correctBehavior1() {
+    public void correctBehavior1() throws Exception {
         File fl = new File("src/test/resources/TestMain.xml");
         if (fl.exists())
             fl.delete();
@@ -31,7 +31,7 @@ public class MainTest {
     }
 
     @Test
-    public void correctBehavior2() {
+    public void correctBehavior2() throws Exception {
         File fl = new File("src/test/resources/TestMain.json");
         if (fl.exists())
             fl.delete();
@@ -47,65 +47,110 @@ public class MainTest {
     }
 
     @Test
-    public void noParameters1() throws IOException {
+    public void noParameters1() {
         String[] str = null;
 
-        Main.main(str);//no exceptions
+        try {
+            Main.main(str);
+            Assert.fail("Обработы неверные параметры");
+        } catch (Exception e) {
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
     public void noParameters2() {
         String[] str = {"Some\\Path"};
 
-        Main.main(str);//no exceptions
+        try {
+            Main.main(str);
+            Assert.fail("Обработы неверные параметры");
+        } catch (Exception e) {
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
     public void wrongParameters1() {
         String[] str = {"src/test/resources/DoesntExist.xml", "src/test/resources/TestMain.json"};
 
-        Main.main(str);//no exceptions
+        try {
+            Main.main(str);
+            Assert.fail("Обработы неверные параметры");
+        } catch (Exception e) {
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
     public void wrongParameters2() {
         String[] str = {"src/test/resources/DoesntExist.json", "src/test/resources/TestMain.xml"};
 
-        Main.main(str);//no exceptions
+        try {
+            Main.main(str);
+            Assert.fail("Обработы неверные параметры");
+        } catch (Exception e) {
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
     public void wrongParameters3() {
         String[] str = {"src/test/resources/DoesntExist.json", "src/test/resources/TestMain.json"};
 
-        Main.main(str);//no exceptions
+        try {
+            Main.main(str);
+            Assert.fail("Обработы неверные параметры");
+        } catch (Exception e) {
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
     public void wrongParameters4() {
         String[] str = {"src/test/resources/DoesntExist.xml", "src/test/resources/TestMain.xml"};
 
-        Main.main(str);//no exceptions
+        try {
+            Main.main(str);
+            Assert.fail("Обработы неверные параметры");
+        } catch (Exception e) {
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
     public void wrongParameters5() {
         String[] str = {"src/test/resources/DoesntExist.mp3", "src/test/resources/TestMain.txt"};
 
-        Main.main(str);//no exceptions
+        try {
+            Main.main(str);
+            Assert.fail("Обработы неверные параметры");
+        } catch (Exception e) {
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
     public void wrongPathToDirectory1() {
         String[] str = {"src/test/resources/TestInput.json", "src/NonExistingDirectory/TestMain.xml"};
 
-        Main.main(str);//no exceptions
+        try {
+            Main.main(str);
+            Assert.fail("Обработы неверные параметры");
+        } catch (Exception e) {
+            Assert.assertTrue(true);
+        }
     }
 
     @Test
     public void wrongPathToDirectory2() {
         String[] str = {"src/test/resources/TestInput.xml", "src/NonExistingDirectory/TestMain.json"};
 
-        Main.main(str);//no exceptions
+        try {
+            Main.main(str);
+            Assert.fail("Обработы неверные параметры");
+        } catch (Exception e) {
+            Assert.assertTrue(true);
+        }
     }
 }
