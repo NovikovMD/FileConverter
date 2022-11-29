@@ -9,20 +9,15 @@
  */
 package file_converter.classes.json;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class JsonDevStudio {
-
     private String name;
     private int yearOfFoundation;
     private String url;
-
-    public JsonDevStudio(String name, int yearOfFoundation, String url) {
-        this.name = name;
-        this.yearOfFoundation = yearOfFoundation;
-        this.url = url;
-    }
 }

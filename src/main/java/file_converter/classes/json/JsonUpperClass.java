@@ -9,17 +9,18 @@
  */
 package file_converter.classes.json;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 
+@Getter
+@Setter
 public class JsonUpperClass {
     private final ArrayList<JsonGame> games;
 
     public JsonUpperClass() {
         this.games = new ArrayList<>();
-    }
-
-    public ArrayList<JsonGame> getGames() {
-        return games;
     }
 
     public void addGame(String name, int year, String gamePublisher) {
