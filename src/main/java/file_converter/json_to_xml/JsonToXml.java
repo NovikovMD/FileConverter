@@ -9,6 +9,7 @@
  */
 package file_converter.json_to_xml;
 
+import file_converter.FileConverter;
 import file_converter.classes.json.JsonUpperClass;
 import file_converter.classes.json.JsonDevStudio;
 import file_converter.classes.json.JsonGame;
@@ -16,6 +17,7 @@ import file_converter.classes.xml.*;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import org.apache.log4j.Logger;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -31,6 +33,7 @@ import java.util.List;
  * 3) createXML - создает XML файл, используя StAX.
  */
 public class JsonToXml {
+    private static final Logger LOGGER = Logger.getLogger(FileConverter.class);
     private final JsonFactory factory = new JsonFactory();
     private final XMLOutputFactory output = XMLOutputFactory.newInstance();
 
@@ -44,7 +47,7 @@ public class JsonToXml {
      *                                  или некорректная структура файла.
      */
     public JsonUpperClass parseJson(final String path) throws IOException, IllegalArgumentException {
-        //Logger.getInstance().info("Начало работы парсинга Json");
+        LOGGER.info("Начало работы парсинга Json");
         final JsonUpperClass games = new JsonUpperClass();
 
 
@@ -54,7 +57,7 @@ public class JsonToXml {
 
         startParsing(games, factory.createParser(fl));
 
-        //Logger.getInstance().info("Успешное завершение парсинга Json.");
+        LOGGER.info("Успешное завершение парсинга Json.");
         return games;
     }
 
@@ -143,7 +146,7 @@ public class JsonToXml {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     public XmlUpperClass convert(final JsonUpperClass games) throws IllegalArgumentException {
-        //Logger.getInstance().info("Начало конвертирования классов");
+        LOGGER.info("Начало конвертирования классов");
 
         if (games == null)
             throw new IllegalArgumentException();
@@ -153,7 +156,7 @@ public class JsonToXml {
         startConvert(games, gameIndustry);
 
 
-        //Logger.getInstance().info("Конвертирование классов прошло успешно");
+        LOGGER.info("Конвертирование классов прошло успешно");
         return gameIndustry;
     }
 
@@ -232,11 +235,11 @@ public class JsonToXml {
      */
     public void createXML(final XmlUpperClass xmlUpperClassClass, final String path)
             throws FileNotFoundException, XMLStreamException {
-        //Logger.getInstance().info("Начало создания файла XML");
+        LOGGER.info("Начало создания файла XML");
 
         writeXml(new FileOutputStream(path), xmlUpperClassClass);
 
-        //Logger.getInstance().info("Создание файла прошло успешно");
+        LOGGER.info("Создание файла прошло успешно");
     }
 
     //region createXml private methods
