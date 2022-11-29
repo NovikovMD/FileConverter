@@ -9,8 +9,13 @@
  */
 package file_converter.classes.json;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 
+@Getter
+@Setter
 public class JsonGame {
     private String name;
     private int year;
@@ -24,38 +29,6 @@ public class JsonGame {
         this.gamePublisher = gamePublisher;
         this.platforms = new ArrayList<>();
         this.devStudios = new ArrayList<>();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public String getGamePublisher() {
-        return gamePublisher;
-    }
-
-    public ArrayList<JsonPlatform> getPlatforms() {
-        return platforms;
-    }
-
-    public ArrayList<JsonDevStudio> getDevStudios() {
-        return devStudios;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public void setGamePublisher(String gamePublisher) {
-        this.gamePublisher = gamePublisher;
     }
 
     public void addPlatform(String name) {
