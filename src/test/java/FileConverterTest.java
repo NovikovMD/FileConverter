@@ -1,18 +1,18 @@
-import logger.Logger;
-import org.apache.log4j.Level;
+import file_converter.FileConverter;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.io.IOException;
+import java.util.Arrays;
 
-public class MainTest {
+public class FileConverterTest {
+    FileConverter fileConverter;
+
     @Before
-    public void setProperties() {
-        Logger.getInstance().setLevel(Level.ALL);
+    public void atStart(){
+        fileConverter = new FileConverter();
     }
-
     @Test
     public void correctBehavior1() throws Exception {
         File fl = new File("src/test/resources/TestMain.xml");
@@ -20,7 +20,7 @@ public class MainTest {
             fl.delete();
 
         String[] str = {"src/test/resources/TestInput.json", "src/test/resources/TestMain.xml"};
-        Main.main(str);
+        fileConverter.doParse(Arrays.stream(str).toList());
 
         fl = new File("src/test/resources/TestMain.xml");
 
@@ -37,7 +37,7 @@ public class MainTest {
             fl.delete();
 
         String[] str = {"src/test/resources/TestInput.xml", "src/test/resources/TestMain.json"};
-        Main.main(str);
+        fileConverter.doParse(Arrays.stream(str).toList());
 
         fl = new File("src/test/resources/TestMain.json");
         if (fl.exists())
@@ -51,7 +51,7 @@ public class MainTest {
         String[] str = null;
 
         try {
-            Main.main(str);
+            fileConverter.doParse(Arrays.stream(str).toList());
             Assert.fail("Обработы неверные параметры");
         } catch (Exception e) {
             Assert.assertTrue(true);
@@ -63,7 +63,7 @@ public class MainTest {
         String[] str = {"Some\\Path"};
 
         try {
-            Main.main(str);
+            fileConverter.doParse(Arrays.stream(str).toList());
             Assert.fail("Обработы неверные параметры");
         } catch (Exception e) {
             Assert.assertTrue(true);
@@ -75,7 +75,7 @@ public class MainTest {
         String[] str = {"src/test/resources/DoesntExist.xml", "src/test/resources/TestMain.json"};
 
         try {
-            Main.main(str);
+            fileConverter.doParse(Arrays.stream(str).toList());
             Assert.fail("Обработы неверные параметры");
         } catch (Exception e) {
             Assert.assertTrue(true);
@@ -87,7 +87,7 @@ public class MainTest {
         String[] str = {"src/test/resources/DoesntExist.json", "src/test/resources/TestMain.xml"};
 
         try {
-            Main.main(str);
+            fileConverter.doParse(Arrays.stream(str).toList());
             Assert.fail("Обработы неверные параметры");
         } catch (Exception e) {
             Assert.assertTrue(true);
@@ -99,7 +99,7 @@ public class MainTest {
         String[] str = {"src/test/resources/DoesntExist.json", "src/test/resources/TestMain.json"};
 
         try {
-            Main.main(str);
+            fileConverter.doParse(Arrays.stream(str).toList());
             Assert.fail("Обработы неверные параметры");
         } catch (Exception e) {
             Assert.assertTrue(true);
@@ -111,7 +111,7 @@ public class MainTest {
         String[] str = {"src/test/resources/DoesntExist.xml", "src/test/resources/TestMain.xml"};
 
         try {
-            Main.main(str);
+            fileConverter.doParse(Arrays.stream(str).toList());
             Assert.fail("Обработы неверные параметры");
         } catch (Exception e) {
             Assert.assertTrue(true);
@@ -123,7 +123,7 @@ public class MainTest {
         String[] str = {"src/test/resources/DoesntExist.mp3", "src/test/resources/TestMain.txt"};
 
         try {
-            Main.main(str);
+            fileConverter.doParse(Arrays.stream(str).toList());
             Assert.fail("Обработы неверные параметры");
         } catch (Exception e) {
             Assert.assertTrue(true);
@@ -135,7 +135,7 @@ public class MainTest {
         String[] str = {"src/test/resources/TestInput.json", "src/NonExistingDirectory/TestMain.xml"};
 
         try {
-            Main.main(str);
+            fileConverter.doParse(Arrays.stream(str).toList());
             Assert.fail("Обработы неверные параметры");
         } catch (Exception e) {
             Assert.assertTrue(true);
@@ -147,7 +147,7 @@ public class MainTest {
         String[] str = {"src/test/resources/TestInput.xml", "src/NonExistingDirectory/TestMain.json"};
 
         try {
-            Main.main(str);
+            fileConverter.doParse(Arrays.stream(str).toList());
             Assert.fail("Обработы неверные параметры");
         } catch (Exception e) {
             Assert.assertTrue(true);

@@ -16,7 +16,6 @@ import file_converter.classes.xml.*;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import logger.Logger;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -35,33 +34,6 @@ public class JsonToXml {
     private final JsonFactory factory = new JsonFactory();
     private final XMLOutputFactory output = XMLOutputFactory.newInstance();
 
-    public void parseJson(final String path, final String newPath) throws Exception {
-        final JsonToXml parser = new JsonToXml();
-        final JsonUpperClass jsonClass;
-        try {
-            jsonClass = parser.parseJson(path);
-        } catch (IOException exception) {
-            Logger.getInstance().error("Не удалось считать файл JSON.", exception);
-            throw new Exception("Не удалось считать файл JSON.", exception);
-        } catch (IllegalArgumentException exception) {
-            Logger.getInstance().error("Неверный путь к JSON файлу.", exception);
-            throw new Exception("Неверный путь к JSON файлу.", exception);
-        }
-
-        try {
-            parser.createXML(parser.convert(jsonClass), newPath);
-        } catch (FileNotFoundException exception) {
-            Logger.getInstance().error("Введен неверный путь к файлу XML.", exception);
-            throw new Exception("Введен неверный путь к файлу XML.", exception);
-        } catch (XMLStreamException exception) {
-            Logger.getInstance().error("Не удалось создать XML файл.", exception);
-            throw new Exception("Не удалось создать XML файл.", exception);
-        } catch (IllegalArgumentException exception) {
-            Logger.getInstance().error("Не удалось конвертировать JSON классы в XML.", exception);
-            throw new Exception("Не удалось конвертировать JSON классы в XML.", exception);
-        }
-    }
-
     /**
      * Считывает данные из Json файла.
      *
@@ -72,7 +44,7 @@ public class JsonToXml {
      *                                  или некорректная структура файла.
      */
     public JsonUpperClass parseJson(final String path) throws IOException, IllegalArgumentException {
-        Logger.getInstance().info("Начало работы парсинга Json");
+        //Logger.getInstance().info("Начало работы парсинга Json");
         final JsonUpperClass games = new JsonUpperClass();
 
 
@@ -82,7 +54,7 @@ public class JsonToXml {
 
         startParsing(games, factory.createParser(fl));
 
-        Logger.getInstance().info("Успешное завершение парсинга Json.");
+        //Logger.getInstance().info("Успешное завершение парсинга Json.");
         return games;
     }
 
@@ -171,7 +143,7 @@ public class JsonToXml {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     public XmlUpperClass convert(final JsonUpperClass games) throws IllegalArgumentException {
-        Logger.getInstance().info("Начало конвертирования классов");
+        //Logger.getInstance().info("Начало конвертирования классов");
 
         if (games == null)
             throw new IllegalArgumentException();
@@ -181,7 +153,7 @@ public class JsonToXml {
         startConvert(games, gameIndustry);
 
 
-        Logger.getInstance().info("Конвертирование классов прошло успешно");
+        //Logger.getInstance().info("Конвертирование классов прошло успешно");
         return gameIndustry;
     }
 
@@ -260,11 +232,11 @@ public class JsonToXml {
      */
     public void createXML(final XmlUpperClass xmlUpperClassClass, final String path)
             throws FileNotFoundException, XMLStreamException {
-        Logger.getInstance().info("Начало создания файла XML");
+        //Logger.getInstance().info("Начало создания файла XML");
 
         writeXml(new FileOutputStream(path), xmlUpperClassClass);
 
-        Logger.getInstance().info("Создание файла прошло успешно");
+        //Logger.getInstance().info("Создание файла прошло успешно");
     }
 
     //region createXml private methods

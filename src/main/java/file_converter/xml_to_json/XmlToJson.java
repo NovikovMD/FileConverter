@@ -12,7 +12,6 @@ package file_converter.xml_to_json;
 import file_converter.classes.json.*;
 import file_converter.classes.xml.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import logger.Logger;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -38,35 +37,6 @@ public class XmlToJson {
     private final XmlHandler handler = new XmlHandler();
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public void parseXml(final String path, final String newPath) throws Exception {
-        Logger.getInstance().info("Начало работы парсинга XML");
-
-        final XmlToJson parser = new XmlToJson();
-        final XmlUpperClass parsedClass;
-        try {
-            parsedClass = parser.parseXml(path);
-        } catch (ParserConfigurationException | SAXException | IOException exception) {
-            Logger.getInstance().error("Не удалось считать файл XML.", exception);
-            throw new Exception("Не удалось считать файл XML.", exception);
-        } catch (IllegalArgumentException exception) {
-            Logger.getInstance().error("Неверный путь к XML файлу.", exception);
-            throw new Exception("Неверный путь к XML файлу.", exception);
-        }
-        Logger.getInstance().info("Успешное завершение парсинга XML.");
-
-        try {
-            parser.createJson(parser.convert(parsedClass), newPath);
-        } catch (IOException ioException) {
-            Logger.getInstance().error("Не удалось создать JSON файл.", ioException);
-            throw new Exception("Не удалось создать JSON файл.", ioException);
-        } catch (IllegalArgumentException exception) {
-            Logger.getInstance().fatal("Не удалось конвертировать XML классы в JSON.", exception);
-            throw new Exception("Не удалось конвертировать XML классы в JSON.", exception);
-        }
-
-        Logger.getInstance().info("Успешно создан JSON файл.");
-    }
-
     /**
      * Считывает данные из Xml файла.
      *
@@ -80,7 +50,7 @@ public class XmlToJson {
      */
     public XmlUpperClass parseXml(final String path)
             throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
-        Logger.getInstance().info("Начало работы парсинга XML");
+        //Logger.getInstance().info("Начало работы парсинга XML");
         final SAXParser parser = factory.newSAXParser();
 
         final File file = new File(path);
@@ -89,7 +59,7 @@ public class XmlToJson {
 
         parser.parse(file, handler);
 
-        Logger.getInstance().info("Успешное завершение парсинга XML.");
+        //Logger.getInstance().info("Успешное завершение парсинга XML.");
         return gameIndustry;
     }
 
@@ -100,7 +70,7 @@ public class XmlToJson {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     public JsonUpperClass convert(final XmlUpperClass gameIndustry) throws IllegalArgumentException {
-        Logger.getInstance().info("Начало конвертирования классов");
+        //Logger.getInstance().info("Начало конвертирования классов");
 
         if (gameIndustry == null)
             throw new IllegalArgumentException();
@@ -109,7 +79,7 @@ public class XmlToJson {
 
         startConvert(gameIndustry, jsonUpperClassGames);
 
-        Logger.getInstance().info("Конвертирование классов прошло успешно");
+        //Logger.getInstance().info("Конвертирование классов прошло успешно");
         return jsonUpperClassGames;
     }
 
@@ -181,11 +151,11 @@ public class XmlToJson {
      * @param path           абсолютный путь к новому Json файлу.
      */
     public void createJson(final JsonUpperClass jsonUpperClass, final String path) throws IOException {
-        Logger.getInstance().info("Начало создания файла JSON");
+        //Logger.getInstance().info("Начало создания файла JSON");
 
         mapper.writeValue(new File(path), jsonUpperClass);
 
-        Logger.getInstance().info("Создание файла прошло успешно");
+        //Logger.getInstance().info("Создание файла прошло успешно");
     }
 
     private class XmlHandler extends DefaultHandler {
