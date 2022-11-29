@@ -38,6 +38,35 @@ public class XmlToJson {
     private final XmlHandler handler = new XmlHandler();
     private final ObjectMapper mapper = new ObjectMapper();
 
+    public void parseXml(final String path, final String newPath) throws Exception {
+        Logger.getInstance().info("Начало работы парсинга XML");
+
+        final XmlToJson parser = new XmlToJson();
+        final XmlUpperClass parsedClass;
+        try {
+            parsedClass = parser.parseXml(path);
+        } catch (ParserConfigurationException | SAXException | IOException exception) {
+            Logger.getInstance().error("Не удалось считать файл XML.", exception);
+            throw new Exception("Не удалось считать файл XML.", exception);
+        } catch (IllegalArgumentException exception) {
+            Logger.getInstance().error("Неверный путь к XML файлу.", exception);
+            throw new Exception("Неверный путь к XML файлу.", exception);
+        }
+        Logger.getInstance().info("Успешное завершение парсинга XML.");
+
+        try {
+            parser.createJson(parser.convert(parsedClass), newPath);
+        } catch (IOException ioException) {
+            Logger.getInstance().error("Не удалось создать JSON файл.", ioException);
+            throw new Exception("Не удалось создать JSON файл.", ioException);
+        } catch (IllegalArgumentException exception) {
+            Logger.getInstance().fatal("Не удалось конвертировать XML классы в JSON.", exception);
+            throw new Exception("Не удалось конвертировать XML классы в JSON.", exception);
+        }
+
+        Logger.getInstance().info("Успешно создан JSON файл.");
+    }
+
     /**
      * Считывает данные из Xml файла.
      *

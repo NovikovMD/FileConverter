@@ -35,6 +35,33 @@ public class JsonToXml {
     private final JsonFactory factory = new JsonFactory();
     private final XMLOutputFactory output = XMLOutputFactory.newInstance();
 
+    public void parseJson(final String path, final String newPath) throws Exception {
+        final JsonToXml parser = new JsonToXml();
+        final JsonUpperClass jsonClass;
+        try {
+            jsonClass = parser.parseJson(path);
+        } catch (IOException exception) {
+            Logger.getInstance().error("Не удалось считать файл JSON.", exception);
+            throw new Exception("Не удалось считать файл JSON.", exception);
+        } catch (IllegalArgumentException exception) {
+            Logger.getInstance().error("Неверный путь к JSON файлу.", exception);
+            throw new Exception("Неверный путь к JSON файлу.", exception);
+        }
+
+        try {
+            parser.createXML(parser.convert(jsonClass), newPath);
+        } catch (FileNotFoundException exception) {
+            Logger.getInstance().error("Введен неверный путь к файлу XML.", exception);
+            throw new Exception("Введен неверный путь к файлу XML.", exception);
+        } catch (XMLStreamException exception) {
+            Logger.getInstance().error("Не удалось создать XML файл.", exception);
+            throw new Exception("Не удалось создать XML файл.", exception);
+        } catch (IllegalArgumentException exception) {
+            Logger.getInstance().error("Не удалось конвертировать JSON классы в XML.", exception);
+            throw new Exception("Не удалось конвертировать JSON классы в XML.", exception);
+        }
+    }
+
     /**
      * Считывает данные из Json файла.
      *

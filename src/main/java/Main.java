@@ -8,17 +8,10 @@
  *    May you share freely, never taking more than you give.
  */
 
-import file_converter.classes.json.JsonUpperClass;
-import file_converter.classes.xml.XmlUpperClass;
 import file_converter.json_to_xml.JsonToXml;
 import file_converter.xml_to_json.XmlToJson;
 import logger.Logger;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.stream.XMLStreamException;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -67,11 +60,11 @@ public class Main {
         String secondExtension = getExtension(newPath);
 
         if (firstExtension.equals("json") && secondExtension.equals("xml")) {
-            parseJson(path, newPath);
+            new JsonToXml().parseJson(path, newPath);
         } else if (firstExtension.equals("xml") && secondExtension.equals("json")) {
-            parseXml(path, newPath);
+            new XmlToJson().parseXml(path, newPath);
         } else {
-            Logger.getInstance().fatal("Некорректный формат входных данных. Завершение программы.");
+            Logger.getInstance().error("Некорректный формат входных данных. Завершение программы.");
             throw new Exception("Некорректный формат входных данных.");
         }
 
@@ -81,63 +74,5 @@ public class Main {
     private static String getExtension(final String newPath) {
         int index = newPath.lastIndexOf(".");
         return index > -1 ? newPath.substring(index + 1) : "";
-    }
-
-    private static void parseXml(final String path, final String newPath) throws Exception {
-        Logger.getInstance().info("Начало работы парсинга XML");
-
-        final XmlToJson parser = new XmlToJson();
-        final XmlUpperClass parsedClass;
-        try {
-            parsedClass = parser.parseXml(path);
-        } catch (ParserConfigurationException | SAXException | IOException exception) {
-            Logger.getInstance().error("Не удалось считать файл XML.", exception);
-            throw new Exception("Не удалось считать файл XML.", exception);
-        } catch (IllegalArgumentException exception) {
-            Logger.getInstance().error("Неверный путь к XML файлу.", exception);
-            throw new Exception("Неверный путь к XML файлу.", exception);
-        }
-        Logger.getInstance().info("Успешное завершение парсинга XML.");
-
-        try {
-            parser.createJson(parser.convert(parsedClass), newPath);
-        } catch (IOException ioException) {
-            Logger.getInstance().error("Не удалось создать JSON файл.", ioException);
-            throw new Exception("Не удалось создать JSON файл.", ioException);
-        } catch (IllegalArgumentException exception) {
-            Logger.getInstance().fatal("Не удалось конвертировать XML классы в JSON.", exception);
-            throw new Exception("Не удалось конвертировать XML классы в JSON.", exception);
-        }
-
-        Logger.getInstance().info("Успешно создан JSON файл.");
-    }
-
-    private static void parseJson(final String path, final String newPath) throws Exception {
-        final JsonToXml parser = new JsonToXml();
-        final JsonUpperClass jsonClass;
-        try {
-            jsonClass = parser.parseJson(path);
-        } catch (IOException exception) {
-            Logger.getInstance().error("Не удалось считать файл JSON.", exception);
-            throw new Exception("Не удалось считать файл JSON.", exception);
-        } catch (IllegalArgumentException exception) {
-            Logger.getInstance().error("Неверный путь к JSON файлу.", exception);
-            throw new Exception("Неверный путь к JSON файлу.", exception);
-        }
-
-        try {
-            parser.createXML(parser.convert(jsonClass), newPath);
-        } catch (FileNotFoundException exception) {
-            Logger.getInstance().error("Введен неверный путь к файлу XML.", exception);
-            throw new Exception("Введен неверный путь к файлу XML.", exception);
-        } catch (XMLStreamException exception) {
-            Logger.getInstance().error("Не удалось создать XML файл.", exception);
-            throw new Exception("Не удалось создать XML файл.", exception);
-        } catch (IllegalArgumentException exception) {
-            Logger.getInstance().error("Не удалось конвертировать JSON классы в XML.", exception);
-            throw new Exception("Не удалось конвертировать JSON классы в XML.", exception);
-        }
-
-        Logger.getInstance().info("Успешно создан XML файл.");
     }
 }
