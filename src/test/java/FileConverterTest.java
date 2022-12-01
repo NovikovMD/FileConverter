@@ -5,14 +5,18 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.List;
+
+import static org.junit.Assert.assertThrows;
 
 public class FileConverterTest {
     FileConverter fileConverter;
 
     @Before
-    public void atStart(){
+    public void atStart() {
         fileConverter = new FileConverter();
     }
+
     @Test
     public void correctBehavior1() throws Exception {
         File fl = new File("src/test/resources/TestMain.xml");
@@ -48,109 +52,91 @@ public class FileConverterTest {
 
     @Test
     public void noParameters1() {
-        String[] str = null;
+        List<String> params = null;
 
-        try {
-            fileConverter.doParse(Arrays.stream(str).toList());
-            Assert.fail("Обработы неверные параметры");
-        } catch (Exception e) {
-            Assert.assertTrue(true);
-        }
+        Exception exception = assertThrows(Exception.class,
+            () -> fileConverter.doParse(params));
+
+        Assert.assertEquals("Некорректный ввод данных.", exception.getMessage());
     }
 
     @Test
     public void noParameters2() {
         String[] str = {"Some\\Path"};
 
-        try {
-            fileConverter.doParse(Arrays.stream(str).toList());
-            Assert.fail("Обработы неверные параметры");
-        } catch (Exception e) {
-            Assert.assertTrue(true);
-        }
+        Exception exception = assertThrows(Exception.class,
+            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+
+        Assert.assertEquals("Некорректный ввод данных.", exception.getMessage());
     }
 
     @Test
     public void wrongParameters1() {
         String[] str = {"src/test/resources/DoesntExist.xml", "src/test/resources/TestMain.json"};
 
-        try {
-            fileConverter.doParse(Arrays.stream(str).toList());
-            Assert.fail("Обработы неверные параметры");
-        } catch (Exception e) {
-            Assert.assertTrue(true);
-        }
+        Exception exception = assertThrows(Exception.class,
+            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+
+        Assert.assertEquals("Неверный путь к XML файлу.", exception.getMessage());
     }
 
     @Test
     public void wrongParameters2() {
         String[] str = {"src/test/resources/DoesntExist.json", "src/test/resources/TestMain.xml"};
 
-        try {
-            fileConverter.doParse(Arrays.stream(str).toList());
-            Assert.fail("Обработы неверные параметры");
-        } catch (Exception e) {
-            Assert.assertTrue(true);
-        }
+        Exception exception = assertThrows(Exception.class,
+            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+
+        Assert.assertEquals("Неверный путь к JSON файлу.", exception.getMessage());
     }
 
     @Test
     public void wrongParameters3() {
-        String[] str = {"src/test/resources/DoesntExist.json", "src/test/resources/TestMain.json"};
+        String[] str = {"src/test/resources/IAmJson.json", "src/test/resources/IAmAlsoJson.json"};
 
-        try {
-            fileConverter.doParse(Arrays.stream(str).toList());
-            Assert.fail("Обработы неверные параметры");
-        } catch (Exception e) {
-            Assert.assertTrue(true);
-        }
+        Exception exception = assertThrows(Exception.class,
+            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+
+        Assert.assertEquals("Некорректный формат входных данных.",exception.getMessage());
     }
 
     @Test
     public void wrongParameters4() {
-        String[] str = {"src/test/resources/DoesntExist.xml", "src/test/resources/TestMain.xml"};
+        String[] str = {"src/test/resources/IAmXml.xml", "src/test/resources/IAmAlsoXml.xml"};
 
-        try {
-            fileConverter.doParse(Arrays.stream(str).toList());
-            Assert.fail("Обработы неверные параметры");
-        } catch (Exception e) {
-            Assert.assertTrue(true);
-        }
+        Exception exception = assertThrows(Exception.class,
+            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+
+        Assert.assertEquals("Некорректный формат входных данных.", exception.getMessage());
     }
 
     @Test
     public void wrongParameters5() {
-        String[] str = {"src/test/resources/DoesntExist.mp3", "src/test/resources/TestMain.txt"};
+        String[] str = {"src/test/resources/WrongExtension.mp3", "src/test/resources/TestMain.txt"};
 
-        try {
-            fileConverter.doParse(Arrays.stream(str).toList());
-            Assert.fail("Обработы неверные параметры");
-        } catch (Exception e) {
-            Assert.assertTrue(true);
-        }
+        Exception exception = assertThrows(Exception.class,
+            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+
+        Assert.assertEquals("Некорректный формат входных данных.",exception.getMessage());
     }
 
     @Test
     public void wrongPathToDirectory1() {
         String[] str = {"src/test/resources/TestInput.json", "src/NonExistingDirectory/TestMain.xml"};
 
-        try {
-            fileConverter.doParse(Arrays.stream(str).toList());
-            Assert.fail("Обработы неверные параметры");
-        } catch (Exception e) {
-            Assert.assertTrue(true);
-        }
+        Exception exception = assertThrows(Exception.class,
+            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+
+        Assert.assertEquals("Введен неверный путь к файлу XML.",exception.getMessage());
     }
 
     @Test
     public void wrongPathToDirectory2() {
         String[] str = {"src/test/resources/TestInput.xml", "src/NonExistingDirectory/TestMain.json"};
 
-        try {
-            fileConverter.doParse(Arrays.stream(str).toList());
-            Assert.fail("Обработы неверные параметры");
-        } catch (Exception e) {
-            Assert.assertTrue(true);
-        }
+        Exception exception = assertThrows(Exception.class,
+            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+
+        Assert.assertEquals("Не удалось создать JSON файл.", exception.getMessage());
     }
 }

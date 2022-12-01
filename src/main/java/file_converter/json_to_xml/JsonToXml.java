@@ -53,7 +53,7 @@ public class JsonToXml {
 
         final File fl = new File(path);
         if (!fl.exists())
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Неверный путь к файлу.");
 
         startParsing(games, factory.createParser(fl));
 

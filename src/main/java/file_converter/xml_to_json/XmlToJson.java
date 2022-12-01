@@ -56,7 +56,7 @@ public class XmlToJson {
 
         final File file = new File(path);
         if (!file.exists())
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Неверный путь к файлу.");
 
         factory.newSAXParser().parse(file, handler);
 

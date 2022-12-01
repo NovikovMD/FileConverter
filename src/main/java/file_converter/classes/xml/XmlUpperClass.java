@@ -10,13 +10,12 @@
 package file_converter.classes.xml;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
+
 @Getter
-@Setter
 public class XmlUpperClass {
-    private final ArrayList<XmlGamePublisher> publishers= new ArrayList<>();
+    private final ArrayList<XmlGamePublisher> publishers = new ArrayList<>();
 
     public void addPublisher(String name) {
         publishers.add(new XmlGamePublisher(name));

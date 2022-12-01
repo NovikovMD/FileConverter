@@ -9,6 +9,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 
+import static org.junit.Assert.assertThrows;
+
 public class XmlToJsonTest {
 
     private static final XmlToJson XML_TO_JSON_PARSER = new XmlToJson();
@@ -104,23 +106,10 @@ public class XmlToJsonTest {
     }
 
     @Test
-    public void wrongFile() throws ParserConfigurationException, IOException, SAXException {
-        try {
-            XML_TO_JSON_PARSER.parseXml("src/test/resources/NoSuchFile.xml");
-            Assert.fail("Not existing file found");
-        } catch (IllegalArgumentException exception) {
-            Assert.assertNotEquals("", exception.toString());
-        }
-    }
+    public void wrongFile() {
+        Exception exception = assertThrows(Exception.class,
+            () -> XML_TO_JSON_PARSER.parseXml("src/test/resources/NoSuchFile.xml"));
 
-    @Test
-    public void wrongConvert() {
-        try {
-            XML_TO_JSON_PARSER.convert(null);
-            Assert.fail("Illegal null argument");
-        } catch (NullPointerException exception) {
-            Assert.assertNotEquals("", exception.toString());
-        }
-
+        Assert.assertEquals("Неверный путь к файлу.", exception.getMessage());
     }
 }

@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertThrows;
 
 public class JsonToXmlTest {
 
@@ -83,24 +84,10 @@ public class JsonToXmlTest {
     }
 
     @Test
-    public void wrongFile() throws IOException {
-        try {
-            JSON_TO_XML_PARSER.parseJson("src/test/resources/NoSuchFile.json");
-            Assert.fail("Not existing file found");
-        }
-        catch(IllegalArgumentException exception){
-            Assert.assertNotEquals("",exception.toString());
-        }
-    }
+    public void wrongFile() {
+        Exception exception = assertThrows(Exception.class,
+            () -> JSON_TO_XML_PARSER.parseJson("src/test/resources/NoSuchFile.json"));
 
-    @Test
-    public void wrongConvert() {
-        try {
-            JSON_TO_XML_PARSER.convert(null);
-            Assert.fail("Illegal null argument");
-        } catch (NullPointerException exception) {
-            Assert.assertNotEquals("", exception.toString());
-        }
-
+        Assert.assertEquals("Неверный путь к файлу.", exception.getMessage());
     }
 }
