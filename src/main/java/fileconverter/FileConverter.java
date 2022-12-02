@@ -1,9 +1,11 @@
-package file_converter;
+package fileconverter;
 
-import file_converter.classes.json.JsonUpperClass;
-import file_converter.classes.xml.XmlUpperClass;
-import file_converter.json_to_xml.JsonToXml;
-import file_converter.xml_to_json.XmlToJson;
+import fileconverter.bean.InputBean;
+import fileconverter.bean.json.JsonUpperClass;
+import fileconverter.bean.xml.XmlUpperClass;
+import fileconverter.jsontoxml.JsonToXml;
+import fileconverter.xmltojson.XmlToJson;
+import lombok.NonNull;
 import lombok.extern.log4j.Log4j;
 import org.xml.sax.SAXException;
 
@@ -11,8 +13,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
-import java.util.Scanner;
 
 /**
  * Обработчик входных данных.
@@ -26,57 +26,41 @@ public class FileConverter {
      * Проверяет корректность входных данных
      * и запускает процесс конвертирования файлов.
      *
-     * @param params Требуется два элемента:
-     *               1) - путь к существующему xml\json файлу.
-     *               2) - путь к новому xmk\json файлу.
-     * @throws Exception если в ходе работы произошли любые ошибки
+     * @param bean pathToExistingFile - путь к существующему xml\json файлу.
+     *             pathToNewFile - путь к новому xml\json файлу.
+     * @throws Exception если в ходе работы произошли любые ошибки.
      */
-    public void doParse(List<String> params) throws Exception {
+    public void doParse(@NonNull InputBean bean) throws Exception {
         log.info("Начало работы программы");
 
-        if (params == null) {
-            log.error("Некорректный ввод данных. Завершение программы.");
-            throw new Exception("Некорректный ввод данных.");
-        }
+        validation(bean);
 
-        if (params.size() == 1) {
-            log.error("Некорректный ввод данных. Завершение программы.");
-            throw new Exception("Некорректный ввод данных.");
-        }
-        String path;
-        String newPath;
-
-
-        if (params.size() == 0) {
-            log.warn("Нет входных данных. Попытка запроса у пользователя.");
-
-            Scanner inp = new Scanner(System.in);
-            System.out.print("Введите абсолютный путь к файлу: ");
-            path = inp.nextLine();
-
-            System.out.print("Введите абсолютный путь к создаваемому файлу: ");
-            newPath = inp.nextLine();
-        } else {
-            path = params.get(0);
-            newPath = params.get(1);
-        }
-
-
-        if (getExtension(path).equals("json") && getExtension(newPath).equals("xml")) {
-            parseJson(path, newPath);
-        } else if (getExtension(path).equals("xml") && getExtension(newPath).equals("json")) {
-            parseXml(path, newPath);
-        } else {
-            log.error("Некорректный формат входных данных. Завершение программы.");
-            throw new Exception("Некорректный формат входных данных.");
+        switch (getExtension(bean.getPathToExistingFile())){
+            case "json" -> parseJson(bean.getPathToExistingFile(), bean.getPathToNewFile());
+            case "xml" -> parseXml(bean.getPathToExistingFile(), bean.getPathToNewFile());
         }
 
         log.info("Успешное завершение работы программы");
     }
 
+    private void validation(InputBean bean) throws Exception {
+        if (bean.getPathToExistingFile() == null ||
+            bean.getPathToNewFile() == null) {
+            log.error("Некорректный ввод данных. Завершение программы.");
+            throw new Exception("Некорректный ввод данных.");
+        }
+
+        if (!(getExtension(bean.getPathToExistingFile()).equals("json") &&
+                getExtension(bean.getPathToNewFile()).equals("xml")) &&
+            !(getExtension(bean.getPathToExistingFile()).equals("xml") &&
+                getExtension(bean.getPathToNewFile()).equals("json"))) {
+            log.error("Некорректный формат входных данных. Завершение программы.");
+            throw new Exception("Некорректный формат входных данных.");
+        }
+    }
+
     private String getExtension(final String newPath) {
-        int index = newPath.lastIndexOf(".");
-        return index > -1 ? newPath.substring(index + 1) : "";
+        return newPath.lastIndexOf(".") > -1 ? newPath.substring(newPath.lastIndexOf(".") + 1) : "";
     }
 
     private void parseXml(final String path, final String newPath) throws Exception {

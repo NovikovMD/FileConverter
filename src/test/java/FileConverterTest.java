@@ -1,11 +1,10 @@
-import file_converter.FileConverter;
+import fileconverter.FileConverter;
+import fileconverter.bean.InputBean;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.assertThrows;
 
@@ -23,8 +22,8 @@ public class FileConverterTest {
         if (fl.exists())
             fl.delete();
 
-        String[] str = {"src/test/resources/TestInput.json", "src/test/resources/TestMain.xml"};
-        fileConverter.doParse(Arrays.stream(str).toList());
+        fileConverter.doParse(new InputBean("src/test/resources/TestInput.json",
+            "src/test/resources/TestMain.xml"));
 
         fl = new File("src/test/resources/TestMain.xml");
 
@@ -40,8 +39,8 @@ public class FileConverterTest {
         if (fl.exists())
             fl.delete();
 
-        String[] str = {"src/test/resources/TestInput.xml", "src/test/resources/TestMain.json"};
-        fileConverter.doParse(Arrays.stream(str).toList());
+        fileConverter.doParse(new InputBean("src/test/resources/TestInput.xml",
+            "src/test/resources/TestMain.json"));
 
         fl = new File("src/test/resources/TestMain.json");
         if (fl.exists())
@@ -52,90 +51,85 @@ public class FileConverterTest {
 
     @Test
     public void noParameters1() {
-        List<String> params = null;
-
         Exception exception = assertThrows(Exception.class,
-            () -> fileConverter.doParse(params));
+            () -> fileConverter.doParse(null));
 
-        Assert.assertEquals("Некорректный ввод данных.", exception.getMessage());
+        Assert.assertEquals("bean is marked non-null but is null", exception.getMessage());
     }
 
     @Test
     public void noParameters2() {
-        String[] str = {"Some\\Path"};
-
         Exception exception = assertThrows(Exception.class,
-            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+            () -> fileConverter.doParse(new InputBean("Some/Path",null)));
 
         Assert.assertEquals("Некорректный ввод данных.", exception.getMessage());
+
+        exception = assertThrows(Exception.class,
+            () -> fileConverter.doParse(new InputBean(null,"Some/Path")));
+
+        Assert.assertEquals("Некорректный ввод данных.", exception.getMessage());
+
     }
 
     @Test
     public void wrongParameters1() {
-        String[] str = {"src/test/resources/DoesntExist.xml", "src/test/resources/TestMain.json"};
-
         Exception exception = assertThrows(Exception.class,
-            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+            () -> fileConverter.doParse(new InputBean("src/test/resources/DoesntExist.xml",
+                "src/test/resources/TestMain.json")));
 
         Assert.assertEquals("Неверный путь к XML файлу.", exception.getMessage());
     }
 
     @Test
     public void wrongParameters2() {
-        String[] str = {"src/test/resources/DoesntExist.json", "src/test/resources/TestMain.xml"};
-
         Exception exception = assertThrows(Exception.class,
-            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+            () -> fileConverter.doParse(new InputBean("src/test/resources/DoesntExist.json",
+                "src/test/resources/TestMain.xml")));
 
         Assert.assertEquals("Неверный путь к JSON файлу.", exception.getMessage());
     }
 
     @Test
     public void wrongParameters3() {
-        String[] str = {"src/test/resources/IAmJson.json", "src/test/resources/IAmAlsoJson.json"};
-
         Exception exception = assertThrows(Exception.class,
-            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+            () -> fileConverter.doParse(new InputBean("src/test/resources/IAmJson.json",
+                "src/test/resources/IAmAlsoJson.json")));
 
         Assert.assertEquals("Некорректный формат входных данных.",exception.getMessage());
     }
 
     @Test
     public void wrongParameters4() {
-        String[] str = {"src/test/resources/IAmXml.xml", "src/test/resources/IAmAlsoXml.xml"};
-
         Exception exception = assertThrows(Exception.class,
-            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+            () -> fileConverter.doParse(new InputBean("src/test/resources/IAmXml.xml",
+                "src/test/resources/IAmAlsoXml.xml")));
 
         Assert.assertEquals("Некорректный формат входных данных.", exception.getMessage());
     }
 
     @Test
     public void wrongParameters5() {
-        String[] str = {"src/test/resources/WrongExtension.mp3", "src/test/resources/TestMain.txt"};
-
         Exception exception = assertThrows(Exception.class,
-            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+            () -> fileConverter.doParse(new InputBean("src/test/resources/WrongExtension.mp3",
+                "src/test/resources/TestMain.txt")));
 
         Assert.assertEquals("Некорректный формат входных данных.",exception.getMessage());
     }
 
     @Test
     public void wrongPathToDirectory1() {
-        String[] str = {"src/test/resources/TestInput.json", "src/NonExistingDirectory/TestMain.xml"};
-
         Exception exception = assertThrows(Exception.class,
-            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+            () -> fileConverter.doParse(new InputBean("src/test/resources/TestInput.json",
+                "src/NonExistingDirectory/TestMain.xml")));
 
         Assert.assertEquals("Введен неверный путь к файлу XML.",exception.getMessage());
     }
 
     @Test
     public void wrongPathToDirectory2() {
-        String[] str = {"src/test/resources/TestInput.xml", "src/NonExistingDirectory/TestMain.json"};
-
         Exception exception = assertThrows(Exception.class,
-            () -> fileConverter.doParse(Arrays.stream(str).toList()));
+            () -> fileConverter.doParse(new InputBean("src/test/resources/TestInput.xml",
+                "src/NonExistingDirectory/TestMain.json")));
 
         Assert.assertEquals("Не удалось создать JSON файл.", exception.getMessage());
     }

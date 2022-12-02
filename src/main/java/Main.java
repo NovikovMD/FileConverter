@@ -8,16 +8,14 @@
  *    May you share freely, never taking more than you give.
  */
 
-import file_converter.FileConverter;
-
-import java.util.Arrays;
+import fileconverter.FileConverter;
+import fileconverter.bean.InputBean;
 
 /**
  * Главный класс для запуска сервиса
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        FileConverter fileConverter = new FileConverter();
-        fileConverter.doParse(Arrays.stream(args).toList());
+        new FileConverter().doParse(new InputBean(args[0], args[1]));
     }
 }

@@ -7,7 +7,7 @@
  *    May you find forgiveness for yourself and forgive others.
  *    May you share freely, never taking more than you give.
  */
-package file_converter.classes.xml;
+package fileconverter.bean.xml;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,16 +18,17 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @AllArgsConstructor
-public class XmlGame {
+public class XmlDevStudio {
     private String name;
-    private int year;
-    private final ArrayList<XmlPlatform> platforms= new ArrayList<>();
+    private int yearOfFoundation;
+    private String url;
+    private final ArrayList<XmlGame> games= new ArrayList<>();
 
-    public void addPlatform(String name) {
-        platforms.add(new XmlPlatform(name));
+    public void addGame(String name, int year) {
+        games.add(new XmlGame(name, year));
     }
 
     public int returnLength() {
-        return platforms.size();
+        return games.size();
     }
 }

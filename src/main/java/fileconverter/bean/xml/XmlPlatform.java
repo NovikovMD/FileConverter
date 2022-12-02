@@ -7,7 +7,7 @@
  *    May you find forgiveness for yourself and forgive others.
  *    May you share freely, never taking more than you give.
  */
-package file_converter.classes.json;
+package fileconverter.bean.xml;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,8 +16,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class JsonDevStudio {
+public class XmlPlatform {
     private String name;
-    private int yearOfFoundation;
-    private String url;
 }

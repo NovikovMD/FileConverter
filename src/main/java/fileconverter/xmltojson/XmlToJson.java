@@ -7,10 +7,10 @@
  *    May you find forgiveness for yourself and forgive others.
  *    May you share freely, never taking more than you give.
  */
-package file_converter.xml_to_json;
+package fileconverter.xmltojson;
 
-import file_converter.classes.json.*;
-import file_converter.classes.xml.*;
+import fileconverter.bean.json.*;
+import fileconverter.bean.xml.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j;
@@ -51,7 +51,7 @@ public class XmlToJson {
      * @throws IllegalArgumentException     в случае передачи параметром несуществующего файла.
      */
     public XmlUpperClass parseXml(final String path)
-            throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
+        throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
         log.info("Начало работы парсинга XML");
 
         final File file = new File(path);
@@ -103,14 +103,14 @@ public class XmlToJson {
 
     private void getGame(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher,
                          final XmlDevStudio developer, final XmlGame game) {
-        final JsonGame checker = getCurrentGame(game.getName(), jsonUpperClassGames.getGames());
 
-        if (checker == null) {
+        if (getCurrentGame(game.getName(), jsonUpperClassGames.getGames()) == null) {
             createNewGame(jsonUpperClassGames, publisher, developer, game);
             return;
         }
 
-        checker.addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
+        getCurrentGame(game.getName(), jsonUpperClassGames.getGames())
+            .addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
 
     }
 
@@ -120,7 +120,6 @@ public class XmlToJson {
                 return jsoNgame;
             }
         }
-
         return null;
     }
 
@@ -131,7 +130,7 @@ public class XmlToJson {
         getPlatform(game, jsonUpperClassGames.getGames().get(jsonUpperClassGames.returnLength() - 1));
 
         jsonUpperClassGames.getGames().get(jsonUpperClassGames.returnLength() - 1)
-                .addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
+            .addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
     }
 
     private void getPlatform(final XmlGame game, final JsonGame jsonGame) {
@@ -178,33 +177,36 @@ public class XmlToJson {
 
         private void getDeveloperStudioSAX(final Attributes attributes) {
             gameIndustry.getPublishers()
-                    .get(gameIndustry.returnLength() - 1)
-                    .addDevStudio(attributes.getValue("name"),
-                            Integer.parseInt(attributes.getValue("year_of_foundation")),
-                            attributes.getValue("URL"));
+                .get(gameIndustry.returnLength() - 1)
+                .addDevStudio(attributes.getValue("name"),
+                    Integer.parseInt(attributes.getValue("year_of_foundation")),
+                    attributes.getValue("URL"));
         }
 
         private void getGameSAX(final Attributes attributes) {
-            XmlGamePublisher publisher = gameIndustry.getPublishers()
-                    .get(gameIndustry.returnLength() - 1);
-
-            XmlDevStudio devStudio = publisher.getDevStudios()
-                    .get(publisher.returnLength() - 1);
-
-            devStudio.addGame(attributes.getValue("name"),
+            gameIndustry.getPublishers()
+                .get(gameIndustry.returnLength() - 1)
+                .getDevStudios()
+                .get(gameIndustry.getPublishers()
+                    .get(gameIndustry.returnLength() - 1).returnLength() - 1)
+                .addGame(attributes.getValue("name"),
                     Integer.parseInt(attributes.getValue("year")));
         }
 
         private void getPlatformSAX(final Attributes attributes) {
-            XmlGamePublisher publisher = gameIndustry.getPublishers()
-                    .get(gameIndustry.returnLength() - 1);
-
-            XmlDevStudio devStudio = publisher.getDevStudios()
-                    .get(publisher.returnLength() - 1);
-
-            devStudio.getGames()
-                    .get(devStudio.returnLength() - 1)
-                    .addPlatform(attributes.getValue("name"));
+            gameIndustry.getPublishers()
+                .get(gameIndustry.returnLength() - 1)
+                .getDevStudios()
+                .get(gameIndustry.getPublishers()
+                    .get(gameIndustry.returnLength() - 1).returnLength() - 1)
+                .getGames()
+                .get(gameIndustry.getPublishers()
+                    .get(gameIndustry.returnLength() - 1)
+                    .getDevStudios()
+                    .get(gameIndustry.getPublishers()
+                        .get(gameIndustry.returnLength() - 1).returnLength() - 1)
+                    .returnLength() - 1)
+                .addPlatform(attributes.getValue("name"));
         }
     }
 }

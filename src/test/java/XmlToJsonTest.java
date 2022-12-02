@@ -1,6 +1,6 @@
-import file_converter.classes.json.JsonUpperClass;
-import file_converter.classes.xml.*;
-import file_converter.xml_to_json.XmlToJson;
+import fileconverter.bean.json.JsonUpperClass;
+import fileconverter.bean.xml.*;
+import fileconverter.xmltojson.XmlToJson;
 import org.junit.Assert;
 import org.junit.Test;
 import org.xml.sax.SAXException;

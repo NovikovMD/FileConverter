@@ -7,7 +7,7 @@
  *    May you find forgiveness for yourself and forgive others.
  *    May you share freely, never taking more than you give.
  */
-package file_converter.classes.xml;
+package fileconverter.bean.xml;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

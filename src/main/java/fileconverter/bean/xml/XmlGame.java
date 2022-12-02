@@ -7,15 +7,27 @@
  *    May you find forgiveness for yourself and forgive others.
  *    May you share freely, never taking more than you give.
  */
-package file_converter.classes.json;
+package fileconverter.bean.xml;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 @Getter
 @Setter
 @AllArgsConstructor
-public class JsonPlatform {
+public class XmlGame {
     private String name;
+    private int year;
+    private final ArrayList<XmlPlatform> platforms= new ArrayList<>();
+
+    public void addPlatform(String name) {
+        platforms.add(new XmlPlatform(name));
+    }
+
+    public int returnLength() {
+        return platforms.size();
+    }
 }
