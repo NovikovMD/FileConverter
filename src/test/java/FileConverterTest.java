@@ -77,7 +77,7 @@ public class FileConverterTest {
             () -> fileConverter.doParse(new InputBean("src/test/resources/DoesntExist.xml",
                 "src/test/resources/TestMain.json")));
 
-        Assert.assertEquals("Неверный путь к XML файлу.", exception.getMessage());
+        Assert.assertEquals("Неверный путь к файлу.", exception.getMessage());
     }
 
     @Test
@@ -86,7 +86,7 @@ public class FileConverterTest {
             () -> fileConverter.doParse(new InputBean("src/test/resources/DoesntExist.json",
                 "src/test/resources/TestMain.xml")));
 
-        Assert.assertEquals("Неверный путь к JSON файлу.", exception.getMessage());
+        Assert.assertEquals("Неверный путь к файлу.", exception.getMessage());
     }
 
     @Test
@@ -122,7 +122,8 @@ public class FileConverterTest {
             () -> fileConverter.doParse(new InputBean("src/test/resources/TestInput.json",
                 "src/NonExistingDirectory/TestMain.xml")));
 
-        Assert.assertEquals("Введен неверный путь к файлу XML.",exception.getMessage());
+        Assert.assertEquals("src\\NonExistingDirectory\\TestMain.xml (Системе не удается найти указанный путь)",
+            exception.getMessage());
     }
 
     @Test
@@ -131,6 +132,7 @@ public class FileConverterTest {
             () -> fileConverter.doParse(new InputBean("src/test/resources/TestInput.xml",
                 "src/NonExistingDirectory/TestMain.json")));
 
-        Assert.assertEquals("Не удалось создать JSON файл.", exception.getMessage());
+        Assert.assertEquals("src\\NonExistingDirectory\\TestMain.json (Системе не удается найти указанный путь)",
+            exception.getMessage());
     }
 }
