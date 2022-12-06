@@ -241,6 +241,8 @@ public class JsonToXml {
      * @param xmlUpperClassClass класс, содержащий данные для Xml файла
      *                           (заполняется в методе convert).
      * @param path               абсолютный путь к новому Xml файлу.
+     * @throws FileNotFoundException если передан некорректный путь к файлу.
+     * @throws XMLStreamException    если произошла ошибка при заполнении файла.
      */
     public void createXML(final XmlUpperClass xmlUpperClassClass, final String path)
         throws FileNotFoundException, XMLStreamException {

@@ -9,13 +9,13 @@
  */
 
 import fileconverter.FileConverter;
-import fileconverter.bean.InputBean;
+import static fileconverter.bean.BeanCreator.createBean;
 
 /**
  * Главный класс для запуска сервиса
  */
 public class Main {
     public static void main(String[] args) throws Exception {
-        new FileConverter().doParse(new InputBean(args[0], args[1]));
+        new FileConverter().doParse(createBean(args));
     }
 }

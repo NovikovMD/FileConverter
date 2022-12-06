@@ -5,7 +5,9 @@ import fileconverter.jsontoxml.JsonToXml;
 import fileconverter.xmltojson.XmlToJson;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j;
-import org.apache.commons.io.FilenameUtils;
+
+import static org.apache.commons.io.FilenameUtils.getExtension;
+
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -13,7 +15,7 @@ import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 
 /**
- * Обработчик входных данных.
+ * Запускает парсинг файлов
  */
 @Log4j
 public class FileConverter {
@@ -21,57 +23,30 @@ public class FileConverter {
     private static final XmlToJson XML_TO_JSON = new XmlToJson();
 
     /**
-     * Проверяет корректность входных данных
-     * и запускает процесс конвертирования файлов.
+     * Запускает процесс конвертирования файлов в зависимости от входных данных.
      *
      * @param bean pathToExistingFile - путь к существующему xml\json файлу.
      *             pathToNewFile - путь к новому xml\json файлу.
-     * @throws Exception если в ходе работы произошли любые ошибки.
+     * @throws XMLStreamException при ошибке заполнения файла.
+     * @throws IOException при любой IO ошибке.
+     * @throws ParserConfigurationException при ошибки создания SAX парсера.
+     * @throws SAXException при ошибке работы SAX парсера.
      */
-    public void doParse(@NonNull InputBean bean) throws Exception {
+    public void doParse(@NonNull InputBean bean)
+        throws XMLStreamException, IOException, ParserConfigurationException, SAXException {
         log.info("Начало работы программы");
 
-        validation(bean);
+        switch (getExtension(bean.getPathToExistingFile())) {
+            case "json" -> JSON_TO_XML.createXML(
+                JSON_TO_XML.convert(
+                    JSON_TO_XML.parseJson(bean.getPathToExistingFile())), bean.getPathToNewFile());
 
-        switch (FilenameUtils.getExtension(bean.getPathToExistingFile())) {
-            case "json" -> {
-                try {
-                    JSON_TO_XML.createXML(
-                        JSON_TO_XML.convert(
-                            JSON_TO_XML.parseJson(bean.getPathToExistingFile())), bean.getPathToNewFile());
-                } catch (IOException | IllegalArgumentException | XMLStreamException exception) {
-                    log.error(exception);
-                    throw exception;
-                }
-            }
-            case "xml" -> {
-                try {
-                    XML_TO_JSON.createJson(
-                        XML_TO_JSON.convert(
-                            XML_TO_JSON.parseXml(bean.getPathToExistingFile())), bean.getPathToNewFile());
-                } catch (IOException | ParserConfigurationException | SAXException exception) {
-                    log.error(exception);
-                    throw exception;
-                }
-            }
+            case "xml" -> XML_TO_JSON.createJson(
+                XML_TO_JSON.convert(
+                    XML_TO_JSON.parseXml(bean.getPathToExistingFile())), bean.getPathToNewFile());
+
         }
 
         log.info("Успешное завершение работы программы");
-    }
-
-    private void validation(InputBean bean) throws Exception {
-        if (bean.getPathToExistingFile() == null ||
-            bean.getPathToNewFile() == null) {
-            log.error("Некорректный ввод данных. Завершение программы.");
-            throw new Exception("Некорректный ввод данных.");
-        }
-
-        if (!(FilenameUtils.getExtension(bean.getPathToExistingFile()).equals("json") &&
-            FilenameUtils.getExtension(bean.getPathToNewFile()).equals("xml")) &&
-            !(FilenameUtils.getExtension(bean.getPathToExistingFile()).equals("xml") &&
-                FilenameUtils.getExtension(bean.getPathToNewFile()).equals("json"))) {
-            log.error("Некорректный формат входных данных. Завершение программы.");
-            throw new Exception("Некорректный формат входных данных.");
-        }
     }
 }
