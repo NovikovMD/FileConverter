@@ -1,5 +1,4 @@
 import fileconverter.FileConverter;
-import fileconverter.bean.InputBean;
 
 import static fileconverter.bean.BeanCreator.createBean;
 import static org.junit.Assert.*;
@@ -23,8 +22,9 @@ public class FileConverterTest {
         if (fl.exists())
             fl.delete();
 
-        fileConverter.doParse(new InputBean("src/test/resources/TestInput.json",
-            "src/test/resources/TestMain.xml"));
+        fileConverter.doParse(createBean(
+            new String[]{"src/test/resources/TestInput.json",
+                "src/test/resources/TestMain.xml"}));
 
         if (new File("src/test/resources/TestMain.xml").exists())
             assertTrue(true);
@@ -38,8 +38,9 @@ public class FileConverterTest {
         if (fl.exists())
             fl.delete();
 
-        fileConverter.doParse(new InputBean("src/test/resources/TestInput.xml",
-            "src/test/resources/TestMain.json"));
+        fileConverter.doParse(createBean(
+            new String[]{"src/test/resources/TestInput.xml",
+                "src/test/resources/TestMain.json"}));
 
         if (new File("src/test/resources/TestMain.json").exists())
             assertTrue(true);

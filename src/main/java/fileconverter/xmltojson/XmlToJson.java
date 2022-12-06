@@ -13,7 +13,8 @@ import fileconverter.bean.json.*;
 import fileconverter.bean.xml.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.Level;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -31,7 +32,7 @@ import java.util.ArrayList;
  * 3) createJson - создает Json файл используя Jackson-databind.
  * Расширяет класс DefaultHandler в XMLHandler для работы с Xml файлом, используя SAX.
  */
-@Log4j
+@Log4j2
 public class XmlToJson {
     //Инициализируется в XmlHandler
     private XmlUpperClass gameIndustry;
@@ -52,7 +53,7 @@ public class XmlToJson {
      */
     public XmlUpperClass parseXml(final String path)
         throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
-        log.info("Начало работы парсинга XML");
+        log.log(Level.DEBUG,"Начало работы парсинга XML");
 
         final File file = new File(path);
         if (!file.exists())
@@ -60,7 +61,7 @@ public class XmlToJson {
 
         factory.newSAXParser().parse(file, handler);
 
-        log.info("Успешное завершение парсинга XML.");
+        log.log(Level.DEBUG,"Успешное завершение парсинга XML.");
         return gameIndustry;
     }
 
@@ -71,13 +72,13 @@ public class XmlToJson {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     public JsonUpperClass convert(@NonNull final XmlUpperClass gameIndustry) throws IllegalArgumentException {
-        log.info("Начало конвертирования классов");
+        log.log(Level.DEBUG,"Начало конвертирования классов");
 
         final JsonUpperClass jsonUpperClassGames = new JsonUpperClass();
 
         startConvert(gameIndustry, jsonUpperClassGames);
 
-        log.info("Конвертирование классов прошло успешно");
+        log.log(Level.DEBUG,"Конвертирование классов прошло успешно");
         return jsonUpperClassGames;
     }
 
@@ -148,11 +149,11 @@ public class XmlToJson {
      * @param path           абсолютный путь к новому Json файлу.
      */
     public void createJson(final JsonUpperClass jsonUpperClass, final String path) throws IOException {
-        log.info("Начало создания файла JSON");
+        log.log(Level.DEBUG,"Начало создания файла JSON");
 
         mapper.writeValue(new File(path), jsonUpperClass);
 
-        log.info("Создание файла прошло успешно");
+        log.log(Level.DEBUG,"Создание файла прошло успешно");
     }
 
     private class XmlHandler extends DefaultHandler {

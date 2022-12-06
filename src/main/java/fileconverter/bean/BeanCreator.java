@@ -1,10 +1,14 @@
 package fileconverter.bean;
 
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.Level;
+
 import static org.apache.commons.io.FilenameUtils.getExtension;
 
 /**
  * Обработчик входных данных.
  */
+@Log4j2
 public class BeanCreator {
 
     /**
@@ -17,6 +21,7 @@ public class BeanCreator {
      * @throws Exception если переданы некорректные входные данные.
      */
     public static InputBean createBean(String[] params) throws Exception {
+        log.log(Level.INFO,"Начало создания bean");
         if (params.length != 2)
             throw new Exception("Некорректный ввод данных");
 
@@ -33,6 +38,7 @@ public class BeanCreator {
             throw new Exception("Некорректные расширения файлов.");
         }
 
+        log.log(Level.INFO,"Валидация входных параметров прошла успешно");
         return new InputBean(params[0], params[1]);
     }
 }
