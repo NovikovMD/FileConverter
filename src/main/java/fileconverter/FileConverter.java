@@ -6,8 +6,6 @@ import fileconverter.xmltojson.XmlToJson;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 
-import static org.apache.commons.io.FilenameUtils.getExtension;
-
 import org.apache.logging.log4j.Level;
 import org.xml.sax.SAXException;
 
@@ -30,22 +28,29 @@ public class FileConverter {
      *             pathToNewFile - путь к новому xml\json файлу.
      * @throws XMLStreamException           при ошибке заполнения файла.
      * @throws IOException                  при любой IO ошибке.
-     * @throws ParserConfigurationException при ошибки создания SAX парсера.
+     * @throws ParserConfigurationException при ошибке создания SAX парсера.
      * @throws SAXException                 при ошибке работы SAX парсера.
      */
     public void doParse(@NonNull InputBean bean)
         throws XMLStreamException, IOException, ParserConfigurationException, SAXException {
-        log.log(Level.INFO,"Начало работы программы");
+        log.log(Level.INFO, "Начало работы программы");
 
-        switch (getExtension(bean.getPathToExistingFile())) {
-            case "json" -> JSON_TO_XML.createXML(
-                JSON_TO_XML.convert(
-                    JSON_TO_XML.parseJson(bean.getPathToExistingFile())), bean.getPathToNewFile());
-            case "xml" -> XML_TO_JSON.createJson(
-                XML_TO_JSON.convert(
-                    XML_TO_JSON.parseXml(bean.getPathToExistingFile())), bean.getPathToNewFile());
+        try {
+            switch (bean.getExistingFileExtension()) {
+                case "json" -> JSON_TO_XML.createXML(
+                    JSON_TO_XML.convert(
+                        JSON_TO_XML.parseJson(bean.getExistingFile())), bean.getNewFile());
+                case "xml" -> XML_TO_JSON.createJson(
+                    XML_TO_JSON.convert(
+                        XML_TO_JSON.parseXml(bean.getExistingFile())), bean.getNewFile());
+            }
+        } catch (XMLStreamException | IOException | ParserConfigurationException | SAXException exception) {
+            log.log(Level.ERROR, "Ошибка выполнения парсинга.", exception);
+            bean.getExistingFile().close();
+            bean.getNewFile().close();
+            throw exception;
         }
 
-        log.log(Level.INFO,"Успешное завершение работы программы");
+        log.log(Level.INFO, "Успешное завершение работы программы");
     }
 }

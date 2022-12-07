@@ -2,16 +2,16 @@ import fileconverter.bean.json.JsonUpperClass;
 import fileconverter.bean.xml.*;
 import fileconverter.xmltojson.XmlToJson;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertThrows;
-
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 public class XmlToJsonTest {
@@ -19,9 +19,10 @@ public class XmlToJsonTest {
     private static final XmlToJson XML_TO_JSON_PARSER = new XmlToJson();
 
     @Test
-    public void parseXml() throws ParserConfigurationException, IOException, SAXException {
+    void parseXml() throws ParserConfigurationException, IOException, SAXException {
         //publisher
-        XmlGamePublisher publisher = XML_TO_JSON_PARSER.parseXml("src/test/resources/TestInput.xml")
+        XmlGamePublisher publisher = XML_TO_JSON_PARSER.parseXml(
+                new FileInputStream("src/test/resources/TestInput.xml"))
             .getPublishers().get(0);
         assertEquals("Rockstar", publisher.getName());
 
@@ -61,9 +62,10 @@ public class XmlToJsonTest {
     }
 
     @Test
-    public void convertXmlToJson() throws ParserConfigurationException, IOException, SAXException {
+    void convertXmlToJson() throws ParserConfigurationException, IOException, SAXException {
         JsonUpperClass compare = XML_TO_JSON_PARSER.convert(
-            XML_TO_JSON_PARSER.parseXml("src/test/resources/TestInput.xml"));
+            XML_TO_JSON_PARSER.parseXml(
+                new FileInputStream("src/test/resources/TestInput.xml")));
 
         assertEquals("The Warriors", compare.getGames().get(0).getName());
         assertEquals(2005, compare.getGames().get(0).getYear());
@@ -96,20 +98,22 @@ public class XmlToJsonTest {
     }
 
     @Test
-    public void createJson() throws IOException, ParserConfigurationException, SAXException {
+    void createJson() throws IOException, ParserConfigurationException, SAXException {
         XML_TO_JSON_PARSER.createJson(
             XML_TO_JSON_PARSER.convert(
-                XML_TO_JSON_PARSER.parseXml("src/test/resources/TestInput.xml")),
-            "src/test/resources/newName.json");
+                XML_TO_JSON_PARSER.parseXml(
+                    new FileInputStream("src/test/resources/TestInput.xml"))),
+            new FileOutputStream("src/test/resources/newName.json"));
 
         assertTrue(new File("src/test/resources/newName.json").exists());
     }
 
     @Test
-    public void wrongFile() {
-        assertEquals("Неверный путь к файлу.",
+    void wrongFile() {
+        assertEquals("src\\test\\resources\\NoSuchFile.xml (Не удается найти указанный файл)",
             assertThrows(Exception.class,
-                () -> XML_TO_JSON_PARSER.parseXml("src/test/resources/NoSuchFile.xml"))
+                () -> XML_TO_JSON_PARSER.parseXml(
+                    new FileInputStream("src/test/resources/NoSuchFile.xml")))
                 .getMessage());
     }
 }

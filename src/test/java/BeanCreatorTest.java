@@ -1,22 +1,35 @@
 import fileconverter.FileConverter;
-import org.junit.Before;
-import org.junit.Test;
+import lombok.val;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.nio.file.Path;
 
 import static fileconverter.bean.BeanCreator.createBean;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThrows;
+import static java.nio.file.Files.notExists;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BeanCreatorTest {
 
     FileConverter fileConverter;
 
-    @Before
-    public void atStart() {
+    @BeforeEach
+    void atStart() {
         fileConverter = new FileConverter();
     }
 
     @Test
-    public void noParameters1() {
+    void correctBehaviour() throws IOException {
+        val bean = createBean(new String[]{"src/test/resources/TestInput.xml",
+            "src/test/resources/TestMain.json"});
+        if (bean.getExistingFile().readAllBytes().length==0 ||
+            notExists(Path.of("src/test/resources/TestMain.json")))
+            fail("Некорректное создание bean");
+    }
+
+    @Test
+    void noParameters1() {
         assertEquals("bean is marked non-null but is null",
             assertThrows(Exception.class,
                 () -> fileConverter.doParse(null))
@@ -24,7 +37,7 @@ public class BeanCreatorTest {
     }
 
     @Test
-    public void noParameters2() {
+    void noParameters2() {
         assertEquals("Некорректный ввод данных.",
             assertThrows(Exception.class,
                 () -> fileConverter.doParse(
@@ -45,8 +58,8 @@ public class BeanCreatorTest {
     }
 
     @Test
-    public void wrongParameters1() {
-        assertEquals("Неверный путь к файлу.",
+    void wrongParameters1() {
+        assertEquals("Некорректный путь к файлу.",
             assertThrows(Exception.class,
                 () -> fileConverter.doParse(
                     createBean(
@@ -56,8 +69,8 @@ public class BeanCreatorTest {
     }
 
     @Test
-    public void wrongParameters2() {
-        assertEquals("Неверный путь к файлу.",
+    void wrongParameters2() {
+        assertEquals("Некорректный путь к файлу.",
             assertThrows(Exception.class,
                 () -> fileConverter.doParse(
                     createBean(
@@ -67,7 +80,7 @@ public class BeanCreatorTest {
     }
 
     @Test
-    public void wrongParameters3() {
+    void wrongParameters3() {
         assertEquals("Некорректные расширения файлов.",
             assertThrows(Exception.class,
                 () -> fileConverter.doParse(
@@ -78,7 +91,7 @@ public class BeanCreatorTest {
     }
 
     @Test
-    public void wrongParameters4() {
+    void wrongParameters4() {
         assertEquals("Некорректные расширения файлов.",
             assertThrows(Exception.class,
                 () -> fileConverter.doParse(
@@ -89,13 +102,36 @@ public class BeanCreatorTest {
     }
 
     @Test
-    public void wrongParameters5() {
+    void wrongParameters5() {
         assertEquals("Некорректные расширения файлов.",
             assertThrows(Exception.class,
                 () -> fileConverter.doParse(
                     createBean(
                         new String[]{"src/test/resources/WrongExtension.mp3",
                             "src/test/resources/TestMain.txt"})))
+                .getMessage());
+    }
+
+
+    @Test
+    void wrongPathToDirectory1() {
+        assertEquals("Некорректный путь к файлу.",
+            assertThrows(Exception.class,
+                () -> fileConverter.doParse(
+                    createBean(
+                        new String[]{"src/test/resources/TestInput.json",
+                            "src/NonExistingDirectory/TestMain.xml"})))
+                .getMessage());
+    }
+
+    @Test
+    void wrongPathToDirectory2() {
+        assertEquals("Некорректный путь к файлу.",
+            assertThrows(Exception.class,
+                () -> fileConverter.doParse(
+                    createBean(
+                        new String[]{"src/test/resources/TestInput.xml",
+                            "src/NonExistingDirectory/TestMain.json"})))
                 .getMessage());
     }
 }

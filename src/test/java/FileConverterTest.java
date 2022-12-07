@@ -1,23 +1,23 @@
 import fileconverter.FileConverter;
 
 import static fileconverter.bean.BeanCreator.createBean;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
 public class FileConverterTest {
     FileConverter fileConverter;
 
-    @Before
-    public void atStart() {
+    @BeforeEach
+    void atStart() {
         fileConverter = new FileConverter();
     }
 
     @Test
-    public void correctBehavior1() throws Exception {
+    void correctBehavior1() throws Exception {
         File fl = new File("src/test/resources/TestMain.xml");
         if (fl.exists())
             fl.delete();
@@ -33,7 +33,7 @@ public class FileConverterTest {
     }
 
     @Test
-    public void correctBehavior2() throws Exception {
+    void correctBehavior2() throws Exception {
         File fl = new File("src/test/resources/TestMain.json");
         if (fl.exists())
             fl.delete();
@@ -49,24 +49,7 @@ public class FileConverterTest {
     }
 
     @Test
-    public void wrongPathToDirectory1() {
-        assertEquals("src\\NonExistingDirectory\\TestMain.xml (Системе не удается найти указанный путь)",
-            assertThrows(Exception.class,
-                () -> fileConverter.doParse(
-                    createBean(
-                        new String[]{"src/test/resources/TestInput.json",
-                            "src/NonExistingDirectory/TestMain.xml"})))
-                .getMessage());
-    }
-
-    @Test
-    public void wrongPathToDirectory2() {
-        assertEquals("src\\NonExistingDirectory\\TestMain.json (Системе не удается найти указанный путь)",
-            assertThrows(Exception.class,
-                () -> fileConverter.doParse(
-                    createBean(
-                        new String[]{"src/test/resources/TestInput.xml",
-                            "src/NonExistingDirectory/TestMain.json"})))
-                .getMessage());
+    void error() {
+        //TODO придумать ошибочный путь для парсера
     }
 }

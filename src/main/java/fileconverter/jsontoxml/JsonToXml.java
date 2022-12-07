@@ -18,6 +18,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import lombok.val;
 import org.apache.logging.log4j.Level;
 
 import javax.xml.stream.XMLOutputFactory;
@@ -40,24 +41,19 @@ public class JsonToXml {
     /**
      * Считывает данные из Json файла.
      *
-     * @param path абсолютный путь к существующему Json файлу.
+     * @param stream источник json файла.
      * @return класс, содержащий данные из исходного Json файла.
      * @throws IOException              если считывание Json файла было прервано.
      * @throws IllegalArgumentException если передан неверный путь к Json файлу
      *                                  или некорректная структура файла.
      */
-    public JsonUpperClass parseJson(final String path) throws IOException, IllegalArgumentException {
-        log.log(Level.DEBUG,"Начало работы парсинга Json");
+    public JsonUpperClass parseJson(final InputStream stream) throws IOException, IllegalArgumentException {
+        log.log(Level.DEBUG, "Начало работы парсинга Json");
         final JsonUpperClass games = new JsonUpperClass();
 
+        startParsing(games, factory.createParser(stream));
 
-        final File fl = new File(path);
-        if (!fl.exists())
-            throw new IllegalArgumentException("Неверный путь к файлу.");
-
-        startParsing(games, factory.createParser(fl));
-
-        log.log(Level.DEBUG,"Успешное завершение парсинга Json.");
+        log.log(Level.DEBUG, "Успешное завершение парсинга Json.");
         return games;
     }
 
@@ -160,13 +156,13 @@ public class JsonToXml {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     public XmlUpperClass convert(@NonNull final JsonUpperClass games) throws IllegalArgumentException {
-        log.log(Level.DEBUG,"Начало конвертирования классов");
+        log.log(Level.DEBUG, "Начало конвертирования классов");
 
         final XmlUpperClass gameIndustry = new XmlUpperClass();
 
         startConvert(games, gameIndustry);
 
-        log.log(Level.DEBUG,"Конвертирование классов прошло успешно");
+        log.log(Level.DEBUG, "Конвертирование классов прошло успешно");
         return gameIndustry;
     }
 
@@ -201,7 +197,7 @@ public class JsonToXml {
     }
 
     private void addPlatform(JsonGame jsonGame, XmlGamePublisher XmlPublisher, ArrayList<String> XmlPlatforms, int index) {
-        for (String xmlPlatform : XmlPlatforms) {
+        for (val xmlPlatform : XmlPlatforms) {
             findDev(jsonGame.getDevStudios().get(index), XmlPublisher)
                 .getGames()
                 .get(findDev(jsonGame.getDevStudios().get(index), XmlPublisher).returnLength() - 1)
@@ -241,17 +237,16 @@ public class JsonToXml {
      *
      * @param xmlUpperClassClass класс, содержащий данные для Xml файла
      *                           (заполняется в методе convert).
-     * @param path               абсолютный путь к новому Xml файлу.
-     * @throws FileNotFoundException если передан некорректный путь к файлу.
-     * @throws XMLStreamException    если произошла ошибка при заполнении файла.
+     * @param stream             приёмник данных для xml файла.
+     * @throws XMLStreamException если произошла ошибка при заполнении файла.
      */
-    public void createXML(final XmlUpperClass xmlUpperClassClass, final String path)
-        throws FileNotFoundException, XMLStreamException {
-        log.log(Level.DEBUG,"Начало создания файла XML");
+    public void createXML(final XmlUpperClass xmlUpperClassClass, final OutputStream stream)
+        throws XMLStreamException {
+        log.log(Level.DEBUG, "Начало создания файла XML");
 
-        writeXml(new FileOutputStream(path), xmlUpperClassClass);
+        writeXml(stream, xmlUpperClassClass);
 
-        log.log(Level.DEBUG,"Создание файла прошло успешно");
+        log.log(Level.DEBUG, "Создание файла прошло успешно");
     }
 
     //region createXml private methods

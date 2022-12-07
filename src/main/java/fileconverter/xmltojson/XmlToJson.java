@@ -14,6 +14,7 @@ import fileconverter.bean.xml.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
+import lombok.val;
 import org.apache.logging.log4j.Level;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -21,9 +22,11 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Предоставляет доступ к трем методам:
@@ -43,7 +46,7 @@ public class XmlToJson {
     /**
      * Считывает данные из Xml файла.
      *
-     * @param path абсолютный путь к существующему Xml файлу.
+     * @param stream источник Xml файла.
      * @return класс, содержащий данные из исходного Xml файла.
      * @throws ParserConfigurationException парсер не может быть создан
      *                                      в соответствии с заданной конфигурацией.
@@ -51,17 +54,13 @@ public class XmlToJson {
      * @throws IOException                  в случае любой IO ошибки.
      * @throws IllegalArgumentException     в случае передачи параметром несуществующего файла.
      */
-    public XmlUpperClass parseXml(final String path)
+    public XmlUpperClass parseXml(final InputStream stream)
         throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
-        log.log(Level.DEBUG,"Начало работы парсинга XML");
+        log.log(Level.DEBUG, "Начало работы парсинга XML");
 
-        final File file = new File(path);
-        if (!file.exists())
-            throw new IllegalArgumentException("Неверный путь к файлу.");
+        factory.newSAXParser().parse(stream, handler);
 
-        factory.newSAXParser().parse(file, handler);
-
-        log.log(Level.DEBUG,"Успешное завершение парсинга XML.");
+        log.log(Level.DEBUG, "Успешное завершение парсинга XML.");
         return gameIndustry;
     }
 
@@ -72,13 +71,13 @@ public class XmlToJson {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     public JsonUpperClass convert(@NonNull final XmlUpperClass gameIndustry) throws IllegalArgumentException {
-        log.log(Level.DEBUG,"Начало конвертирования классов");
+        log.log(Level.DEBUG, "Начало конвертирования классов");
 
         final JsonUpperClass jsonUpperClassGames = new JsonUpperClass();
 
         startConvert(gameIndustry, jsonUpperClassGames);
 
-        log.log(Level.DEBUG,"Конвертирование классов прошло успешно");
+        log.log(Level.DEBUG, "Конвертирование классов прошло успешно");
         return jsonUpperClassGames;
     }
 
@@ -110,15 +109,20 @@ public class XmlToJson {
             return;
         }
 
-        getCurrentGame(game.getName(), jsonUpperClassGames.getGames())
-            .addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
+        try {
+            Objects.requireNonNull(getCurrentGame(game.getName(), jsonUpperClassGames.getGames()))
+                .addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
+        }
+        catch (NullPointerException exception){
+            log.log(Level.WARN,"Получен null при конвертации классов.");
+        }
 
     }
 
     private JsonGame getCurrentGame(final String nameToFind, final ArrayList<JsonGame> listToLookIn) {
-        for (JsonGame jsoNgame : listToLookIn) {
-            if (jsoNgame.getName().equals(nameToFind)) {
-                return jsoNgame;
+        for (val jsonGame : listToLookIn) {
+            if (jsonGame.getName().equals(nameToFind)) {
+                return jsonGame;
             }
         }
         return null;
@@ -146,14 +150,15 @@ public class XmlToJson {
      *
      * @param jsonUpperClass класс, содержащий данные для Json файла
      *                       (заполняется в методе convert).
-     * @param path           абсолютный путь к новому Json файлу.
+     * @param stream         приёмник данных для Json файла.
+     * @throws IOException если произошла ошибка зависи в файл.
      */
-    public void createJson(final JsonUpperClass jsonUpperClass, final String path) throws IOException {
-        log.log(Level.DEBUG,"Начало создания файла JSON");
+    public void createJson(final JsonUpperClass jsonUpperClass, final OutputStream stream) throws IOException {
+        log.log(Level.DEBUG, "Начало создания файла JSON");
 
-        mapper.writeValue(new File(path), jsonUpperClass);
+        mapper.writeValue(stream, jsonUpperClass);
 
-        log.log(Level.DEBUG,"Создание файла прошло успешно");
+        log.log(Level.DEBUG, "Создание файла прошло успешно");
     }
 
     private class XmlHandler extends DefaultHandler {
