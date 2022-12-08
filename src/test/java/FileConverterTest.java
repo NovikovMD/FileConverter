@@ -3,10 +3,12 @@ import fileconverter.FileConverter;
 import static fileconverter.bean.BeanCreator.createBean;
 import static org.junit.jupiter.api.Assertions.*;
 
+import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
 
 public class FileConverterTest {
     FileConverter fileConverter;
@@ -49,7 +51,28 @@ public class FileConverterTest {
     }
 
     @Test
-    void error() {
-        //TODO придумать ошибочный путь для парсера
+    void closedStream1() throws IOException {
+        val bean = createBean(
+            new String[]{"src/test/resources/TestInput.xml",
+                "src/test/resources/TestMain.json"});
+        bean.getNewFile().close();
+
+        assertEquals("Stream Closed",
+            assertThrows(Exception.class,
+                () -> fileConverter.doParse(bean))
+                .getMessage());
+    }
+
+    @Test
+    void closedStream2() throws IOException {
+        val bean = createBean(
+            new String[]{"src/test/resources/TestInput.json",
+                "src/test/resources/TestMain.xml"});
+        bean.getNewFile().close();
+
+        assertEquals("java.io.IOException: Stream Closed",
+            assertThrows(Exception.class,
+                () -> fileConverter.doParse(bean))
+                .getMessage());
     }
 }

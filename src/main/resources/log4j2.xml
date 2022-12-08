@@ -3,14 +3,14 @@
     <Appenders>
         <File name="MyFile" fileName="log/log.log" immediateFlush="false" append="false">
             <PatternLayout pattern="%d{dd-MM-yyyy HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="250 MB"/>
-            </Policies>
         </File>
+        <Async name="Async">
+            <AppenderRef ref="MyFile"/>
+        </Async>
     </Appenders>
     <Loggers>
         <Root level="trace">
-            <AppenderRef ref="MyFile"/>
+            <AppenderRef ref="Async"/>
         </Root>
     </Loggers>
 </Configuration>

@@ -52,10 +52,9 @@ public class XmlToJson {
      *                                      в соответствии с заданной конфигурацией.
      * @throws SAXException                 в случае любой ошибки SAX парсера.
      * @throws IOException                  в случае любой IO ошибки.
-     * @throws IllegalArgumentException     в случае передачи параметром несуществующего файла.
      */
     public XmlUpperClass parseXml(final InputStream stream)
-        throws ParserConfigurationException, SAXException, IOException, IllegalArgumentException {
+        throws ParserConfigurationException, SAXException, IOException {
         log.log(Level.DEBUG, "Начало работы парсинга XML");
 
         factory.newSAXParser().parse(stream, handler);
@@ -112,9 +111,8 @@ public class XmlToJson {
         try {
             Objects.requireNonNull(getCurrentGame(game.getName(), jsonUpperClassGames.getGames()))
                 .addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
-        }
-        catch (NullPointerException exception){
-            log.log(Level.WARN,"Получен null при конвертации классов.");
+        } catch (NullPointerException exception) {
+            log.log(Level.WARN, "Получен null при конвертации классов.");
         }
 
     }
@@ -146,12 +144,12 @@ public class XmlToJson {
     //endregion
 
     /**
-     * Создает Json файл
+     * Создает Json файл.
      *
      * @param jsonUpperClass класс, содержащий данные для Json файла
      *                       (заполняется в методе convert).
      * @param stream         приёмник данных для Json файла.
-     * @throws IOException если произошла ошибка зависи в файл.
+     * @throws IOException если произошла ошибка записи в файл.
      */
     public void createJson(final JsonUpperClass jsonUpperClass, final OutputStream stream) throws IOException {
         log.log(Level.DEBUG, "Начало создания файла JSON");

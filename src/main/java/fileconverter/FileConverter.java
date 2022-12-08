@@ -45,10 +45,12 @@ public class FileConverter {
                         XML_TO_JSON.parseXml(bean.getExistingFile())), bean.getNewFile());
             }
         } catch (XMLStreamException | IOException | ParserConfigurationException | SAXException exception) {
-            log.log(Level.ERROR, "Ошибка выполнения парсинга.", exception);
+            log.log(Level.ERROR, "Произошла ошибка во время выполнения.", exception);
+            throw exception;
+        }
+        finally {
             bean.getExistingFile().close();
             bean.getNewFile().close();
-            throw exception;
         }
 
         log.log(Level.INFO, "Успешное завершение работы программы");

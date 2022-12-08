@@ -58,7 +58,6 @@ public class JsonToXml {
     }
 
     //region parseJson private methods
-
     private void startParsing(final JsonUpperClass games, final JsonParser parser) throws IOException {
         parser.nextToken();
         parser.nextToken();
@@ -167,7 +166,6 @@ public class JsonToXml {
     }
 
     //region Convert private methods
-
     private void startConvert(final JsonUpperClass games, final XmlUpperClass gameIndustry) {
         gameIndustry.addPublisher(games.getGames().get(0).getGamePublisher());
 
@@ -233,11 +231,11 @@ public class JsonToXml {
     //endregion
 
     /**
-     * Запускает создание файла.
+     * Запускает создание Xml файла.
      *
      * @param xmlUpperClassClass класс, содержащий данные для Xml файла
      *                           (заполняется в методе convert).
-     * @param stream             приёмник данных для xml файла.
+     * @param stream             приёмник данных для Xml файла.
      * @throws XMLStreamException если произошла ошибка при заполнении файла.
      */
     public void createXML(final XmlUpperClass xmlUpperClassClass, final OutputStream stream)
