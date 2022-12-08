@@ -23,10 +23,11 @@ public class BeanCreator {
      *               params[1] - путь к новому xml\json файлу.
      * @return InputBean - входные данные для FileConverter.doParse.
      * @throws IllegalArgumentException если переданы некорректные входные данные.
-     * @throws IOException в случае любой IO ошибки.
+     * @throws IOException              в случае любой IO ошибки.
      */
     public static InputBean createBean(String[] params) throws IllegalArgumentException, IOException {
-        log.log(Level.INFO, "Начало создания bean");
+        if (log.isEnabled(Level.INFO))
+            log.log(Level.INFO, "Начало создания bean");
 
         if (params.length != 2)
             throw new IllegalArgumentException("Некорректный ввод данных");
@@ -46,7 +47,8 @@ public class BeanCreator {
         if (notExists(Path.of(params[0])) || notExists(Path.of(params[1]).getParent()))
             throw new FileNotFoundException("Некорректный путь к файлу.");
 
-        log.log(Level.INFO, "Валидация входных параметров прошла успешно");
+        if (log.isEnabled(Level.INFO))
+            log.log(Level.INFO, "Валидация входных параметров прошла успешно");
         return new InputBean(new FileInputStream(params[0]),
             new FileOutputStream(params[1]),
             getExtension(params[0]));

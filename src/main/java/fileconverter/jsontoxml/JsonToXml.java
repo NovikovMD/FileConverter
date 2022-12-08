@@ -48,12 +48,14 @@ public class JsonToXml {
      *                                  или некорректная структура файла.
      */
     public JsonUpperClass parseJson(final InputStream stream) throws IOException, IllegalArgumentException {
-        log.log(Level.DEBUG, "Начало работы парсинга Json");
+        if (log.isEnabled(Level.DEBUG))
+            log.log(Level.DEBUG, "Начало работы парсинга Json");
         final JsonUpperClass games = new JsonUpperClass();
 
         startParsing(games, factory.createParser(stream));
 
-        log.log(Level.DEBUG, "Успешное завершение парсинга Json.");
+        if (log.isEnabled(Level.DEBUG))
+            log.log(Level.DEBUG, "Успешное завершение парсинга Json.");
         return games;
     }
 
@@ -155,13 +157,15 @@ public class JsonToXml {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     public XmlUpperClass convert(@NonNull final JsonUpperClass games) throws IllegalArgumentException {
-        log.log(Level.DEBUG, "Начало конвертирования классов");
+        if (log.isEnabled(Level.DEBUG))
+            log.log(Level.DEBUG, "Начало конвертирования классов");
 
         final XmlUpperClass gameIndustry = new XmlUpperClass();
 
         startConvert(games, gameIndustry);
 
-        log.log(Level.DEBUG, "Конвертирование классов прошло успешно");
+        if (log.isEnabled(Level.DEBUG))
+            log.log(Level.DEBUG, "Конвертирование классов прошло успешно");
         return gameIndustry;
     }
 
@@ -240,11 +244,13 @@ public class JsonToXml {
      */
     public void createXML(final XmlUpperClass xmlUpperClassClass, final OutputStream stream)
         throws XMLStreamException {
-        log.log(Level.DEBUG, "Начало создания файла XML");
+        if (log.isEnabled(Level.DEBUG))
+            log.log(Level.DEBUG, "Начало создания файла XML");
 
         writeXml(stream, xmlUpperClassClass);
 
-        log.log(Level.DEBUG, "Создание файла прошло успешно");
+        if (log.isEnabled(Level.DEBUG))
+            log.log(Level.DEBUG, "Создание файла прошло успешно");
     }
 
     //region createXml private methods

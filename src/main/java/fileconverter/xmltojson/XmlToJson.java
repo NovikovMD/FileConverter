@@ -55,11 +55,13 @@ public class XmlToJson {
      */
     public XmlUpperClass parseXml(final InputStream stream)
         throws ParserConfigurationException, SAXException, IOException {
-        log.log(Level.DEBUG, "Начало работы парсинга XML");
+        if (log.isEnabled(Level.DEBUG))
+            log.log(Level.DEBUG, "Начало работы парсинга XML");
 
         factory.newSAXParser().parse(stream, handler);
 
-        log.log(Level.DEBUG, "Успешное завершение парсинга XML.");
+        if (log.isEnabled(Level.DEBUG))
+            log.log(Level.DEBUG, "Успешное завершение парсинга XML.");
         return gameIndustry;
     }
 
@@ -70,13 +72,15 @@ public class XmlToJson {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     public JsonUpperClass convert(@NonNull final XmlUpperClass gameIndustry) throws IllegalArgumentException {
-        log.log(Level.DEBUG, "Начало конвертирования классов");
+        if (log.isEnabled(Level.DEBUG))
+            log.log(Level.DEBUG, "Начало конвертирования классов");
 
         final JsonUpperClass jsonUpperClassGames = new JsonUpperClass();
 
         startConvert(gameIndustry, jsonUpperClassGames);
 
-        log.log(Level.DEBUG, "Конвертирование классов прошло успешно");
+        if (log.isEnabled(Level.DEBUG))
+            log.log(Level.DEBUG, "Конвертирование классов прошло успешно");
         return jsonUpperClassGames;
     }
 
@@ -152,11 +156,13 @@ public class XmlToJson {
      * @throws IOException если произошла ошибка записи в файл.
      */
     public void createJson(final JsonUpperClass jsonUpperClass, final OutputStream stream) throws IOException {
-        log.log(Level.DEBUG, "Начало создания файла JSON");
+        if (log.isEnabled(Level.DEBUG))
+            log.log(Level.DEBUG, "Начало создания файла JSON");
 
         mapper.writeValue(stream, jsonUpperClass);
 
-        log.log(Level.DEBUG, "Создание файла прошло успешно");
+        if (log.isEnabled(Level.DEBUG))
+            log.log(Level.DEBUG, "Создание файла прошло успешно");
     }
 
     private class XmlHandler extends DefaultHandler {

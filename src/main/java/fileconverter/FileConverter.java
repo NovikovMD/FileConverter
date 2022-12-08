@@ -33,7 +33,8 @@ public class FileConverter {
      */
     public void doParse(@NonNull InputBean bean)
         throws XMLStreamException, IOException, ParserConfigurationException, SAXException {
-        log.log(Level.INFO, "Начало работы программы");
+        if (log.isEnabled(Level.INFO))
+            log.log(Level.INFO, "Начало работы программы");
 
         try {
             switch (bean.getExistingFileExtension()) {
@@ -45,14 +46,15 @@ public class FileConverter {
                         XML_TO_JSON.parseXml(bean.getExistingFile())), bean.getNewFile());
             }
         } catch (XMLStreamException | IOException | ParserConfigurationException | SAXException exception) {
-            log.log(Level.ERROR, "Произошла ошибка во время выполнения.", exception);
+            if (log.isEnabled(Level.ERROR))
+                log.log(Level.ERROR, "Произошла ошибка во время выполнения.", exception);
             throw exception;
-        }
-        finally {
+        } finally {
             bean.getExistingFile().close();
             bean.getNewFile().close();
         }
 
-        log.log(Level.INFO, "Успешное завершение работы программы");
+        if (log.isEnabled(Level.INFO))
+            log.log(Level.INFO, "Успешное завершение работы программы");
     }
 }
