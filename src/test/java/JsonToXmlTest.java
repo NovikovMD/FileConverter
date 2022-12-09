@@ -1,9 +1,17 @@
-import fileconverter.bean.json.JsonGame;
+import fileconverter.bean.json.JsonUpperClass;
 import fileconverter.bean.xml.*;
-import fileconverter.jsontoxml.JsonToXml;
 
+import fileconverter.converters.Converter;
+import fileconverter.converters.JsonToXml;
+import fileconverter.readers.JacksonReader;
+import fileconverter.readers.Reader;
+import fileconverter.writers.StaxWriter;
+import fileconverter.writers.Writer;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,53 +23,59 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonToXmlTest {
 
-    private static final JsonToXml JSON_TO_XML_PARSER = new JsonToXml();
+    Reader reader;
+    Converter converter;
+    Writer writer;
+
+    @BeforeEach
+    void starter() {
+        reader = new JacksonReader();
+        converter = new JsonToXml();
+        writer = new StaxWriter();
+    }
 
     @Test
-    void tryParseJson() throws IOException {
-        JsonGame oneGame = JSON_TO_XML_PARSER.parseJson(
-                new FileInputStream("src\\test\\resources\\TestInput.json"))
-            .getGames().get(0);
-
-        assertEquals("The Warriors", oneGame.getName());
-        assertEquals(2005, oneGame.getYear());
-        assertEquals("Rockstar", oneGame.getGamePublisher());
-        assertEquals("PlayStation 2", oneGame.getPlatforms().get(0).getName());
-        assertEquals("PlayStation Portable", oneGame.getPlatforms().get(1).getName());
-        assertEquals("XBox", oneGame.getPlatforms().get(2).getName());
-
-        assertEquals("Rockstar Toronto", oneGame.getDevStudios().get(0).getName());
-        assertEquals(1981, oneGame.getDevStudios().get(0).getYearOfFoundation());
-        assertEquals("www.rockstartoronto.com", oneGame.getDevStudios().get(0).getUrl());
+    void tryParseJson() throws IOException, ParserConfigurationException, SAXException {
+        JsonUpperClass upper = (JsonUpperClass) reader.parse(
+            new FileInputStream("src\\test\\resources\\TestInput.json"));
 
 
-        oneGame = JSON_TO_XML_PARSER.parseJson(
-                new FileInputStream("src\\test\\resources\\TestInput.json"))
-            .getGames().get(1);
-        assertEquals("Manhunt 2", oneGame.getName());
-        assertEquals(2007, oneGame.getYear());
-        assertEquals("Rockstar", oneGame.getGamePublisher());
+        assertEquals("The Warriors", upper.getGames().get(0).getName());
+        assertEquals(2005, upper.getGames().get(0).getYear());
+        assertEquals("Rockstar", upper.getGames().get(0).getGamePublisher());
+        assertEquals("PlayStation 2", upper.getGames().get(0).getPlatforms().get(0).getName());
+        assertEquals("PlayStation Portable", upper.getGames().get(0).getPlatforms().get(1).getName());
+        assertEquals("XBox", upper.getGames().get(0).getPlatforms().get(2).getName());
 
-        assertEquals("Microsoft Windows", oneGame.getPlatforms().get(0).getName());
-        assertEquals("PlayStation 2", oneGame.getPlatforms().get(1).getName());
-        assertEquals("PlayStation Portable", oneGame.getPlatforms().get(2).getName());
-        assertEquals("Wii", oneGame.getPlatforms().get(3).getName());
+        assertEquals("Rockstar Toronto", upper.getGames().get(0).getDevStudios().get(0).getName());
+        assertEquals(1981, upper.getGames().get(0).getDevStudios().get(0).getYearOfFoundation());
+        assertEquals("www.rockstartoronto.com", upper.getGames().get(0).getDevStudios().get(0).getUrl());
 
-        assertEquals("Rockstar Toronto", oneGame.getDevStudios().get(0).getName());
-        assertEquals(1981, oneGame.getDevStudios().get(0).getYearOfFoundation());
-        assertEquals("www.rockstartoronto.com", oneGame.getDevStudios().get(0).getUrl());
+        assertEquals("Manhunt 2", upper.getGames().get(1).getName());
+        assertEquals(2007, upper.getGames().get(1).getYear());
+        assertEquals("Rockstar", upper.getGames().get(1).getGamePublisher());
+
+        assertEquals("Microsoft Windows", upper.getGames().get(1).getPlatforms().get(0).getName());
+        assertEquals("PlayStation 2", upper.getGames().get(1).getPlatforms().get(1).getName());
+        assertEquals("PlayStation Portable", upper.getGames().get(1).getPlatforms().get(2).getName());
+        assertEquals("Wii", upper.getGames().get(1).getPlatforms().get(3).getName());
+
+        assertEquals("Rockstar Toronto", upper.getGames().get(1).getDevStudios().get(0).getName());
+        assertEquals(1981, upper.getGames().get(1).getDevStudios().get(0).getYearOfFoundation());
+        assertEquals("www.rockstartoronto.com", upper.getGames().get(1).getDevStudios().get(0).getUrl());
 
     }
 
     @Test
-    void tryConvertXmlToJson() throws IOException {
-        XmlGamePublisher gamePublisher = JSON_TO_XML_PARSER.convert(
-                JSON_TO_XML_PARSER.parseJson(
-                    new FileInputStream("src/test/resources/TestInput.json")))
-            .getPublishers().get(0);
-        assertEquals("Rockstar", gamePublisher.getName());
+    void tryConvertXmlToJson() throws IOException, ParserConfigurationException, SAXException {
+        XmlUpperClass xmlUpper = (XmlUpperClass) converter.convert(
+            reader.parse(
+                new FileInputStream("src\\test\\resources\\TestInput.json")));
 
-        XmlDevStudio dev = gamePublisher.getDevStudios().get(0);
+
+        assertEquals("Rockstar", xmlUpper.getPublishers().get(0).getName());
+
+        XmlDevStudio dev = xmlUpper.getPublishers().get(0).getDevStudios().get(0);
         assertEquals("Rockstar Toronto", dev.getName());
         assertEquals(1981, dev.getYearOfFoundation());
         assertEquals("www.rockstartoronto.com", dev.getUrl());
@@ -77,11 +91,11 @@ public class JsonToXmlTest {
     }
 
     @Test
-    void tryCreateXml() throws IOException, XMLStreamException {
-        JSON_TO_XML_PARSER.createXML(
-            JSON_TO_XML_PARSER.convert(
-                JSON_TO_XML_PARSER.parseJson(
-                    new FileInputStream("src/test/resources/TestInput.json"))),
+    void tryCreateXml() throws IOException, ParserConfigurationException, SAXException, XMLStreamException {
+        writer.write(
+            converter.convert(
+                reader.parse(
+                    new FileInputStream("src\\test\\resources\\TestInput.json"))),
             new FileOutputStream("src/test/resources/NewXML.xml"));
 
         assertTrue(new File("src/test/resources/NewXML.xml").exists());
@@ -91,8 +105,11 @@ public class JsonToXmlTest {
     void wrongFile() {
         assertEquals("src\\test\\resources\\NoSuchFile.json (Не удается найти указанный файл)",
             assertThrows(Exception.class,
-                () -> JSON_TO_XML_PARSER.parseJson(
-                    new FileInputStream("src/test/resources/NoSuchFile.json")))
+                () -> writer.write(
+                    converter.convert(
+                        reader.parse(
+                            new FileInputStream("src\\test\\resources\\NoSuchFile.json"))),
+                    new FileOutputStream("src/test/resources/NewXML.xml")))
                 .getMessage());
     }
 }

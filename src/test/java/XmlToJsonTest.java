@@ -1,11 +1,18 @@
 import fileconverter.bean.json.JsonUpperClass;
 import fileconverter.bean.xml.*;
-import fileconverter.xmltojson.XmlToJson;
+import fileconverter.converters.Converter;
+import fileconverter.converters.XmlToJson;
+import fileconverter.readers.Reader;
+import fileconverter.readers.SaxReader;
+import fileconverter.writers.JacksonWriter;
+import fileconverter.writers.Writer;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,23 +22,33 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class XmlToJsonTest {
+    Reader reader;
+    Converter converter;
+    Writer writer;
 
-    private static final XmlToJson XML_TO_JSON_PARSER = new XmlToJson();
+    @BeforeEach
+    void starter() {
+        reader = new SaxReader();
+        converter = new XmlToJson();
+        writer = new JacksonWriter();
+    }
 
     @Test
     void parseXml() throws ParserConfigurationException, IOException, SAXException {
+        XmlUpperClass upper = (XmlUpperClass) reader.parse(
+            new FileInputStream("src/test/resources/TestInput.xml"));
         //publisher
-        XmlGamePublisher publisher = XML_TO_JSON_PARSER.parseXml(
-                new FileInputStream("src/test/resources/TestInput.xml"))
-            .getPublishers().get(0);
-        assertEquals("Rockstar", publisher.getName());
+        assertEquals("Rockstar", upper.getPublishers()
+            .get(0)
+            .getName());
 
         //developer
-        XmlDevStudio devStudio = publisher.getDevStudios().get(0);
+        XmlDevStudio devStudio = upper.getPublishers()
+            .get(0)
+            .getDevStudios()
+            .get(0);
         assertEquals("Rockstar Toronto", devStudio.getName());
-
         assertEquals(1981, devStudio.getYearOfFoundation());
-
         assertEquals("www.rockstartoronto.com", devStudio.getUrl());
 
         //games
@@ -63,8 +80,8 @@ public class XmlToJsonTest {
 
     @Test
     void convertXmlToJson() throws ParserConfigurationException, IOException, SAXException {
-        JsonUpperClass compare = XML_TO_JSON_PARSER.convert(
-            XML_TO_JSON_PARSER.parseXml(
+        JsonUpperClass compare = (JsonUpperClass) converter.convert(
+            reader.parse(
                 new FileInputStream("src/test/resources/TestInput.xml")));
 
         assertEquals("The Warriors", compare.getGames().get(0).getName());
@@ -98,10 +115,10 @@ public class XmlToJsonTest {
     }
 
     @Test
-    void createJson() throws IOException, ParserConfigurationException, SAXException {
-        XML_TO_JSON_PARSER.createJson(
-            XML_TO_JSON_PARSER.convert(
-                XML_TO_JSON_PARSER.parseXml(
+    void createJson() throws IOException, ParserConfigurationException, SAXException, XMLStreamException {
+        writer.write(
+            converter.convert(
+                reader.parse(
                     new FileInputStream("src/test/resources/TestInput.xml"))),
             new FileOutputStream("src/test/resources/newName.json"));
 
@@ -112,7 +129,7 @@ public class XmlToJsonTest {
     void wrongFile() {
         assertEquals("src\\test\\resources\\NoSuchFile.xml (Не удается найти указанный файл)",
             assertThrows(Exception.class,
-                () -> XML_TO_JSON_PARSER.parseXml(
+                () -> reader.parse(
                     new FileInputStream("src/test/resources/NoSuchFile.xml")))
                 .getMessage());
     }

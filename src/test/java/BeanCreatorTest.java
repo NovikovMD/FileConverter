@@ -23,7 +23,7 @@ public class BeanCreatorTest {
     void correctBehaviour() throws IOException {
         val bean = createBean(new String[]{"src/test/resources/TestInput.xml",
             "src/test/resources/TestMain.json"});
-        if (bean.getExistingFile().readAllBytes().length==0 ||
+        if (bean.getExistingFile().readAllBytes().length == 0 ||
             notExists(Path.of("src/test/resources/TestMain.json")))
             fail("Некорректное создание bean");
     }
