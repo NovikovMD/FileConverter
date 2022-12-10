@@ -11,10 +11,15 @@ package fileconverter.bean.xml;
 
 import lombok.Getter;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 
 @Getter
+@XmlRootElement(name = "GameIndustry")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class XmlUpperClass {
+    @XmlElementWrapper(name = "gamePublishers")
+    @XmlElement(name = "gamePublisher")
     private final ArrayList<XmlGamePublisher> publishers = new ArrayList<>();
 
     public void addPublisher(String name) {

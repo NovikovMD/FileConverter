@@ -5,12 +5,13 @@ import fileconverter.converters.Converter;
 import fileconverter.converters.JsonToXml;
 import fileconverter.readers.JacksonReader;
 import fileconverter.readers.Reader;
-import fileconverter.writers.StaxWriter;
+import fileconverter.writers.JaxbWriter;
 import fileconverter.writers.Writer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
@@ -28,10 +29,10 @@ public class JsonToXmlTest {
     Writer writer;
 
     @BeforeEach
-    void starter() {
+    void starter() throws JAXBException {
         reader = new JacksonReader();
         converter = new JsonToXml();
-        writer = new StaxWriter();
+        writer = new JaxbWriter();
     }
 
     @Test
@@ -91,7 +92,11 @@ public class JsonToXmlTest {
     }
 
     @Test
-    void tryCreateXml() throws IOException, ParserConfigurationException, SAXException, XMLStreamException {
+    void tryCreateXml() throws IOException, ParserConfigurationException, SAXException, XMLStreamException, JAXBException {
+        File fl = new File("src/test/resources/NewXML.xml");
+        if (fl.exists())
+            fl.delete();
+
         writer.write(
             converter.convert(
                 reader.parse(

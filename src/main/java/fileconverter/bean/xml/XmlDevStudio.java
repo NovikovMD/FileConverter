@@ -11,18 +11,28 @@ package fileconverter.bean.xml;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class XmlDevStudio {
+    @XmlAttribute
     private String name;
+    @XmlAttribute(name = "year_of_foundation")
     private int yearOfFoundation;
+    @XmlAttribute(name = "URL")
     private String url;
-    private final ArrayList<XmlGame> games= new ArrayList<>();
+    @XmlElementWrapper(name = "games")
+    @XmlElement(name = "game")
+    private final ArrayList<XmlGame> games = new ArrayList<>();
 
     public void addGame(String name, int year) {
         games.add(new XmlGame(name, year));

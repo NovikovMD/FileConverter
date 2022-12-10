@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
@@ -115,7 +116,7 @@ public class XmlToJsonTest {
     }
 
     @Test
-    void createJson() throws IOException, ParserConfigurationException, SAXException, XMLStreamException {
+    void createJson() throws IOException, ParserConfigurationException, SAXException, XMLStreamException, JAXBException {
         writer.write(
             converter.convert(
                 reader.parse(
