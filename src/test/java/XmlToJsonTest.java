@@ -2,6 +2,7 @@ import fileconverter.bean.json.JsonUpperClass;
 import fileconverter.bean.xml.*;
 import fileconverter.converters.Converter;
 import fileconverter.converters.XmlToJson;
+import fileconverter.readers.JaxbReader;
 import fileconverter.readers.Reader;
 import fileconverter.readers.SaxReader;
 import fileconverter.writers.JacksonWriter;
@@ -29,13 +30,13 @@ public class XmlToJsonTest {
 
     @BeforeEach
     void starter() {
-        reader = new SaxReader();
+        reader = new JaxbReader();
         converter = new XmlToJson();
         writer = new JacksonWriter();
     }
 
     @Test
-    void parseXml() throws ParserConfigurationException, IOException, SAXException {
+    void parseXml() throws ParserConfigurationException, IOException, SAXException, JAXBException {
         XmlUpperClass upper = (XmlUpperClass) reader.parse(
             new FileInputStream("src/test/resources/TestInput.xml"));
         //publisher
@@ -80,7 +81,7 @@ public class XmlToJsonTest {
     }
 
     @Test
-    void convertXmlToJson() throws ParserConfigurationException, IOException, SAXException {
+    void convertXmlToJson() throws ParserConfigurationException, IOException, SAXException, JAXBException {
         JsonUpperClass compare = (JsonUpperClass) converter.convert(
             reader.parse(
                 new FileInputStream("src/test/resources/TestInput.xml")));
@@ -117,13 +118,17 @@ public class XmlToJsonTest {
 
     @Test
     void createJson() throws IOException, ParserConfigurationException, SAXException, XMLStreamException, JAXBException {
+        File fl = new File("src/test/resources/newJson.json");
+        if (fl.exists())
+            fl.delete();
+
         writer.write(
             converter.convert(
                 reader.parse(
                     new FileInputStream("src/test/resources/TestInput.xml"))),
-            new FileOutputStream("src/test/resources/newName.json"));
+            new FileOutputStream("src/test/resources/newJson.json"));
 
-        assertTrue(new File("src/test/resources/newName.json").exists());
+        assertTrue(new File("src/test/resources/newJson.json").exists());
     }
 
     @Test

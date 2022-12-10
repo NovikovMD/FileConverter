@@ -36,7 +36,7 @@ public class JsonToXmlTest {
     }
 
     @Test
-    void tryParseJson() throws IOException, ParserConfigurationException, SAXException {
+    void tryParseJson() throws IOException, ParserConfigurationException, SAXException, JAXBException {
         JsonUpperClass upper = (JsonUpperClass) reader.parse(
             new FileInputStream("src\\test\\resources\\TestInput.json"));
 
@@ -68,7 +68,7 @@ public class JsonToXmlTest {
     }
 
     @Test
-    void tryConvertXmlToJson() throws IOException, ParserConfigurationException, SAXException {
+    void tryConvertXmlToJson() throws IOException, ParserConfigurationException, SAXException, JAXBException {
         XmlUpperClass xmlUpper = (XmlUpperClass) converter.convert(
             reader.parse(
                 new FileInputStream("src\\test\\resources\\TestInput.json")));
