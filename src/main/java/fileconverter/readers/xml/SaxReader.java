@@ -35,9 +35,10 @@ public class SaxReader implements Reader<XmlUpperClass> {
      * @throws IOException                  в случае любой IO ошибки.
      */
     @Override
-    public XmlUpperClass parse(InputStream stream) throws ParserConfigurationException, SAXException, IOException {
+    public XmlUpperClass parse(final InputStream stream)
+        throws ParserConfigurationException, SAXException, IOException {
         if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Начало работы парсинга XML");
+            log.log(Level.DEBUG, "Начало работы Sax парсера");
 
         factory.newSAXParser().parse(stream, handler);
 
@@ -69,7 +70,8 @@ public class SaxReader implements Reader<XmlUpperClass> {
         private void getDeveloperStudioSAX(final Attributes attributes) {
             gameIndustry.getPublishers()
                 .get(gameIndustry.returnLength() - 1)
-                .addDevStudio(attributes.getValue("name"),
+                .addDevStudio(
+                    attributes.getValue("name"),
                     Integer.parseInt(attributes.getValue("year_of_foundation")),
                     attributes.getValue("URL"));
         }
@@ -79,8 +81,10 @@ public class SaxReader implements Reader<XmlUpperClass> {
                 .get(gameIndustry.returnLength() - 1)
                 .getDevStudios()
                 .get(gameIndustry.getPublishers()
-                    .get(gameIndustry.returnLength() - 1).returnLength() - 1)
-                .addGame(attributes.getValue("name"),
+                    .get(gameIndustry.returnLength() - 1)
+                    .returnLength() - 1)
+                .addGame(
+                    attributes.getValue("name"),
                     Integer.parseInt(attributes.getValue("year")));
         }
 
@@ -89,13 +93,15 @@ public class SaxReader implements Reader<XmlUpperClass> {
                 .get(gameIndustry.returnLength() - 1)
                 .getDevStudios()
                 .get(gameIndustry.getPublishers()
-                    .get(gameIndustry.returnLength() - 1).returnLength() - 1)
+                    .get(gameIndustry.returnLength() - 1)
+                    .returnLength() - 1)
                 .getGames()
                 .get(gameIndustry.getPublishers()
                     .get(gameIndustry.returnLength() - 1)
                     .getDevStudios()
                     .get(gameIndustry.getPublishers()
-                        .get(gameIndustry.returnLength() - 1).returnLength() - 1)
+                        .get(gameIndustry.returnLength() - 1)
+                        .returnLength() - 1)
                     .returnLength() - 1)
                 .addPlatform(attributes.getValue("name"));
         }

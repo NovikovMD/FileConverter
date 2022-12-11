@@ -38,7 +38,7 @@ public class FileConverter {
      * @throws ParserConfigurationException при ошибке создания SAX парсера.
      * @throws SAXException                 при ошибке работы SAX парсера.
      */
-    public void doParse(@NonNull InputBean bean)
+    public void doParse(@NonNull final InputBean bean)
         throws XMLStreamException, IOException, ParserConfigurationException, SAXException, JAXBException {
         if (log.isEnabled(Level.INFO))
             log.log(Level.INFO, "Начало работы программы");
@@ -64,17 +64,21 @@ public class FileConverter {
             log.log(Level.INFO, "Успешное завершение работы программы");
     }
 
-    private void setupConfig(String extension) {
+    private void setupConfig(final String extension) {
         switch (extension) {
             case "json" -> {
-                reader = new JacksonReader();
-                converter = new JsonToXml();
-                writer = new StaxWriter();
+                if (reader == null || reader.getClass() != JacksonReader.class) {
+                    reader = new JacksonReader();
+                    converter = new JsonToXml();
+                    writer = new StaxWriter();
+                }
             }
             case "xml" -> {
-                reader = new SaxReader();
-                converter = new XmlToJson();
-                writer = new JacksonWriter();
+                if (reader == null || reader.getClass() != SaxReader.class) {
+                    reader = new SaxReader();
+                    converter = new XmlToJson();
+                    writer = new JacksonWriter();
+                }
             }
         }
     }

@@ -1,16 +1,17 @@
 import fileconverter.bean.json.JsonUpperClass;
-import fileconverter.bean.xml.XmlDevStudio;
-import fileconverter.bean.xml.XmlGame;
-import fileconverter.bean.xml.XmlPlatform;
 import fileconverter.bean.xml.XmlUpperClass;
 import fileconverter.converters.Converter;
 import fileconverter.converters.XmlToJson;
 import fileconverter.readers.Reader;
 import fileconverter.readers.xml.JaxbReader;
+import fileconverter.readers.xml.SaxReader;
 import fileconverter.writers.Writer;
 import fileconverter.writers.json.GsonWriter;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import fileconverter.writers.json.JacksonWriter;
+import lombok.val;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBException;
@@ -20,109 +21,178 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class XmlToJsonTest {
-    Reader reader;
-    Converter converter;
-    Writer writer;
-
-    @BeforeEach
-    void starter() {
-        reader = new JaxbReader();
-        converter = new XmlToJson();
-        writer = new GsonWriter();
+    private static Stream<Arguments> setConfig() throws JAXBException {
+        return Stream.of(
+            Arguments.of(new JaxbReader(), new XmlToJson(), new GsonWriter()),
+            Arguments.of(new SaxReader(), new XmlToJson(), new JacksonWriter())
+        );
     }
 
-    @Test
-    void parseXml() throws ParserConfigurationException, IOException,
+    @ParameterizedTest
+    @MethodSource("setConfig")
+    void parseXml(final Reader reader)
+        throws ParserConfigurationException, IOException,
         SAXException, JAXBException {
-        XmlUpperClass upper = (XmlUpperClass) reader.parse(
+        final XmlUpperClass upper = (XmlUpperClass) reader.parse(
             new FileInputStream("src/test/resources/TestInput.xml"));
-        //publisher
+
         assertEquals("Rockstar", upper.getPublishers()
-            .get(0)
-            .getName());
+            .get(0).getName());
 
-        //developer
-        XmlDevStudio devStudio = upper.getPublishers()
-            .get(0)
-            .getDevStudios()
-            .get(0);
-        assertEquals("Rockstar Toronto", devStudio.getName());
-        assertEquals(1981, devStudio.getYearOfFoundation());
-        assertEquals("www.rockstartoronto.com", devStudio.getUrl());
+        assertEquals("Rockstar Toronto", upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getName());
+        assertEquals(1981, upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getYearOfFoundation());
+        assertEquals("www.rockstartoronto.com", upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getUrl());
 
-        //games
-        XmlGame game = devStudio.getGames().get(0);
-        assertEquals("The Warriors", game.getName());
-        assertEquals(2005, game.getYear());
+        assertEquals("The Warriors", upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getGames()
+            .get(0).getName());
+        assertEquals(2005, upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getGames()
+            .get(0).getYear());
 
-        game = devStudio.getGames().get(1);
-        assertEquals("Manhunt 2", game.getName());
-        assertEquals(2007, game.getYear());
+        assertEquals("Manhunt 2", upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getGames()
+            .get(1).getName());
+        assertEquals(2007, upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getGames()
+            .get(1).getYear());
 
-        //platforms
-        XmlPlatform platform = devStudio.getGames().get(0).getPlatforms().get(0);
-        assertEquals("PlayStation 2", platform.getName());
-        platform = devStudio.getGames().get(0).getPlatforms().get(1);
-        assertEquals("PlayStation Portable", platform.getName());
-        platform = devStudio.getGames().get(0).getPlatforms().get(2);
-        assertEquals("XBox", platform.getName());
+        assertEquals("PlayStation 2", upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getGames()
+            .get(0).getPlatforms()
+            .get(0).getName());
+        assertEquals("PlayStation Portable", upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getGames()
+            .get(0).getPlatforms()
+            .get(1).getName());
+        assertEquals("XBox", upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getGames()
+            .get(0).getPlatforms()
+            .get(2).getName());
 
-        platform = devStudio.getGames().get(1).getPlatforms().get(0);
-        assertEquals("Microsoft Windows", platform.getName());
-        platform = devStudio.getGames().get(1).getPlatforms().get(1);
-        assertEquals("PlayStation 2", platform.getName());
-        platform = devStudio.getGames().get(1).getPlatforms().get(2);
-        assertEquals("PlayStation Portable", platform.getName());
-        platform = devStudio.getGames().get(1).getPlatforms().get(3);
-        assertEquals("Wii", platform.getName());
+        assertEquals("Microsoft Windows", upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getGames()
+            .get(1).getPlatforms()
+            .get(0).getName());
+        assertEquals("PlayStation 2", upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getGames()
+            .get(1).getPlatforms()
+            .get(1).getName());
+        assertEquals("PlayStation Portable", upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getGames()
+            .get(1).getPlatforms()
+            .get(2).getName());
+        assertEquals("Wii", upper.getPublishers()
+            .get(0).getDevStudios()
+            .get(0).getGames()
+            .get(1).getPlatforms()
+            .get(3).getName());
     }
 
-    @Test
-    void convertXmlToJson() throws ParserConfigurationException, IOException,
+    @ParameterizedTest
+    @MethodSource("setConfig")
+    void convertXmlToJson(final Reader reader, final Converter converter)
+        throws ParserConfigurationException, IOException,
         SAXException, JAXBException {
-        JsonUpperClass compare = (JsonUpperClass) converter.convert(
+        final JsonUpperClass compare = (JsonUpperClass) converter.convert(
             reader.parse(
                 new FileInputStream("src/test/resources/TestInput.xml")));
 
-        assertEquals("The Warriors", compare.getGames().get(0).getName());
-        assertEquals(2005, compare.getGames().get(0).getYear());
-        assertEquals("Rockstar", compare.getGames().get(0).getGamePublisher());
+        assertEquals("The Warriors", compare.getGames()
+            .get(0).getName());
+        assertEquals(2005, compare.getGames()
+            .get(0).getYear());
+        assertEquals("Rockstar", compare.getGames()
+            .get(0).getGamePublisher());
 
-        assertEquals("PlayStation 2", compare.getGames().get(0).getPlatforms().get(0).getName());
-        assertEquals("PlayStation Portable", compare.getGames().get(0).getPlatforms().get(1).getName());
-        assertEquals("XBox", compare.getGames().get(0).getPlatforms().get(2).getName());
+        assertEquals("PlayStation 2", compare.getGames()
+            .get(0).getPlatforms()
+            .get(0).getName());
+        assertEquals("PlayStation Portable", compare.getGames()
+            .get(0).getPlatforms()
+            .get(1).getName());
+        assertEquals("XBox", compare.getGames()
+            .get(0).getPlatforms()
+            .get(2).getName());
 
-        assertEquals("Rockstar Toronto", compare.getGames().get(0).getDevStudios().get(0).getName());
-        assertEquals(1981, compare.getGames().get(0).getDevStudios().get(0).getYearOfFoundation());
-        assertEquals("www.rockstartoronto.com", compare.getGames().get(0).getDevStudios().get(0).getUrl());
+        assertEquals("Rockstar Toronto", compare.getGames()
+            .get(0).getDevStudios()
+            .get(0).getName());
+        assertEquals(1981, compare.getGames()
+            .get(0).getDevStudios()
+            .get(0).getYearOfFoundation());
+        assertEquals("www.rockstartoronto.com", compare.getGames()
+            .get(0).getDevStudios()
+            .get(0).getUrl());
 
+        assertEquals("Manhunt 2", compare.getGames()
+            .get(1).getName());
+        assertEquals(2007, compare.getGames()
+            .get(1).getYear());
+        assertEquals("Rockstar", compare.getGames()
+            .get(1).getGamePublisher());
 
-        assertEquals("Manhunt 2", compare.getGames().get(1).getName());
-        assertEquals(2007, compare.getGames().get(1).getYear());
-        assertEquals("Rockstar", compare.getGames().get(1).getGamePublisher());
+        assertEquals("Microsoft Windows", compare.getGames()
+            .get(1).getPlatforms()
+            .get(0).getName());
+        assertEquals("PlayStation 2", compare.getGames()
+            .get(1).getPlatforms()
+            .get(1).getName());
+        assertEquals("PlayStation Portable", compare.getGames()
+            .get(1).getPlatforms()
+            .get(2).getName());
+        assertEquals("Wii", compare.getGames()
+            .get(1).getPlatforms()
+            .get(3).getName());
 
-        assertEquals("Microsoft Windows", compare.getGames().get(1).getPlatforms().get(0).getName());
-        assertEquals("PlayStation 2", compare.getGames().get(1).getPlatforms().get(1).getName());
-        assertEquals("PlayStation Portable", compare.getGames().get(1).getPlatforms().get(2).getName());
-        assertEquals("Wii", compare.getGames().get(1).getPlatforms().get(3).getName());
-
-        assertEquals("Rockstar Toronto", compare.getGames().get(1).getDevStudios().get(0).getName());
-        assertEquals(1981, compare.getGames().get(1).getDevStudios().get(0).getYearOfFoundation());
-        assertEquals("www.rockstartoronto.com", compare.getGames().get(1).getDevStudios().get(0).getUrl());
-        assertEquals("Rockstar London", compare.getGames().get(1).getDevStudios().get(1).getName());
-        assertEquals(2005, compare.getGames().get(1).getDevStudios().get(1).getYearOfFoundation());
-        assertEquals("www.rockstarlondon.com", compare.getGames().get(1).getDevStudios().get(1).getUrl());
+        assertEquals("Rockstar Toronto", compare.getGames()
+            .get(1).getDevStudios()
+            .get(0).getName());
+        assertEquals(1981, compare.getGames()
+            .get(1).getDevStudios()
+            .get(0).getYearOfFoundation());
+        assertEquals("www.rockstartoronto.com", compare.getGames()
+            .get(1).getDevStudios()
+            .get(0).getUrl());
+        assertEquals("Rockstar London", compare.getGames()
+            .get(1).getDevStudios()
+            .get(1).getName());
+        assertEquals(2005, compare.getGames()
+            .get(1).getDevStudios()
+            .get(1).getYearOfFoundation());
+        assertEquals("www.rockstarlondon.com", compare.getGames()
+            .get(1).getDevStudios()
+            .get(1).getUrl());
     }
 
-    @Test
-    void createJson() throws IOException, ParserConfigurationException, SAXException,
+    @ParameterizedTest
+    @MethodSource("setConfig")
+    void createJson(final Reader reader, final Converter converter, final Writer writer)
+        throws IOException, ParserConfigurationException, SAXException,
         XMLStreamException, JAXBException {
-        File fl = new File("src/test/resources/newJson.json");
+        val fl = new File("src/test/resources/newJson.json");
         if (fl.exists())
             fl.delete();
 
@@ -135,8 +205,9 @@ public class XmlToJsonTest {
         assertTrue(new File("src/test/resources/newJson.json").exists());
     }
 
-    @Test
-    void wrongFile() {
+    @ParameterizedTest
+    @MethodSource("setConfig")
+    void wrongFile(final Reader reader) {
         assertEquals("src\\test\\resources\\NoSuchFile.xml (Не удается найти указанный файл)",
             assertThrows(Exception.class,
                 () -> reader.parse(

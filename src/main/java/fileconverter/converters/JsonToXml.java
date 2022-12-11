@@ -27,11 +27,11 @@ public class JsonToXml implements Converter<JsonUpperClass, XmlUpperClass> {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     @Override
-    public XmlUpperClass convert(@NonNull JsonUpperClass upperClass) throws IllegalArgumentException {
+    public XmlUpperClass convert(@NonNull final JsonUpperClass upperClass) throws IllegalArgumentException {
         if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Начало конвертирования классов");
+            log.log(Level.DEBUG, "Начало конвертирования Json в Xml");
 
-        final XmlUpperClass gameIndustry = new XmlUpperClass();
+        val gameIndustry = new XmlUpperClass();
 
         startConvert(upperClass, gameIndustry);
 
@@ -52,7 +52,7 @@ public class JsonToXml implements Converter<JsonUpperClass, XmlUpperClass> {
     }
 
     private ArrayList<String> collectPlatforms(final JsonGame jsonGame) {
-        final ArrayList<String> XmlPlatforms = new ArrayList<>();
+        val XmlPlatforms = new ArrayList<String>();
         for (int index = 0; index < jsonGame.getPlatforms().size(); index++) {
             XmlPlatforms.add(jsonGame.getPlatforms().get(index).getName());
         }
@@ -65,15 +65,21 @@ public class JsonToXml implements Converter<JsonUpperClass, XmlUpperClass> {
             findDev(jsonGame.getDevStudios().get(index), XmlPublisher)
                 .addGame(jsonGame.getName(), jsonGame.getYear());
 
-            addPlatform(jsonGame, XmlPublisher, XmlPlatforms, index);
+            addPlatform(jsonGame.getDevStudios().get(index),
+                XmlPublisher,
+                XmlPlatforms);
         }
     }
 
-    private void addPlatform(JsonGame jsonGame, XmlGamePublisher XmlPublisher, ArrayList<String> XmlPlatforms, int index) {
+    private void addPlatform(final JsonDevStudio devStudio, final XmlGamePublisher XmlPublisher,
+                             final ArrayList<String> XmlPlatforms) {
         for (val xmlPlatform : XmlPlatforms) {
-            findDev(jsonGame.getDevStudios().get(index), XmlPublisher)
+            findDev(devStudio,
+                XmlPublisher)
                 .getGames()
-                .get(findDev(jsonGame.getDevStudios().get(index), XmlPublisher).returnLength() - 1)
+                .get(
+                    findDev(devStudio, XmlPublisher)
+                        .returnLength() - 1)
                 .addPlatform(xmlPlatform);
         }
     }
@@ -89,7 +95,8 @@ public class JsonToXml implements Converter<JsonUpperClass, XmlUpperClass> {
             devStudio.getYearOfFoundation(),
             devStudio.getUrl());
 
-        return publisher.getDevStudios().get(publisher.returnLength() - 1);
+        return publisher.getDevStudios()
+            .get(publisher.returnLength() - 1);
     }
 
     private XmlGamePublisher findPublisher(final JsonGame jsonGame, final XmlUpperClass xml) {
@@ -102,6 +109,5 @@ public class JsonToXml implements Converter<JsonUpperClass, XmlUpperClass> {
         xml.addPublisher(jsonGame.getGamePublisher());
         return xml.getPublishers().get(xml.returnLength() - 1);
     }
-
     //endregion
 }

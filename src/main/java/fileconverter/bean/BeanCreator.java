@@ -25,7 +25,7 @@ public class BeanCreator {
      * @throws IllegalArgumentException если переданы некорректные входные данные.
      * @throws IOException              в случае любой IO ошибки.
      */
-    public static InputBean createBean(String[] params) throws IllegalArgumentException, IOException {
+    public static InputBean createBean(final String[] params) throws IllegalArgumentException, IOException {
         if (log.isEnabled(Level.INFO))
             log.log(Level.INFO, "Начало создания bean");
 
@@ -49,7 +49,9 @@ public class BeanCreator {
 
         if (log.isEnabled(Level.INFO))
             log.log(Level.INFO, "Валидация входных параметров прошла успешно");
-        return new InputBean(new FileInputStream(params[0]),
+
+        return new InputBean(
+            new FileInputStream(params[0]),
             new FileOutputStream(params[1]),
             getExtension(params[0]));
     }

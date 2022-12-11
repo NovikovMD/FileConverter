@@ -1,8 +1,4 @@
 import fileconverter.FileConverter;
-
-import static fileconverter.bean.BeanCreator.createBean;
-import static org.junit.jupiter.api.Assertions.*;
-
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,8 +6,11 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 
+import static fileconverter.bean.BeanCreator.createBean;
+import static org.junit.jupiter.api.Assertions.*;
+
 public class FileConverterTest {
-    FileConverter fileConverter;
+    private FileConverter fileConverter;
 
     @BeforeEach
     void atStart() {
@@ -20,7 +19,7 @@ public class FileConverterTest {
 
     @Test
     void correctBehavior1() throws Exception {
-        File fl = new File("src/test/resources/TestMain.xml");
+        val fl = new File("src/test/resources/TestMain.xml");
         if (fl.exists())
             fl.delete();
 
@@ -36,7 +35,7 @@ public class FileConverterTest {
 
     @Test
     void correctBehavior2() throws Exception {
-        File fl = new File("src/test/resources/TestMain.json");
+        val fl = new File("src/test/resources/TestMain.json");
         if (fl.exists())
             fl.delete();
 

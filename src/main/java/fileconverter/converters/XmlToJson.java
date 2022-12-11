@@ -12,7 +12,6 @@ import lombok.val;
 import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * Конвертирует Xml класс данных в Json.
@@ -27,11 +26,11 @@ public class XmlToJson implements Converter<XmlUpperClass, JsonUpperClass> {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     @Override
-    public JsonUpperClass convert(@NonNull XmlUpperClass upperClass) throws IllegalArgumentException {
+    public JsonUpperClass convert(@NonNull final XmlUpperClass upperClass) throws IllegalArgumentException {
         if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Начало конвертирования классов");
+            log.log(Level.DEBUG, "Начало конвертирования Xml в Json");
 
-        final JsonUpperClass jsonUpperClassGames = new JsonUpperClass();
+        val jsonUpperClassGames = new JsonUpperClass();
 
         startConvert(upperClass, jsonUpperClassGames);
 
@@ -62,18 +61,13 @@ public class XmlToJson implements Converter<XmlUpperClass, JsonUpperClass> {
 
     private void getGame(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher,
                          final XmlDevStudio developer, final XmlGame game) {
-
         if (getCurrentGame(game.getName(), jsonUpperClassGames.getGames()) == null) {
             createNewGame(jsonUpperClassGames, publisher, developer, game);
             return;
         }
-
-        try {
-            Objects.requireNonNull(getCurrentGame(game.getName(), jsonUpperClassGames.getGames()))
+        //не будет null. Проверяется выше.
+        getCurrentGame(game.getName(), jsonUpperClassGames.getGames())
                 .addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
-        } catch (NullPointerException exception) {
-            log.log(Level.WARN, "Получен null при конвертации классов.");
-        }
 
     }
 

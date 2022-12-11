@@ -28,9 +28,9 @@ public class JacksonReader implements Reader<JsonUpperClass> {
      *                                  или некорректная структура файла.
      */
     @Override
-    public JsonUpperClass parse(InputStream stream) throws IOException {
+    public JsonUpperClass parse(final InputStream stream) throws IOException {
         if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Начало работы парсинга Json");
+            log.log(Level.DEBUG, "Начало работы парсера Jackson");
         final JsonUpperClass games = new JsonUpperClass();
 
         startParsing(games, factory.createParser(stream));
@@ -117,7 +117,8 @@ public class JacksonReader implements Reader<JsonUpperClass> {
                 parser.nextToken();
                 games.returnLastGame()
                     .returnLastDevStudio()
-                    .setYearOfFoundation(Integer.parseInt(parser.getText()));
+                    .setYearOfFoundation(
+                        Integer.parseInt(parser.getText()));
                 continue;
             }
             if (parser.getCurrentName().equals("url")) {
@@ -128,6 +129,5 @@ public class JacksonReader implements Reader<JsonUpperClass> {
             }
         }
     }
-
     //endregion
 }

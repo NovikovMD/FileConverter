@@ -30,7 +30,7 @@ public class XmlGame {
     private int year;
     @XmlElementWrapper(name = "platforms")
     @XmlElement(name = "platform")
-    private final ArrayList<XmlPlatform> platforms= new ArrayList<>();
+    private final ArrayList<XmlPlatform> platforms = new ArrayList<>();
 
     public void addPlatform(String name) {
         platforms.add(new XmlPlatform(name));
