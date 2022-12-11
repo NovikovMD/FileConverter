@@ -7,10 +7,11 @@
  *    May you find forgiveness for yourself and forgive others.
  *    May you share freely, never taking more than you give.
  */
-package fileconverter.writers;
+package fileconverter.writers.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fileconverter.bean.json.JsonUpperClass;
+import fileconverter.writers.Writer;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 

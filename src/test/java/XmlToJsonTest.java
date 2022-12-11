@@ -1,13 +1,14 @@
 import fileconverter.bean.json.JsonUpperClass;
-import fileconverter.bean.xml.*;
+import fileconverter.bean.xml.XmlDevStudio;
+import fileconverter.bean.xml.XmlGame;
+import fileconverter.bean.xml.XmlPlatform;
+import fileconverter.bean.xml.XmlUpperClass;
 import fileconverter.converters.Converter;
 import fileconverter.converters.XmlToJson;
-import fileconverter.readers.JaxbReader;
 import fileconverter.readers.Reader;
-import fileconverter.readers.SaxReader;
-import fileconverter.writers.JacksonWriter;
+import fileconverter.readers.xml.JaxbReader;
 import fileconverter.writers.Writer;
-
+import fileconverter.writers.json.GsonWriter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
@@ -32,11 +33,12 @@ public class XmlToJsonTest {
     void starter() {
         reader = new JaxbReader();
         converter = new XmlToJson();
-        writer = new JacksonWriter();
+        writer = new GsonWriter();
     }
 
     @Test
-    void parseXml() throws ParserConfigurationException, IOException, SAXException, JAXBException {
+    void parseXml() throws ParserConfigurationException, IOException,
+        SAXException, JAXBException {
         XmlUpperClass upper = (XmlUpperClass) reader.parse(
             new FileInputStream("src/test/resources/TestInput.xml"));
         //publisher
@@ -81,7 +83,8 @@ public class XmlToJsonTest {
     }
 
     @Test
-    void convertXmlToJson() throws ParserConfigurationException, IOException, SAXException, JAXBException {
+    void convertXmlToJson() throws ParserConfigurationException, IOException,
+        SAXException, JAXBException {
         JsonUpperClass compare = (JsonUpperClass) converter.convert(
             reader.parse(
                 new FileInputStream("src/test/resources/TestInput.xml")));
@@ -117,7 +120,8 @@ public class XmlToJsonTest {
     }
 
     @Test
-    void createJson() throws IOException, ParserConfigurationException, SAXException, XMLStreamException, JAXBException {
+    void createJson() throws IOException, ParserConfigurationException, SAXException,
+        XMLStreamException, JAXBException {
         File fl = new File("src/test/resources/newJson.json");
         if (fl.exists())
             fl.delete();

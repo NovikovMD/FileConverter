@@ -11,6 +11,7 @@ package fileconverter.bean.json;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class JsonGame {
     private String name;
     private int year;

@@ -2,11 +2,11 @@ package fileconverter;
 
 import fileconverter.bean.InputBean;
 import fileconverter.converters.*;
-import fileconverter.readers.JacksonReader;
+import fileconverter.readers.json.JacksonReader;
 import fileconverter.readers.Reader;
-import fileconverter.readers.SaxReader;
-import fileconverter.writers.JacksonWriter;
-import fileconverter.writers.StaxWriter;
+import fileconverter.readers.xml.SaxReader;
+import fileconverter.writers.json.JacksonWriter;
+import fileconverter.writers.xml.StaxWriter;
 import fileconverter.writers.Writer;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;

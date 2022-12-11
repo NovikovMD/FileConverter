@@ -1,9 +1,10 @@
-package fileconverter.writers;
+package fileconverter.writers.xml;
 
 import fileconverter.bean.xml.XmlDevStudio;
 import fileconverter.bean.xml.XmlGame;
 import fileconverter.bean.xml.XmlGamePublisher;
 import fileconverter.bean.xml.XmlUpperClass;
+import fileconverter.writers.Writer;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 

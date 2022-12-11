@@ -10,10 +10,12 @@
 package fileconverter.bean.json;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 
 @Getter
+@NoArgsConstructor
 public class JsonUpperClass {
     private final ArrayList<JsonGame> games = new ArrayList<>();
 

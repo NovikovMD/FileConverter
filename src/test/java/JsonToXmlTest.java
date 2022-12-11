@@ -1,11 +1,13 @@
 import fileconverter.bean.json.JsonUpperClass;
-import fileconverter.bean.xml.*;
-
+import fileconverter.bean.xml.XmlDevStudio;
+import fileconverter.bean.xml.XmlGame;
+import fileconverter.bean.xml.XmlPlatform;
+import fileconverter.bean.xml.XmlUpperClass;
 import fileconverter.converters.Converter;
 import fileconverter.converters.JsonToXml;
-import fileconverter.readers.JacksonReader;
+import fileconverter.readers.json.GsonReader;
 import fileconverter.readers.Reader;
-import fileconverter.writers.JaxbWriter;
+import fileconverter.writers.xml.JaxbWriter;
 import fileconverter.writers.Writer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +32,7 @@ public class JsonToXmlTest {
 
     @BeforeEach
     void starter() throws JAXBException {
-        reader = new JacksonReader();
+        reader = new GsonReader();
         converter = new JsonToXml();
         writer = new JaxbWriter();
     }

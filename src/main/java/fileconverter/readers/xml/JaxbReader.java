@@ -1,6 +1,7 @@
-package fileconverter.readers;
+package fileconverter.readers.xml;
 
 import fileconverter.bean.xml.XmlUpperClass;
+import fileconverter.readers.Reader;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

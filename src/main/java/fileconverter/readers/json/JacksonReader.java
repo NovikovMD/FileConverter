@@ -1,9 +1,10 @@
-package fileconverter.readers;
+package fileconverter.readers.json;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import fileconverter.bean.json.JsonUpperClass;
+import fileconverter.readers.Reader;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 

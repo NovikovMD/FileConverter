@@ -1,6 +1,7 @@
-package fileconverter.writers;
+package fileconverter.writers.xml;
 
 import fileconverter.bean.xml.XmlUpperClass;
+import fileconverter.writers.Writer;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

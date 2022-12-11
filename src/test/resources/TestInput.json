@@ -53,6 +53,88 @@
           "url": "www.rockstarlondon.com"
         }
       ]
+    },
+    {
+      "name": "Tom Clancy’s The Division 2",
+      "year": 2019,
+      "gamePublisher": "Ubisoft",
+      "platforms": [
+        {
+          "name": "PlayStation 4"
+        },
+        {
+          "name": "Windows"
+        },
+        {
+          "name": "XBox One"
+        }
+      ],
+      "devStudios": [
+        {
+          "name": "Massive Entertainment",
+          "yearOfFoundation": 1997,
+          "url": "massive.se"
+        },
+        {
+          "name": "Red Storm Entertainment",
+          "yearOfFoundation": 1996,
+          "url": "redstorm.com"
+        }
+      ]
+    },
+    {
+      "name": "Far Cry 3",
+      "year": 2012,
+      "gamePublisher": "Ubisoft",
+      "platforms": [
+        {
+          "name": "PlayStation 3"
+        },
+        {
+          "name": "Windows"
+        },
+        {
+          "name": "XBox 360"
+        }
+      ],
+      "devStudios": [
+        {
+          "name": "Massive Entertainment",
+          "yearOfFoundation": 1997,
+          "url": "massive.se"
+        },
+        {
+          "name": "Red Storm Entertainment",
+          "yearOfFoundation": 1996,
+          "url": "redstorm.com"
+        }
+      ]
+    },
+    {
+      "name": "Far Cry 4",
+      "year": 2014,
+      "gamePublisher": "Ubisoft",
+      "platforms": [
+        {
+          "name": "PlayStation 3"
+        },
+        {
+          "name": "PlayStation 4"
+        },
+        {
+          "name": "Windows"
+        },
+        {
+          "name": "XBox 360"
+        }
+      ],
+      "devStudios": [
+        {
+          "name": "Red Storm Entertainment",
+          "yearOfFoundation": 1996,
+          "url": "redstorm.com"
+        }
+      ]
     }
   ]
 }

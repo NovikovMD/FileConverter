@@ -1,6 +1,7 @@
-package fileconverter.readers;
+package fileconverter.readers.xml;
 
 import fileconverter.bean.xml.XmlUpperClass;
+import fileconverter.readers.Reader;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 import org.xml.sax.Attributes;
