@@ -10,7 +10,7 @@
 package fileconverter.writers.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fileconverter.bean.json.JsonUpperClass;
+import fileconverter.bean.json.JsonUpper;
 import fileconverter.writers.Writer;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
@@ -22,7 +22,7 @@ import java.io.OutputStream;
  * Создает Json файл используя Jackson-databind.
  */
 @Log4j2
-public class JacksonWriter implements Writer<JsonUpperClass> {
+public class JacksonWriter implements Writer<JsonUpper> {
     private final ObjectMapper mapper = new ObjectMapper();
 
     /**
@@ -33,7 +33,7 @@ public class JacksonWriter implements Writer<JsonUpperClass> {
      * @throws IOException если произошла ошибка записи в файл.
      */
     @Override
-    public void write(final JsonUpperClass upperClass, final OutputStream stream) throws IOException {
+    public void write(final JsonUpper upperClass, final OutputStream stream) throws IOException {
         if (log.isEnabled(Level.DEBUG))
             log.log(Level.DEBUG, "Начало создания файла Jackson");
 

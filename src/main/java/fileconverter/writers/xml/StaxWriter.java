@@ -3,11 +3,10 @@ package fileconverter.writers.xml;
 import fileconverter.bean.xml.XmlDevStudio;
 import fileconverter.bean.xml.XmlGame;
 import fileconverter.bean.xml.XmlGamePublisher;
-import fileconverter.bean.xml.XmlUpperClass;
+import fileconverter.bean.xml.XmlUpper;
 import fileconverter.writers.Writer;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
-import org.apache.logging.log4j.Level;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -18,7 +17,7 @@ import java.io.OutputStream;
  * Создает XML файл, используя StAX.
  */
 @Log4j2
-public class StaxWriter implements Writer<XmlUpperClass> {
+public class StaxWriter implements Writer<XmlUpper> {
     private final XMLOutputFactory output = XMLOutputFactory.newInstance();
 
     /**
@@ -29,51 +28,53 @@ public class StaxWriter implements Writer<XmlUpperClass> {
      * @throws XMLStreamException если произошла ошибка при заполнении файла.
      */
     @Override
-    public void write(final XmlUpperClass upperClass, final OutputStream stream) throws XMLStreamException {
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Начало создания файла Stax");
+    public void write(final XmlUpper upperClass, final OutputStream stream) throws XMLStreamException {
+        if (log.isDebugEnabled()) {
+            log.debug("Начало создания файла Stax");
+        }
 
         writeXml(stream, upperClass);
 
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Создание файла Xml прошло успешно");
+        if (log.isDebugEnabled()) {
+            log.debug("Создание файла Xml прошло успешно");
+        }
     }
 
     //region createXml private methods
-    private void writeXml(final OutputStream out, final XmlUpperClass xmlUpperClassClass) throws XMLStreamException {
+    private void writeXml(final OutputStream out, final XmlUpper xmlUpperClass) throws XMLStreamException {
         val writer = output.createXMLStreamWriter(out);
 
-        startWriting(xmlUpperClassClass, writer);
+        startWriting(xmlUpperClass, writer);
 
         writer.flush();
         writer.close();
     }
 
-    private void startWriting(final XmlUpperClass xmlUpperClassClass,
+    private void startWriting(final XmlUpper xmlUpperClass,
                               final XMLStreamWriter writer) throws XMLStreamException {
         writer.writeStartDocument("utf-8", "1.0");
 
         writer.writeStartElement("GameIndustry");
         writer.writeStartElement("gamePublishers");
 
-        writeGamePublishers(xmlUpperClassClass, writer);
+        writeGamePublishers(xmlUpperClass, writer);
 
         writer.writeEndElement();//конец publishers
         writer.writeEndElement();//конец GameIndustry
     }
 
-    private void writeGamePublishers(final XmlUpperClass xmlUpperClassClass,
+    private void writeGamePublishers(final XmlUpper xmlUpperClass,
                                      final XMLStreamWriter writer) throws XMLStreamException {
-        for (int index = 0; index < xmlUpperClassClass.returnLength(); index++) {
+        for (int index = 0; index < xmlUpperClass.returnLength(); index++) {
             writer.writeStartElement("gamePublisher");
 
             writer.writeAttribute("name",
-                xmlUpperClassClass.getPublishers()
+                xmlUpperClass.getPublishers()
                     .get(index).getName());
 
             writer.writeStartElement("developerStudios");
 
-            writeDevStudios(xmlUpperClassClass.getPublishers().get(index), writer);
+            writeDevStudios(xmlUpperClass.getPublishers().get(index), writer);
 
             writer.writeEndElement();//конец devs
             writer.writeEndElement();//конец publisher

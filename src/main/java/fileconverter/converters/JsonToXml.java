@@ -2,14 +2,13 @@ package fileconverter.converters;
 
 import fileconverter.bean.json.JsonDevStudio;
 import fileconverter.bean.json.JsonGame;
-import fileconverter.bean.json.JsonUpperClass;
+import fileconverter.bean.json.JsonUpper;
 import fileconverter.bean.xml.XmlDevStudio;
 import fileconverter.bean.xml.XmlGamePublisher;
-import fileconverter.bean.xml.XmlUpperClass;
+import fileconverter.bean.xml.XmlUpper;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
-import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
  * Конвертирует Json классы данных в XML классы.
  */
 @Log4j2
-public class JsonToXml implements Converter<JsonUpperClass, XmlUpperClass> {
+public class JsonToXml implements Converter<JsonUpper, XmlUpper> {
 
     /**
      * Конвертирует Json классы данных в XML классы.
@@ -27,21 +26,23 @@ public class JsonToXml implements Converter<JsonUpperClass, XmlUpperClass> {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     @Override
-    public XmlUpperClass convert(@NonNull final JsonUpperClass upperClass) throws IllegalArgumentException {
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Начало конвертирования Json в Xml");
+    public XmlUpper convert(@NonNull final JsonUpper upperClass) throws IllegalArgumentException {
+        if (log.isDebugEnabled()) {
+            log.debug("Начало конвертирования Json в Xml");
+        }
 
-        val gameIndustry = new XmlUpperClass();
+        val gameIndustry = new XmlUpper();
 
         startConvert(upperClass, gameIndustry);
 
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Конвертирование классов прошло успешно");
+        if (log.isDebugEnabled()) {
+            log.debug("Конвертирование классов прошло успешно");
+        }
         return gameIndustry;
     }
 
     //region Convert private methods
-    private void startConvert(final JsonUpperClass games, final XmlUpperClass gameIndustry) {
+    private void startConvert(final JsonUpper games, final XmlUpper gameIndustry) {
         gameIndustry.addPublisher(games.getGames().get(0).getGamePublisher());
 
         for (int index = 0; index < games.returnLength(); index++) {
@@ -99,7 +100,7 @@ public class JsonToXml implements Converter<JsonUpperClass, XmlUpperClass> {
             .get(publisher.returnLength() - 1);
     }
 
-    private XmlGamePublisher findPublisher(final JsonGame jsonGame, final XmlUpperClass xml) {
+    private XmlGamePublisher findPublisher(final JsonGame jsonGame, final XmlUpper xml) {
         for (int index = xml.getPublishers().size() - 1; index >= 0; index--) {
             if (xml.getPublishers().get(index).getName().equals(jsonGame.getGamePublisher())) {
                 return xml.getPublishers().get(index);

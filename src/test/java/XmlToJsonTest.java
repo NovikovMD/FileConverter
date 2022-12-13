@@ -1,5 +1,5 @@
-import fileconverter.bean.json.JsonUpperClass;
-import fileconverter.bean.xml.XmlUpperClass;
+import fileconverter.bean.json.JsonUpper;
+import fileconverter.bean.xml.XmlUpper;
 import fileconverter.converters.Converter;
 import fileconverter.converters.XmlToJson;
 import fileconverter.readers.Reader;
@@ -39,7 +39,7 @@ public class XmlToJsonTest {
     void parseXml(final Reader reader)
         throws ParserConfigurationException, IOException,
         SAXException, JAXBException {
-        final XmlUpperClass upper = (XmlUpperClass) reader.parse(
+        final XmlUpper upper = (XmlUpper) reader.parse(
             new FileInputStream("src/test/resources/TestInput.xml"));
 
         assertEquals("Rockstar", upper.getPublishers()
@@ -116,7 +116,7 @@ public class XmlToJsonTest {
     void convertXmlToJson(final Reader reader, final Converter converter)
         throws ParserConfigurationException, IOException,
         SAXException, JAXBException {
-        final JsonUpperClass compare = (JsonUpperClass) converter.convert(
+        final JsonUpper compare = (JsonUpper) converter.convert(
             reader.parse(
                 new FileInputStream("src/test/resources/TestInput.xml")));
 

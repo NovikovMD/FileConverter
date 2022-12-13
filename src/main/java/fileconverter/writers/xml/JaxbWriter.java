@@ -1,9 +1,8 @@
 package fileconverter.writers.xml;
 
-import fileconverter.bean.xml.XmlUpperClass;
+import fileconverter.bean.xml.XmlUpper;
 import fileconverter.writers.Writer;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Level;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -14,8 +13,8 @@ import java.io.OutputStream;
  * Создает XML файл, используя Jaxb.
  */
 @Log4j2
-public class JaxbWriter implements Writer<XmlUpperClass> {
-    private final JAXBContext context = JAXBContext.newInstance(XmlUpperClass.class);
+public class JaxbWriter implements Writer<XmlUpper> {
+    private final JAXBContext context = JAXBContext.newInstance(XmlUpper.class);
     private final Marshaller mar = context.createMarshaller();
 
     /**
@@ -33,13 +32,15 @@ public class JaxbWriter implements Writer<XmlUpperClass> {
      * @throws JAXBException если проихошла ошибка Jaxb парсера.
      */
     @Override
-    public void write(final XmlUpperClass upperClass, final OutputStream stream) throws JAXBException {
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Начало создания файла Jaxb");
+    public void write(final XmlUpper upperClass, final OutputStream stream) throws JAXBException {
+        if (log.isDebugEnabled()) {
+            log.debug("Начало создания файла Jaxb");
+        }
 
         mar.marshal(upperClass, stream);
 
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Создание файла Xml прошло успешно");
+        if (log.isDebugEnabled()) {
+            log.debug("Создание файла Xml прошло успешно");
+        }
     }
 }

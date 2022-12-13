@@ -3,10 +3,9 @@ package fileconverter.readers.json;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import fileconverter.bean.json.JsonUpperClass;
+import fileconverter.bean.json.JsonUpper;
 import fileconverter.readers.Reader;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Level;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +14,7 @@ import java.io.InputStream;
  * Создает Json файл используя Jackson-databind.
  */
 @Log4j2
-public class JacksonReader implements Reader<JsonUpperClass> {
+public class JacksonReader implements Reader<JsonUpper> {
     private final JsonFactory factory = new JsonFactory();
 
     /**
@@ -28,20 +27,22 @@ public class JacksonReader implements Reader<JsonUpperClass> {
      *                                  или некорректная структура файла.
      */
     @Override
-    public JsonUpperClass parse(final InputStream stream) throws IOException {
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Начало работы парсера Jackson");
-        final JsonUpperClass games = new JsonUpperClass();
+    public JsonUpper parse(final InputStream stream) throws IOException {
+        if (log.isDebugEnabled()) {
+            log.debug("Начало работы парсера Jackson");
+        }
+        final JsonUpper games = new JsonUpper();
 
         startParsing(games, factory.createParser(stream));
 
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Успешное завершение парсинга Json.");
+        if (log.isDebugEnabled()) {
+            log.debug("Успешное завершение парсинга Json.");
+        }
         return games;
     }
 
     //region parseJson private methods
-    private void startParsing(final JsonUpperClass games, final JsonParser parser) throws IOException {
+    private void startParsing(final JsonUpper games, final JsonParser parser) throws IOException {
         parser.nextToken();
         parser.nextToken();
 
@@ -64,26 +65,26 @@ public class JacksonReader implements Reader<JsonUpperClass> {
         }
     }
 
-    private void getName(final JsonUpperClass games, final JsonParser parser) throws IOException {
+    private void getName(final JsonUpper games, final JsonParser parser) throws IOException {
         games.addGame("place_holder", -1, "place_holder");
         parser.nextToken();
         games.returnLastGame()
             .setName(parser.getText());
     }
 
-    private void getYear(final JsonUpperClass games, final JsonParser parser) throws IOException {
+    private void getYear(final JsonUpper games, final JsonParser parser) throws IOException {
         parser.nextToken();
         games.returnLastGame()
             .setYear(Integer.parseInt(parser.getText()));
     }
 
-    private void getGamePublisher(final JsonUpperClass games, final JsonParser parser) throws IOException {
+    private void getGamePublisher(final JsonUpper games, final JsonParser parser) throws IOException {
         parser.nextToken();
         games.returnLastGame()
             .setGamePublisher(parser.getText());
     }
 
-    private void getPlatforms(final JsonUpperClass games, final JsonParser parser) throws IOException {
+    private void getPlatforms(final JsonUpper games, final JsonParser parser) throws IOException {
         parser.nextToken();
         while (parser.nextToken() != JsonToken.END_ARRAY) {
             parser.nextToken();
@@ -96,7 +97,7 @@ public class JacksonReader implements Reader<JsonUpperClass> {
         }
     }
 
-    private void getDevStudios(final JsonUpperClass games, final JsonParser parser) throws IOException {
+    private void getDevStudios(final JsonUpper games, final JsonParser parser) throws IOException {
         parser.nextToken();
         parser.nextToken();
 

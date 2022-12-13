@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 @Getter
 @NoArgsConstructor
-public class JsonUpperClass {
+public class JsonUpper {
     private final ArrayList<JsonGame> games = new ArrayList<>();
 
     public void addGame(String name, int year, String gamePublisher) {

@@ -1,9 +1,8 @@
 package fileconverter.readers.xml;
 
-import fileconverter.bean.xml.XmlUpperClass;
+import fileconverter.bean.xml.XmlUpper;
 import fileconverter.readers.Reader;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Level;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -18,9 +17,9 @@ import java.io.InputStream;
  * Расширяет класс DefaultHandler в XMLHandler для работы с Xml файлом, используя SAX.
  */
 @Log4j2
-public class SaxReader implements Reader<XmlUpperClass> {
+public class SaxReader implements Reader<XmlUpper> {
     //Инициализируется в XmlHandler
-    private XmlUpperClass gameIndustry;
+    private XmlUpper gameIndustry;
     private final SAXParserFactory factory = SAXParserFactory.newInstance();
     private final XmlHandler handler = new XmlHandler();
 
@@ -35,21 +34,23 @@ public class SaxReader implements Reader<XmlUpperClass> {
      * @throws IOException                  в случае любой IO ошибки.
      */
     @Override
-    public XmlUpperClass parse(final InputStream stream)
+    public XmlUpper parse(final InputStream stream)
         throws ParserConfigurationException, SAXException, IOException {
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Начало работы Sax парсера");
+        if (log.isDebugEnabled()) {
+            log.debug("Начало работы Sax парсера");
+        }
 
         factory.newSAXParser().parse(stream, handler);
 
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Успешное завершение парсинга XML.");
+        if (log.isDebugEnabled()) {
+            log.debug("Успешное завершение парсинга XML.");
+        }
         return gameIndustry;
     }
 
     private class XmlHandler extends DefaultHandler {
         public void startDocument() {
-            gameIndustry = new XmlUpperClass();
+            gameIndustry = new XmlUpper();
         }
 
         @Override

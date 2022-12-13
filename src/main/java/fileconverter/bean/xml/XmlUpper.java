@@ -17,7 +17,7 @@ import java.util.ArrayList;
 @Getter
 @XmlRootElement(name = "GameIndustry")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class XmlUpperClass {
+public class XmlUpper {
     @XmlElementWrapper(name = "gamePublishers")
     @XmlElement(name = "gamePublisher")
     private final ArrayList<XmlGamePublisher> publishers = new ArrayList<>();

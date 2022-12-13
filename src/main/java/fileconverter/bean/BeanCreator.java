@@ -1,9 +1,11 @@
 package fileconverter.bean;
 
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Level;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Path;
 
 import static java.nio.file.Files.notExists;
@@ -26,8 +28,9 @@ public class BeanCreator {
      * @throws IOException              в случае любой IO ошибки.
      */
     public static InputBean createBean(final String[] params) throws IllegalArgumentException, IOException {
-        if (log.isEnabled(Level.INFO))
-            log.log(Level.INFO, "Начало создания bean");
+        if (log.isInfoEnabled()) {
+            log.info("Начало создания bean");
+        }
 
         if (params.length != 2)
             throw new IllegalArgumentException("Некорректный ввод данных");
@@ -47,8 +50,9 @@ public class BeanCreator {
         if (notExists(Path.of(params[0])) || notExists(Path.of(params[1]).getParent()))
             throw new FileNotFoundException("Некорректный путь к файлу.");
 
-        if (log.isEnabled(Level.INFO))
-            log.log(Level.INFO, "Валидация входных параметров прошла успешно");
+        if (log.isInfoEnabled()) {
+            log.info("Валидация входных параметров прошла успешно");
+        }
 
         return new InputBean(
             new FileInputStream(params[0]),

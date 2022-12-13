@@ -27,10 +27,7 @@ public class FileConverterTest {
             new String[]{"src/test/resources/TestInput.json",
                 "src/test/resources/TestMain.xml"}));
 
-        if (new File("src/test/resources/TestMain.xml").exists())
-            assertTrue(true);
-        else
-            fail("File not created");
+        assertTrue(new File("src/test/resources/TestMain.xml").exists());
     }
 
     @Test
@@ -43,10 +40,7 @@ public class FileConverterTest {
             new String[]{"src/test/resources/TestInput.xml",
                 "src/test/resources/TestMain.json"}));
 
-        if (new File("src/test/resources/TestMain.json").exists())
-            assertTrue(true);
-        else
-            fail("File not created");
+        assertTrue(new File("src/test/resources/TestMain.json").exists());
     }
 
     @Test

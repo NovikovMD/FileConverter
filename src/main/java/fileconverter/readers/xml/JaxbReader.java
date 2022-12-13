@@ -1,9 +1,8 @@
 package fileconverter.readers.xml;
 
-import fileconverter.bean.xml.XmlUpperClass;
+import fileconverter.bean.xml.XmlUpper;
 import fileconverter.readers.Reader;
 import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Level;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -13,15 +12,16 @@ import java.io.InputStream;
  * Считывает Xml файл при помощи Jaxb.
  */
 @Log4j2
-public class JaxbReader implements Reader<XmlUpperClass> {
-    private final JAXBContext context = JAXBContext.newInstance(XmlUpperClass.class);
+public class JaxbReader implements Reader<XmlUpper> {
+    private final JAXBContext context = JAXBContext.newInstance(XmlUpper.class);
 
     /**
      * @throws JAXBException при ошибке создания Jaxb парсера.
      */
     public JaxbReader() throws JAXBException {
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Создание Jaxb парсера.");
+        if (log.isDebugEnabled()) {
+            log.debug("Создание Jaxb парсера.");
+        }
     }
 
     /**
@@ -31,11 +31,12 @@ public class JaxbReader implements Reader<XmlUpperClass> {
      * @throws JAXBException при ошибке Jaxb парсера.
      */
     @Override
-    public XmlUpperClass parse(final InputStream stream) throws JAXBException {
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Начало работы Jaxb парсера");
+    public XmlUpper parse(final InputStream stream) throws JAXBException {
+        if (log.isDebugEnabled()) {
+            log.debug("Начало работы Jaxb парсера");
+        }
 
-        return (XmlUpperClass) context.createUnmarshaller()
+        return (XmlUpper) context.createUnmarshaller()
             .unmarshal(stream);
     }
 }

@@ -1,15 +1,14 @@
 package fileconverter.converters;
 
 import fileconverter.bean.json.JsonGame;
-import fileconverter.bean.json.JsonUpperClass;
+import fileconverter.bean.json.JsonUpper;
 import fileconverter.bean.xml.XmlDevStudio;
 import fileconverter.bean.xml.XmlGame;
 import fileconverter.bean.xml.XmlGamePublisher;
-import fileconverter.bean.xml.XmlUpperClass;
+import fileconverter.bean.xml.XmlUpper;
 import lombok.NonNull;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
-import org.apache.logging.log4j.Level;
 
 import java.util.ArrayList;
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
  * Конвертирует Xml класс данных в Json.
  */
 @Log4j2
-public class XmlToJson implements Converter<XmlUpperClass, JsonUpperClass> {
+public class XmlToJson implements Converter<XmlUpper, JsonUpper> {
     /**
      * Конвертирует Xml классы данных в Json классы.
      *
@@ -26,47 +25,49 @@ public class XmlToJson implements Converter<XmlUpperClass, JsonUpperClass> {
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
     @Override
-    public JsonUpperClass convert(@NonNull final XmlUpperClass upperClass) throws IllegalArgumentException {
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Начало конвертирования Xml в Json");
+    public JsonUpper convert(@NonNull final XmlUpper upperClass) throws IllegalArgumentException {
+        if (log.isDebugEnabled()) {
+            log.debug("Начало конвертирования Xml в Json");
+        }
 
-        val jsonUpperClassGames = new JsonUpperClass();
+        val jsonUpperClassGames = new JsonUpper();
 
         startConvert(upperClass, jsonUpperClassGames);
 
-        if (log.isEnabled(Level.DEBUG))
-            log.log(Level.DEBUG, "Конвертирование классов прошло успешно");
+        if (log.isDebugEnabled()) {
+            log.debug("Конвертирование классов прошло успешно");
+        }
         return jsonUpperClassGames;
     }
 
     //region Convert private methods
-    private void startConvert(final XmlUpperClass gameIndustry, final JsonUpperClass jsonUpperClassGames) {
+    private void startConvert(final XmlUpper gameIndustry, final JsonUpper jsonUpperGames) {
         for (int index = 0; index < gameIndustry.returnLength(); index++) {
-            getPublisher(jsonUpperClassGames, gameIndustry.getPublishers().get(index));
+            getPublisher(jsonUpperGames, gameIndustry.getPublishers().get(index));
         }
     }
 
-    private void getPublisher(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher) {
+    private void getPublisher(final JsonUpper jsonUpperGames, final XmlGamePublisher publisher) {
         for (int index = 0; index < publisher.returnLength(); index++) {
-            getDeveloper(jsonUpperClassGames, publisher, publisher.getDevStudios().get(index));
+            getDeveloper(jsonUpperGames, publisher, publisher.getDevStudios().get(index));
         }
     }
 
-    private void getDeveloper(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher,
+    private void getDeveloper(final JsonUpper jsonUpperGames, final XmlGamePublisher publisher,
                               final XmlDevStudio developer) {
         for (int index = 0; index < developer.returnLength(); index++) {
-            getGame(jsonUpperClassGames, publisher, developer, developer.getGames().get(index));
+            getGame(jsonUpperGames, publisher, developer, developer.getGames().get(index));
         }
     }
 
-    private void getGame(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher,
+    private void getGame(final JsonUpper jsonUpperGames, final XmlGamePublisher publisher,
                          final XmlDevStudio developer, final XmlGame game) {
-        if (getCurrentGame(game.getName(), jsonUpperClassGames.getGames()) == null) {
-            createNewGame(jsonUpperClassGames, publisher, developer, game);
+        if (getCurrentGame(game.getName(), jsonUpperGames.getGames()) == null) {
+            createNewGame(jsonUpperGames, publisher, developer, game);
             return;
         }
         //не будет null. Проверяется выше.
-        getCurrentGame(game.getName(), jsonUpperClassGames.getGames())
+        getCurrentGame(game.getName(), jsonUpperGames.getGames())
                 .addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
 
     }
@@ -80,13 +81,13 @@ public class XmlToJson implements Converter<XmlUpperClass, JsonUpperClass> {
         return null;
     }
 
-    private void createNewGame(final JsonUpperClass jsonUpperClassGames, final XmlGamePublisher publisher,
+    private void createNewGame(final JsonUpper jsonUpperGames, final XmlGamePublisher publisher,
                                final XmlDevStudio developer, final XmlGame game) {
-        jsonUpperClassGames.addGame(game.getName(), game.getYear(), publisher.getName());
+        jsonUpperGames.addGame(game.getName(), game.getYear(), publisher.getName());
 
-        getPlatform(game, jsonUpperClassGames.getGames().get(jsonUpperClassGames.returnLength() - 1));
+        getPlatform(game, jsonUpperGames.getGames().get(jsonUpperGames.returnLength() - 1));
 
-        jsonUpperClassGames.getGames().get(jsonUpperClassGames.returnLength() - 1)
+        jsonUpperGames.getGames().get(jsonUpperGames.returnLength() - 1)
             .addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
     }
 
