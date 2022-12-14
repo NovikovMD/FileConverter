@@ -1,6 +1,5 @@
 import fileconverter.bean.json.JsonUpper;
 import fileconverter.bean.xml.XmlUpper;
-import fileconverter.converters.Converter;
 import fileconverter.converters.XmlToJson;
 import fileconverter.readers.Reader;
 import fileconverter.readers.xml.JaxbReader;
@@ -36,10 +35,10 @@ public class XmlToJsonTest {
 
     @ParameterizedTest
     @MethodSource("setConfig")
-    void parseXml(final Reader reader)
+    void parseXml(final Reader<XmlUpper> reader)
         throws ParserConfigurationException, IOException,
         SAXException, JAXBException {
-        final XmlUpper upper = (XmlUpper) reader.parse(
+        final XmlUpper upper = reader.parse(
             new FileInputStream("src/test/resources/TestInput.xml"));
 
         assertEquals("Rockstar", upper.getPublishers()
@@ -113,10 +112,10 @@ public class XmlToJsonTest {
 
     @ParameterizedTest
     @MethodSource("setConfig")
-    void convertXmlToJson(final Reader reader, final Converter converter)
+    void convertXmlToJson(final Reader<XmlUpper> reader, final XmlToJson converter)
         throws ParserConfigurationException, IOException,
         SAXException, JAXBException {
-        final JsonUpper compare = (JsonUpper) converter.convert(
+        final JsonUpper compare = converter.convert(
             reader.parse(
                 new FileInputStream("src/test/resources/TestInput.xml")));
 
@@ -189,7 +188,7 @@ public class XmlToJsonTest {
 
     @ParameterizedTest
     @MethodSource("setConfig")
-    void createJson(final Reader reader, final Converter converter, final Writer writer)
+    void createJson(final Reader<XmlUpper> reader, final XmlToJson converter, final Writer<JsonUpper> writer)
         throws IOException, ParserConfigurationException, SAXException,
         XMLStreamException, JAXBException {
         val fl = new File("src/test/resources/newJson.json");
@@ -207,7 +206,7 @@ public class XmlToJsonTest {
 
     @ParameterizedTest
     @MethodSource("setConfig")
-    void wrongFile(final Reader reader) {
+    void wrongFile(final Reader<XmlUpper> reader) {
         assertEquals("src\\test\\resources\\NoSuchFile.xml (Не удается найти указанный файл)",
             assertThrows(Exception.class,
                 () -> reader.parse(

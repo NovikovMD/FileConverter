@@ -1,6 +1,5 @@
 import fileconverter.bean.json.JsonUpper;
 import fileconverter.bean.xml.XmlUpper;
-import fileconverter.converters.Converter;
 import fileconverter.converters.JsonToXml;
 import fileconverter.readers.Reader;
 import fileconverter.readers.json.GsonReader;
@@ -35,9 +34,9 @@ public class JsonToXmlTest {
 
     @ParameterizedTest
     @MethodSource("setConfig")
-    void tryParseJson(final Reader reader)
+    void tryParseJson(final Reader<JsonUpper> reader)
         throws IOException, ParserConfigurationException, SAXException, JAXBException {
-        final JsonUpper upper = (JsonUpper) reader.parse(
+        final JsonUpper upper = reader.parse(
             new FileInputStream("src\\test\\resources\\TestInput.json"));
 
         assertEquals("The Warriors", upper.getGames()
@@ -99,9 +98,9 @@ public class JsonToXmlTest {
 
     @ParameterizedTest
     @MethodSource("setConfig")
-    void tryConvertXmlToJson(final Reader reader, final Converter converter)
+    void tryConvertXmlToJson(final Reader<JsonUpper> reader, final JsonToXml converter)
         throws IOException, ParserConfigurationException, SAXException, JAXBException {
-        final XmlUpper xmlUpper = (XmlUpper) converter.convert(
+        final XmlUpper xmlUpper = converter.convert(
             reader.parse(
                 new FileInputStream("src\\test\\resources\\TestInput.json")));
 
@@ -145,7 +144,7 @@ public class JsonToXmlTest {
 
     @ParameterizedTest
     @MethodSource("setConfig")
-    void tryCreateXml(final Reader reader, final Converter converter, final Writer writer)
+    void tryCreateXml(final Reader<JsonUpper> reader, final JsonToXml converter, final Writer<XmlUpper> writer)
         throws IOException, ParserConfigurationException, SAXException, XMLStreamException, JAXBException {
         val fl = new File("src/test/resources/NewXML.xml");
         if (fl.exists())
@@ -162,7 +161,7 @@ public class JsonToXmlTest {
 
     @ParameterizedTest
     @MethodSource("setConfig")
-    void wrongFile(final Reader reader) {
+    void wrongFile(final Reader<JsonUpper> reader) {
         assertEquals("src\\test\\resources\\NoSuchFile.json (Не удается найти указанный файл)",
             assertThrows(Exception.class,
                 () -> reader.parse(

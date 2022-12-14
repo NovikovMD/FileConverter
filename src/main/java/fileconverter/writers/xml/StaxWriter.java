@@ -23,17 +23,17 @@ public class StaxWriter implements Writer<XmlUpper> {
     /**
      * Запускает создание Xml файла.
      *
-     * @param upperClass класс, содержащий данные для Xml файла.
+     * @param data класс, содержащий данные для Xml файла.
      * @param stream     приёмник данных для Xml файла.
      * @throws XMLStreamException если произошла ошибка при заполнении файла.
      */
     @Override
-    public void write(final XmlUpper upperClass, final OutputStream stream) throws XMLStreamException {
+    public void write(final XmlUpper data, final OutputStream stream) throws XMLStreamException {
         if (log.isDebugEnabled()) {
             log.debug("Начало создания файла Stax");
         }
 
-        writeXml(stream, upperClass);
+        writeXml(stream, data);
 
         if (log.isDebugEnabled()) {
             log.debug("Создание файла Xml прошло успешно");

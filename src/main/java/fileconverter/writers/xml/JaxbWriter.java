@@ -27,17 +27,17 @@ public class JaxbWriter implements Writer<XmlUpper> {
     /**
      * Запускает создание Xml файла.
      *
-     * @param upperClass класс, содержащий данные для Xml файла.
+     * @param data класс, содержащий данные для Xml файла.
      * @param stream     приёмник данных для Xml файла.
      * @throws JAXBException если проихошла ошибка Jaxb парсера.
      */
     @Override
-    public void write(final XmlUpper upperClass, final OutputStream stream) throws JAXBException {
+    public void write(final XmlUpper data, final OutputStream stream) throws JAXBException {
         if (log.isDebugEnabled()) {
             log.debug("Начало создания файла Jaxb");
         }
 
-        mar.marshal(upperClass, stream);
+        mar.marshal(data, stream);
 
         if (log.isDebugEnabled()) {
             log.debug("Создание файла Xml прошло успешно");

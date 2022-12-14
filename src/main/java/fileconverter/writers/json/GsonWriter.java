@@ -22,18 +22,18 @@ public class GsonWriter implements Writer<JsonUpper> {
     /**
      * Создает Json файл.
      *
-     * @param upperClass класс, содержащий данные для Json файла.
+     * @param data класс, содержащий данные для Json файла.
      * @param stream     приёмник данных для Json файла.
      * @throws IOException если произошла ошибка записи в файл.
      */
     @Override
-    public void write(final JsonUpper upperClass, final OutputStream stream) throws IOException {
+    public void write(final JsonUpper data, final OutputStream stream) throws IOException {
         if (log.isDebugEnabled()) {
             log.debug("Начало создания файла Gson");
         }
 
         val bufferedWriter = new BufferedWriter(new OutputStreamWriter(stream));
-        gson.toJson(upperClass, bufferedWriter);
+        gson.toJson(data, bufferedWriter);
         bufferedWriter.close();
 
         if (log.isDebugEnabled()) {

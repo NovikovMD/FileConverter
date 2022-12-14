@@ -12,11 +12,8 @@ import lombok.val;
 
 import java.util.ArrayList;
 
-/**
- * Конвертирует Xml класс данных в Json.
- */
 @Log4j2
-public class XmlToJson implements Converter<XmlUpper, JsonUpper> {
+public class XmlToJson {
     /**
      * Конвертирует Xml классы данных в Json классы.
      *
@@ -24,7 +21,6 @@ public class XmlToJson implements Converter<XmlUpper, JsonUpper> {
      * @return класс, содержащий данные подобно Json файлу.
      * @throws IllegalArgumentException в случае передачи параметром null.
      */
-    @Override
     public JsonUpper convert(@NonNull final XmlUpper upperClass) throws IllegalArgumentException {
         if (log.isDebugEnabled()) {
             log.debug("Начало конвертирования Xml в Json");

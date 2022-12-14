@@ -55,17 +55,4 @@ public class FileConverterTest {
                 () -> fileConverter.doParse(bean))
                 .getMessage());
     }
-
-    @Test
-    void closedStream2() throws IOException {
-        val bean = createBean(
-            new String[]{"src/test/resources/TestInput.json",
-                "src/test/resources/TestMain.xml"});
-        bean.getNewFile().close();
-
-        assertEquals("java.io.IOException: Stream Closed",
-            assertThrows(Exception.class,
-                () -> fileConverter.doParse(bean))
-                .getMessage());
-    }
 }

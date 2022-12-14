@@ -28,16 +28,16 @@ public class JacksonWriter implements Writer<JsonUpper> {
     /**
      * Создает Json файл.
      *
-     * @param upperClass класс, содержащий данные для Json файла.
+     * @param data класс, содержащий данные для Json файла.
      * @param stream     приёмник данных для Json файла.
      * @throws IOException если произошла ошибка записи в файл.
      */
     @Override
-    public void write(final JsonUpper upperClass, final OutputStream stream) throws IOException {
+    public void write(final JsonUpper data, final OutputStream stream) throws IOException {
         if (log.isEnabled(Level.DEBUG))
             log.log(Level.DEBUG, "Начало создания файла Jackson");
 
-        mapper.writeValue(stream, upperClass);
+        mapper.writeValue(stream, data);
 
         if (log.isEnabled(Level.DEBUG))
             log.log(Level.DEBUG, "Создание файла Json прошло успешно");
