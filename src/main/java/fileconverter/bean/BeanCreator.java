@@ -2,9 +2,7 @@ package fileconverter.bean;
 
 import lombok.extern.log4j.Log4j2;
 
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 
@@ -54,9 +52,6 @@ public class BeanCreator {
             log.info("Валидация входных параметров прошла успешно");
         }
 
-        return new InputBean(
-            new FileInputStream(params[0]),
-            new FileOutputStream(params[1]),
-            getExtension(params[0]));
+        return new InputBean(params[0], params[1]);
     }
 }

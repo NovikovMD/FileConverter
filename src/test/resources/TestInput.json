@@ -1,138 +1,138 @@
 {
-  "games": [
+  "Игры": [
     {
-      "name": "The Warriors",
-      "year": 2005,
-      "gamePublisher": "Rockstar",
-      "platforms": [
+      "Название": "The Warriors",
+      "Год выпуска": 2005,
+      "Издатель": "Rockstar",
+      "Платформы": [
         {
-          "name": "PlayStation 2"
+          "Название": "PlayStation 2"
         },
         {
-          "name": "PlayStation Portable"
+          "Название": "PlayStation Portable"
         },
         {
-          "name": "XBox"
+          "Название": "XBox"
         }
       ],
-      "devStudios": [
+      "Разработчики": [
         {
-          "name": "Rockstar Toronto",
-          "yearOfFoundation": 1981,
-          "url": "www.rockstartoronto.com"
+          "Наименование": "Rockstar Toronto",
+          "Год основания": 1981,
+          "URL": "www.rockstartoronto.com"
         }
       ]
     },
     {
-      "name": "Manhunt 2",
-      "year": 2007,
-      "gamePublisher": "Rockstar",
-      "platforms": [
+      "Название": "Manhunt 2",
+      "Год выпуска": 2007,
+      "Издатель": "Rockstar",
+      "Платформы": [
         {
-          "name": "Microsoft Windows"
+          "Название": "Microsoft Windows"
         },
         {
-          "name": "PlayStation 2"
+          "Название": "PlayStation 2"
         },
         {
-          "name": "PlayStation Portable"
+          "Название": "PlayStation Portable"
         },
         {
-          "name": "Wii"
+          "Название": "Wii"
         }
       ],
-      "devStudios": [
+      "Разработчики": [
         {
-          "name": "Rockstar Toronto",
-          "yearOfFoundation": 1981,
-          "url": "www.rockstartoronto.com"
+          "Наименование": "Rockstar Toronto",
+          "Год основания": 1981,
+          "URL": "www.rockstartoronto.com"
         },
         {
-          "name": "Rockstar London",
-          "yearOfFoundation": 2005,
-          "url": "www.rockstarlondon.com"
+          "Наименование": "Rockstar London",
+          "Год основания": 2005,
+          "URL": "www.rockstarlondon.com"
         }
       ]
     },
     {
-      "name": "Tom Clancy’s The Division 2",
-      "year": 2019,
-      "gamePublisher": "Ubisoft",
-      "platforms": [
+      "Название": "Tom Clancy’s The Division 2",
+      "Год выпуска": 2019,
+      "Издатель": "Ubisoft",
+      "Платформы": [
         {
-          "name": "PlayStation 4"
+          "Название": "PlayStation 4"
         },
         {
-          "name": "Windows"
+          "Название": "Windows"
         },
         {
-          "name": "XBox One"
+          "Название": "XBox One"
         }
       ],
-      "devStudios": [
+      "Разработчики": [
         {
-          "name": "Massive Entertainment",
-          "yearOfFoundation": 1997,
-          "url": "massive.se"
+          "Наименование": "Massive Entertainment",
+          "Год основания": 1997,
+          "URL": "massive.se"
         },
         {
-          "name": "Red Storm Entertainment",
-          "yearOfFoundation": 1996,
-          "url": "redstorm.com"
+          "Наименование": "Red Storm Entertainment",
+          "Год основания": 1996,
+          "URL": "redstorm.com"
         }
       ]
     },
     {
-      "name": "Far Cry 3",
-      "year": 2012,
-      "gamePublisher": "Ubisoft",
-      "platforms": [
+      "Название": "Far Cry 3",
+      "Год выпуска": 2012,
+      "Издатель": "Ubisoft",
+      "Платформы": [
         {
-          "name": "PlayStation 3"
+          "Название": "PlayStation 3"
         },
         {
-          "name": "Windows"
+          "Название": "Windows"
         },
         {
-          "name": "XBox 360"
+          "Название": "XBox 360"
         }
       ],
-      "devStudios": [
+      "Разработчики": [
         {
-          "name": "Massive Entertainment",
-          "yearOfFoundation": 1997,
-          "url": "massive.se"
+          "Наименование": "Massive Entertainment",
+          "Год основания": 1997,
+          "URL": "massive.se"
         },
         {
-          "name": "Red Storm Entertainment",
-          "yearOfFoundation": 1996,
-          "url": "redstorm.com"
+          "Наименование": "Red Storm Entertainment",
+          "Год основания": 1996,
+          "URL": "redstorm.com"
         }
       ]
     },
     {
-      "name": "Far Cry 4",
-      "year": 2014,
-      "gamePublisher": "Ubisoft",
-      "platforms": [
+      "Название": "Far Cry 4",
+      "Год выпуска": 2014,
+      "Издатель": "Ubisoft",
+      "Платформы": [
         {
-          "name": "PlayStation 3"
+          "Название": "PlayStation 3"
         },
         {
-          "name": "PlayStation 4"
+          "Название": "PlayStation 4"
         },
         {
-          "name": "Windows"
+          "Название": "Windows"
         },
         {
-          "name": "XBox 360"
+          "Название": "XBox 360"
         }
       ],
-      "devStudios": [
+      "Разработчики": [
         {
-          "name": "Red Storm Entertainment",
-          "yearOfFoundation": 1996,
-          "url": "redstorm.com"
+          "Наименование": "Red Storm Entertainment",
+          "Год основания": 1996,
+          "URL": "redstorm.com"
         }
       ]
     }

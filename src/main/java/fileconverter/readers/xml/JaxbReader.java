@@ -6,7 +6,8 @@ import lombok.extern.log4j.Log4j2;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 /**
  * Считывает Xml файл при помощи Jaxb.
@@ -25,18 +26,19 @@ public class JaxbReader implements Reader<XmlUpper> {
     }
 
     /**
-     *
-     * @param stream источник Xml файла.
+     * @param file источник Xml файла.
      * @return класс, содержащий данные из исходного Xml файла.
      * @throws JAXBException при ошибке Jaxb парсера.
      */
     @Override
-    public XmlUpper parse(final InputStream stream) throws JAXBException {
+    public XmlUpper parse(final String file) throws JAXBException, IOException {
         if (log.isDebugEnabled()) {
             log.debug("Начало работы Jaxb парсера");
         }
 
-        return (XmlUpper) context.createUnmarshaller()
-            .unmarshal(stream);
+        try (final FileInputStream stream = new FileInputStream(file)) {
+            return (XmlUpper) context.createUnmarshaller()
+                .unmarshal(stream);
+        }
     }
 }

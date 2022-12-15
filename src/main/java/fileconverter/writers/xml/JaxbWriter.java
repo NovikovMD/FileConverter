@@ -7,7 +7,8 @@ import lombok.extern.log4j.Log4j2;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import java.io.OutputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Создает XML файл, используя Jaxb.
@@ -28,16 +29,19 @@ public class JaxbWriter implements Writer<XmlUpper> {
      * Запускает создание Xml файла.
      *
      * @param data класс, содержащий данные для Xml файла.
-     * @param stream     приёмник данных для Xml файла.
+     * @param newFile     путь к новому фойлу.
      * @throws JAXBException если проихошла ошибка Jaxb парсера.
+     * @throws IOException если проихошла IO ошибка.
      */
     @Override
-    public void write(final XmlUpper data, final OutputStream stream) throws JAXBException {
+    public void write(final XmlUpper data, final String newFile) throws JAXBException, IOException {
         if (log.isDebugEnabled()) {
             log.debug("Начало создания файла Jaxb");
         }
 
-        mar.marshal(data, stream);
+        try(final FileOutputStream stream = new FileOutputStream(newFile)) {
+            mar.marshal(data, stream);
+        }
 
         if (log.isDebugEnabled()) {
             log.debug("Создание файла Xml прошло успешно");

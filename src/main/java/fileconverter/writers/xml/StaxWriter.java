@@ -11,6 +11,8 @@ import lombok.val;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
@@ -24,16 +26,19 @@ public class StaxWriter implements Writer<XmlUpper> {
      * Запускает создание Xml файла.
      *
      * @param data класс, содержащий данные для Xml файла.
-     * @param stream     приёмник данных для Xml файла.
+     * @param newFile     путь новому файлу.
      * @throws XMLStreamException если произошла ошибка при заполнении файла.
+     * @throws IOException если произошла IO ошибка.
      */
     @Override
-    public void write(final XmlUpper data, final OutputStream stream) throws XMLStreamException {
+    public void write(final XmlUpper data, final String newFile) throws XMLStreamException, IOException {
         if (log.isDebugEnabled()) {
             log.debug("Начало создания файла Stax");
         }
 
-        writeXml(stream, data);
+        try(final FileOutputStream stream = new FileOutputStream(newFile)) {
+            writeXml(stream, data);
+        }
 
         if (log.isDebugEnabled()) {
             log.debug("Создание файла Xml прошло успешно");

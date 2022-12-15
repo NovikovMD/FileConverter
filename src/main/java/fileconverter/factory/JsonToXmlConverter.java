@@ -34,14 +34,9 @@ public class JsonToXmlConverter extends AbstractConverter {
     @Override
     public void convert()
         throws JAXBException, ParserConfigurationException, IOException, SAXException, XMLStreamException {
-        try {
-            writer.write(
-                converter.convert(
-                    reader.parse(bean.getExistingFile())),
-                bean.getNewFile());
-        } finally {
-            bean.getExistingFile().close();
-            bean.getNewFile().close();
-        }
+        writer.write(
+            converter.convert(
+                reader.parse(bean.getExistingFile())),
+            bean.getNewFile());
     }
 }

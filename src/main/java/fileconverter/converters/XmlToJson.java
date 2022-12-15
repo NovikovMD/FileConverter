@@ -64,7 +64,7 @@ public class XmlToJson {
         }
         //не будет null. Проверяется выше.
         getCurrentGame(game.getName(), jsonUpperGames.getGames())
-                .addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
+            .addDevStudio(developer.getName(), developer.getYearOfFoundation(), developer.getUrl());
 
     }
 

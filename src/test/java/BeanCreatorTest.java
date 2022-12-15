@@ -4,10 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Path;
 
 import static fileconverter.bean.BeanCreator.createBean;
-import static java.nio.file.Files.notExists;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BeanCreatorTest {
@@ -23,8 +21,8 @@ public class BeanCreatorTest {
     void correctBehaviour() throws IOException {
         val bean = createBean(new String[]{"src/test/resources/TestInput.xml",
             "src/test/resources/TestMain.json"});
-        if (bean.getExistingFile().readAllBytes().length == 0 ||
-            notExists(Path.of("src/test/resources/TestMain.json")))
+        if (bean.getExistingFile() == null ||
+            bean.getNewFile() == null)
             fail("Некорректное создание bean");
     }
 

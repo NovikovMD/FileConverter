@@ -26,6 +26,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XmlPlatform {
-    @XmlAttribute
+    @XmlAttribute(name = "название")
     private String name;
 }

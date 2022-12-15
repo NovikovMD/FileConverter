@@ -17,8 +17,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.stream.Stream;
 
@@ -38,8 +36,7 @@ public class XmlToJsonTest {
     void parseXml(final Reader<XmlUpper> reader)
         throws ParserConfigurationException, IOException,
         SAXException, JAXBException {
-        final XmlUpper upper = reader.parse(
-            new FileInputStream("src/test/resources/TestInput.xml"));
+        final XmlUpper upper = reader.parse("src/test/resources/TestInput.xml");
 
         assertEquals("Rockstar", upper.getPublishers()
             .get(0).getName());
@@ -116,8 +113,7 @@ public class XmlToJsonTest {
         throws ParserConfigurationException, IOException,
         SAXException, JAXBException {
         final JsonUpper compare = converter.convert(
-            reader.parse(
-                new FileInputStream("src/test/resources/TestInput.xml")));
+            reader.parse("src/test/resources/TestInput.xml"));
 
         assertEquals("The Warriors", compare.getGames()
             .get(0).getName());
@@ -197,9 +193,8 @@ public class XmlToJsonTest {
 
         writer.write(
             converter.convert(
-                reader.parse(
-                    new FileInputStream("src/test/resources/TestInput.xml"))),
-            new FileOutputStream("src/test/resources/newJson.json"));
+                reader.parse("src/test/resources/TestInput.xml")),
+            "src/test/resources/newJson.json");
 
         assertTrue(new File("src/test/resources/newJson.json").exists());
     }
@@ -209,8 +204,7 @@ public class XmlToJsonTest {
     void wrongFile(final Reader<XmlUpper> reader) {
         assertEquals("src\\test\\resources\\NoSuchFile.xml (Не удается найти указанный файл)",
             assertThrows(Exception.class,
-                () -> reader.parse(
-                    new FileInputStream("src/test/resources/NoSuchFile.xml")))
+                () -> reader.parse("src/test/resources/NoSuchFile.xml"))
                 .getMessage());
     }
 }

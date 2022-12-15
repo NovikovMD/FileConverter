@@ -9,6 +9,7 @@
  */
 package fileconverter.bean.json;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 @Getter
 @NoArgsConstructor
 public class JsonUpper {
+    @SerializedName("Игры")
     private final ArrayList<JsonGame> games = new ArrayList<>();
 
     public void addGame(String name, int year, String gamePublisher) {

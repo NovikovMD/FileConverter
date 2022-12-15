@@ -17,8 +17,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.stream.Stream;
 
@@ -36,8 +34,7 @@ public class JsonToXmlTest {
     @MethodSource("setConfig")
     void tryParseJson(final Reader<JsonUpper> reader)
         throws IOException, ParserConfigurationException, SAXException, JAXBException {
-        final JsonUpper upper = reader.parse(
-            new FileInputStream("src\\test\\resources\\TestInput.json"));
+        final JsonUpper upper = reader.parse("src\\test\\resources\\TestInput.json");
 
         assertEquals("The Warriors", upper.getGames()
             .get(0).getName());
@@ -101,8 +98,7 @@ public class JsonToXmlTest {
     void tryConvertXmlToJson(final Reader<JsonUpper> reader, final JsonToXml converter)
         throws IOException, ParserConfigurationException, SAXException, JAXBException {
         final XmlUpper xmlUpper = converter.convert(
-            reader.parse(
-                new FileInputStream("src\\test\\resources\\TestInput.json")));
+            reader.parse("src\\test\\resources\\TestInput.json"));
 
         assertEquals("Rockstar", xmlUpper.getPublishers().get(0).getName());
 
@@ -152,9 +148,8 @@ public class JsonToXmlTest {
 
         writer.write(
             converter.convert(
-                reader.parse(
-                    new FileInputStream("src\\test\\resources\\TestInput.json"))),
-            new FileOutputStream("src/test/resources/NewXML.xml"));
+                reader.parse("src\\test\\resources\\TestInput.json")),
+            "src/test/resources/NewXML.xml");
 
         assertTrue(new File("src/test/resources/NewXML.xml").exists());
     }
@@ -165,7 +160,7 @@ public class JsonToXmlTest {
         assertEquals("src\\test\\resources\\NoSuchFile.json (Не удается найти указанный файл)",
             assertThrows(Exception.class,
                 () -> reader.parse(
-                    new FileInputStream("src\\test\\resources\\NoSuchFile.json")))
+                    "src\\test\\resources\\NoSuchFile.json"))
                 .getMessage());
     }
 }

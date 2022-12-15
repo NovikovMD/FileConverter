@@ -15,8 +15,8 @@ import fileconverter.writers.Writer;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.Level;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
  * Создает Json файл используя Jackson-databind.
@@ -29,15 +29,17 @@ public class JacksonWriter implements Writer<JsonUpper> {
      * Создает Json файл.
      *
      * @param data класс, содержащий данные для Json файла.
-     * @param stream     приёмник данных для Json файла.
+     * @param newFile     путь к новому файлу.
      * @throws IOException если произошла ошибка записи в файл.
      */
     @Override
-    public void write(final JsonUpper data, final OutputStream stream) throws IOException {
+    public void write(final JsonUpper data, final String newFile) throws IOException {
         if (log.isEnabled(Level.DEBUG))
             log.log(Level.DEBUG, "Начало создания файла Jackson");
 
-        mapper.writeValue(stream, data);
+        try(final FileOutputStream stream = new FileOutputStream(newFile)) {
+            mapper.writeValue(stream, data);
+        }
 
         if (log.isEnabled(Level.DEBUG))
             log.log(Level.DEBUG, "Создание файла Json прошло успешно");

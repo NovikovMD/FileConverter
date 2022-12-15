@@ -1,90 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GameIndustry>
-    <gamePublishers>
-        <gamePublisher name="Rockstar">
-            <developerStudios>
-                <developerStudio name="Rockstar Toronto" year_of_foundation="1981" URL="www.rockstartoronto.com">
-                    <games>
-                        <game name = "The Warriors" year="2005">
-                            <platforms>
-                                <platform name="PlayStation 2"/>
-                                <platform name="PlayStation Portable"/>
-                                <platform name="XBox"/>
-                            </platforms>
+<ИгроваяИндустрия>
+    <ИгровыеИздатели>
+        <Издатель наименование="Rockstar">
+            <ИгровыеРазработчики>
+                <Разработчик наименование="Rockstar Toronto" годОснования="1981" URL="www.rockstartoronto.com">
+                    <Игры>
+                        <Игра название = "The Warriors" годВыпуска="2005">
+                            <Платформы>
+                                <Платформа название="PlayStation 2"/>
+                                <Платформа название="PlayStation Portable"/>
+                                <Платформа название="XBox"/>
+                            </Платформы>
+                        </Игра>
+                        <Игра название="Manhunt 2" годВыпуска="2007">
+                            <Платформы>
+                                <Платформа название="Microsoft Windows"/>
+                                <Платформа название="PlayStation 2"/>
+                                <Платформа название="PlayStation Portable"/>
+                                <Платформа название="Wii"/>
+                            </Платформы>
+                        </Игра>
+                    </Игры>
+                </Разработчик>
+                <Разработчик наименование="Rockstar London" годОснования="2005" URL="www.rockstarlondon.com">
+                    <Игры>
+                        <Игра название="Manhunt 2" годВыпуска="2007">
+                            <Платформы>
+                                <Платформа название="Microsoft Windows"/>
+                                <Платформа название="PlayStation 2"/>
+                                <Платформа название="PlayStation Portable"/>
+                                <Платформа название="Wii"/>
+                            </Платформы>
+                        </Игра>
+                    </Игры>
+                </Разработчик>
+            </ИгровыеРазработчики>
+        </Издатель>
+        <Издатель наименование="Ubisoft">
+            <ИгровыеРазработчики>
+                <Разработчик наименование="Massive Entertainment" годОснования="1997" URL="massive.se">
+                    <Игры>
+                        <Игра название = "Tom Clancy’s The Division 2" годВыпуска="2019">
+                            <Платформы>
+                                <Платформа название="PlayStation 4"/>
+                                <Платформа название="Windows"/>
+                                <Платформа название="XBox One"/>
+                            </Платформы>
+                        </Игра>
+                        <game название = "Far Cry 3" годВыпуска="2012">
+                            <Платформы>
+                                <Платформа название="PlayStation 3"/>
+                                <Платформа название="Windows"/>
+                                <Платформа название="XBox 360"/>
+                            </Платформы>
                         </game>
-                        <game name="Manhunt 2" year="2007">
-                            <platforms>
-                                <platform name="Microsoft Windows"/>
-                                <platform name="PlayStation 2"/>
-                                <platform name="PlayStation Portable"/>
-                                <platform name="Wii"/>
-                            </platforms>
-                        </game>
-                    </games>
-                </developerStudio>
-                <developerStudio name="Rockstar London" year_of_foundation="2005" URL="www.rockstarlondon.com">
-                    <games>
-                        <game name="Manhunt 2" year="2007">
-                            <platforms>
-                                <platform name="Microsoft Windows"/>
-                                <platform name="PlayStation 2"/>
-                                <platform name="PlayStation Portable"/>
-                                <platform name="Wii"/>
-                            </platforms>
-                        </game>
-                    </games>
-                </developerStudio>
-            </developerStudios>
-        </gamePublisher>
-        <gamePublisher name="Ubisoft">
-            <developerStudios>
-                <developerStudio name="Massive Entertainment" year_of_foundation="1997" URL="massive.se">
-                    <games>
-                        <game name = "Tom Clancy’s The Division 2" year="2019">
-                            <platforms>
-                                <platform name="PlayStation 4"/>
-                                <platform name="Windows"/>
-                                <platform name="XBox One"/>
-                            </platforms>
-                        </game>
-                        <game name = "Far Cry 3" year="2012">
-                            <platforms>
-                                <platform name="PlayStation 3"/>
-                                <platform name="Windows"/>
-                                <platform name="XBox 360"/>
-                            </platforms>
-                        </game>
-                    </games>
-                </developerStudio>
-                <developerStudio name="Red Storm Entertainment" year_of_foundation="1996" URL="redstorm.com">
-                    <games>
-                        <game name = "Tom Clancy’s The Division 2" year="2019">
-                            <platforms>
-                                <platform name="PlayStation 4"/>
-                                <platform name="Windows"/>
-                                <platform name="XBox One"/>
-                            </platforms>
-                        </game>
-                        <game name = "Far Cry 3" year="2012">
-                            <platforms>
-                                <platform name="PlayStation 3"/>
-                                <platform name="Windows"/>
-                                <platform name="XBox 360"/>
-                            </platforms>
-                        </game>
-                        <game name = "Far Cry 4" year="2014">
-                            <platforms>
-                                <platform name="PlayStation 3"/>
-                                <platform name="PlayStation 4"/>
-                                <platform name="Windows"/>
-                                <platform name="XBox 360"/>
-                            </platforms>
-                        </game>
-                    </games>
-                </developerStudio>
-            </developerStudios>
-        </gamePublisher>
-    </gamePublishers>
-</GameIndustry>
+                    </Игры>
+                </Разработчик>
+                <Разработчик наименование="Red Storm Entertainment" годОснования="1996" URL="redstorm.com">
+                    <Игры>
+                        <Игра название = "Tom Clancy’s The Division 2" годВыпуска="2019">
+                            <Платформы>
+                                <Платформа название="PlayStation 4"/>
+                                <Платформа название="Windows"/>
+                                <Платформа название="XBox One"/>
+                            </Платформы>
+                        </Игра>
+                        <Игра название = "Far Cry 3" годВыпуска="2012">
+                            <Платформы>
+                                <Платформа название="PlayStation 3"/>
+                                <Платформа название="Windows"/>
+                                <Платформа название="XBox 360"/>
+                            </Платформы>
+                        </Игра>
+                        <Игра название = "Far Cry 4" годВыпуска="2014">
+                            <Платформы>
+                                <Платформа название="PlayStation 3"/>
+                                <Платформа название="PlayStation 4"/>
+                                <Платформа название="Windows"/>
+                                <Платформа название="XBox 360"/>
+                            </Платформы>
+                        </Игра>
+                    </Игры>
+                </Разработчик>
+            </ИгровыеРазработчики>
+        </Издатель>
+    </ИгровыеИздатели>
+</ИгроваяИндустрия>
 
 

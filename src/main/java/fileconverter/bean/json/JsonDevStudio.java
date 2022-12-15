@@ -9,6 +9,7 @@
  */
 package fileconverter.bean.json;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class JsonDevStudio {
+    @SerializedName("Наименование")
     private String name;
+    @SerializedName("Год основания")
     private int yearOfFoundation;
+    @SerializedName("URL")
     private String url;
 }

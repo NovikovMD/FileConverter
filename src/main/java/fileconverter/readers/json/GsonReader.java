@@ -5,9 +5,7 @@ import fileconverter.bean.json.JsonUpper;
 import fileconverter.readers.Reader;
 import lombok.extern.log4j.Log4j2;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * Создает Json файл используя Gson.
@@ -19,17 +17,19 @@ public class GsonReader implements Reader<JsonUpper> {
     /**
      * Считывает данные из Json файла.
      *
-     * @param stream источник Json файла.
+     * @param file путь к существующему файлу.
      * @return класс, содержащий данные из исходного Json файла.
      */
     @Override
-    public JsonUpper parse(final InputStream stream) {
+    public JsonUpper parse(final String file) throws IOException {
         if (log.isDebugEnabled()) {
             log.debug("Начало работы парсера Gson");
         }
 
-        return gson.fromJson(
-            new BufferedReader(new InputStreamReader(stream)),
-            JsonUpper.class);
+        try (final FileInputStream stream = new FileInputStream(file)) {
+            return gson.fromJson(
+                new BufferedReader(new InputStreamReader(stream)),
+                JsonUpper.class);
+        }
     }
 }

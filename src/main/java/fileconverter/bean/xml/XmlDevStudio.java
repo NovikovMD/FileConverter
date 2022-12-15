@@ -24,14 +24,14 @@ import java.util.ArrayList;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XmlDevStudio {
-    @XmlAttribute
+    @XmlAttribute(name = "наименование")
     private String name;
-    @XmlAttribute(name = "year_of_foundation")
+    @XmlAttribute(name = "годОснования")
     private int yearOfFoundation;
     @XmlAttribute(name = "URL")
     private String url;
-    @XmlElementWrapper(name = "games")
-    @XmlElement(name = "game")
+    @XmlElementWrapper(name = "Игры")
+    @XmlElement(name = "Игра")
     private final ArrayList<XmlGame> games = new ArrayList<>();
 
     public void addGame(String name, int year) {

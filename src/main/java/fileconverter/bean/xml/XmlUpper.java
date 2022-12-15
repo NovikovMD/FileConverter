@@ -15,11 +15,11 @@ import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 
 @Getter
-@XmlRootElement(name = "GameIndustry")
+@XmlRootElement(name = "ИгроваяИндустрия")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XmlUpper {
-    @XmlElementWrapper(name = "gamePublishers")
-    @XmlElement(name = "gamePublisher")
+    @XmlElementWrapper(name = "ИгровыеИздатели")
+    @XmlElement(name = "Издатель")
     private final ArrayList<XmlGamePublisher> publishers = new ArrayList<>();
 
     public void addPublisher(String name) {

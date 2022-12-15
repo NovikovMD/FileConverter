@@ -24,12 +24,12 @@ import java.util.ArrayList;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class XmlGame {
-    @XmlAttribute
+    @XmlAttribute(name = "название")
     private String name;
-    @XmlAttribute
+    @XmlAttribute(name = "годВыпуска")
     private int year;
-    @XmlElementWrapper(name = "platforms")
-    @XmlElement(name = "platform")
+    @XmlElementWrapper(name = "Платформы")
+    @XmlElement(name = "Платформа")
     private final ArrayList<XmlPlatform> platforms = new ArrayList<>();
 
     public void addPlatform(String name) {

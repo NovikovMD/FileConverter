@@ -7,8 +7,8 @@ import fileconverter.bean.json.JsonUpper;
 import fileconverter.readers.Reader;
 import lombok.extern.log4j.Log4j2;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Создает Json файл используя Jackson-databind.
@@ -20,20 +20,22 @@ public class JacksonReader implements Reader<JsonUpper> {
     /**
      * Считывает данные из Json файла.
      *
-     * @param stream источник Json файла.
+     * @param file путь к существующему Json файлу.
      * @return класс, содержащий данные из исходного Json файла.
      * @throws IOException              если считывание Json файла было прервано.
      * @throws IllegalArgumentException если передан неверный путь к Json файлу
      *                                  или некорректная структура файла.
      */
     @Override
-    public JsonUpper parse(final InputStream stream) throws IOException {
+    public JsonUpper parse(final String file) throws IOException {
         if (log.isDebugEnabled()) {
             log.debug("Начало работы парсера Jackson");
         }
         final JsonUpper games = new JsonUpper();
 
-        startParsing(games, factory.createParser(stream));
+        try (final FileInputStream stream = new FileInputStream(file)) {
+            startParsing(games, factory.createParser(stream));
+        }
 
         if (log.isDebugEnabled()) {
             log.debug("Успешное завершение парсинга Json.");
@@ -55,11 +57,11 @@ public class JacksonReader implements Reader<JsonUpper> {
             }
 
             switch (parser.getCurrentName()) {
-                case "name" -> getName(games, parser);
-                case "year" -> getYear(games, parser);
-                case "gamePublisher" -> getGamePublisher(games, parser);
-                case "platforms" -> getPlatforms(games, parser);
-                case "devStudios" -> getDevStudios(games, parser);
+                case "Название" -> getName(games, parser);
+                case "Год выпуска" -> getYear(games, parser);
+                case "Издатель" -> getGamePublisher(games, parser);
+                case "Платформы" -> getPlatforms(games, parser);
+                case "Разработчики" -> getDevStudios(games, parser);
                 default -> throw new IllegalArgumentException("Неверная структура файла");
             }
         }
@@ -88,7 +90,7 @@ public class JacksonReader implements Reader<JsonUpper> {
         parser.nextToken();
         while (parser.nextToken() != JsonToken.END_ARRAY) {
             parser.nextToken();
-            if (parser.getCurrentName().equals("name")) {
+            if (parser.getCurrentName().equals("Название")) {
                 parser.nextToken();
                 games.returnLastGame()
                     .addPlatform(parser.getText());
@@ -106,7 +108,7 @@ public class JacksonReader implements Reader<JsonUpper> {
                 continue;
             }
 
-            if (parser.getCurrentName().equals("name")) {
+            if (parser.getCurrentName().equals("Наименование")) {
                 parser.nextToken();
                 games.returnLastGame()
                     .addDevStudio(parser.getText(),
@@ -114,7 +116,7 @@ public class JacksonReader implements Reader<JsonUpper> {
                         "place_holder");
                 continue;
             }
-            if (parser.getCurrentName().equals("yearOfFoundation")) {
+            if (parser.getCurrentName().equals("Год основания")) {
                 parser.nextToken();
                 games.returnLastGame()
                     .returnLastDevStudio()
@@ -122,7 +124,7 @@ public class JacksonReader implements Reader<JsonUpper> {
                         Integer.parseInt(parser.getText()));
                 continue;
             }
-            if (parser.getCurrentName().equals("url")) {
+            if (parser.getCurrentName().equals("URL")) {
                 parser.nextToken();
                 games.returnLastGame()
                     .returnLastDevStudio()

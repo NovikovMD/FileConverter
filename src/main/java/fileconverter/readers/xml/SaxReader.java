@@ -9,8 +9,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Считывает Xml файл при помощи SAX.
@@ -26,7 +26,7 @@ public class SaxReader implements Reader<XmlUpper> {
     /**
      * Считывает данные из Xml файла.
      *
-     * @param stream источник Xml файла.
+     * @param file путь к существующему Xml файлу.
      * @return класс, содержащий данные из исходного Xml файла.
      * @throws ParserConfigurationException парсер не может быть создан
      *                                      в соответствии с заданной конфигурацией.
@@ -34,13 +34,15 @@ public class SaxReader implements Reader<XmlUpper> {
      * @throws IOException                  в случае любой IO ошибки.
      */
     @Override
-    public XmlUpper parse(final InputStream stream)
+    public XmlUpper parse(final String file)
         throws ParserConfigurationException, SAXException, IOException {
         if (log.isDebugEnabled()) {
             log.debug("Начало работы Sax парсера");
         }
 
-        factory.newSAXParser().parse(stream, handler);
+        try (final FileInputStream stream = new FileInputStream(file)) {
+            factory.newSAXParser().parse(stream, handler);
+        }
 
         if (log.isDebugEnabled()) {
             log.debug("Успешное завершение парсинга XML.");
@@ -57,23 +59,23 @@ public class SaxReader implements Reader<XmlUpper> {
         public void startElement(final String uri, final String localName,
                                  final String qName, final Attributes attributes) {
             switch (qName) {
-                case "gamePublisher" -> getGamePublisherSAX(attributes);
-                case "developerStudio" -> getDeveloperStudioSAX(attributes);
-                case "game" -> getGameSAX(attributes);
-                case "platform" -> getPlatformSAX(attributes);
+                case "Издатель" -> getGamePublisherSAX(attributes);
+                case "Разработчик" -> getDeveloperStudioSAX(attributes);
+                case "Игра" -> getGameSAX(attributes);
+                case "Платформа" -> getPlatformSAX(attributes);
             }
         }
 
         private void getGamePublisherSAX(final Attributes attributes) {
-            gameIndustry.addPublisher(attributes.getValue("name"));
+            gameIndustry.addPublisher(attributes.getValue("наименование"));
         }
 
         private void getDeveloperStudioSAX(final Attributes attributes) {
             gameIndustry.getPublishers()
                 .get(gameIndustry.returnLength() - 1)
                 .addDevStudio(
-                    attributes.getValue("name"),
-                    Integer.parseInt(attributes.getValue("year_of_foundation")),
+                    attributes.getValue("наименование"),
+                    Integer.parseInt(attributes.getValue("годОснования")),
                     attributes.getValue("URL"));
         }
 
@@ -85,8 +87,8 @@ public class SaxReader implements Reader<XmlUpper> {
                     .get(gameIndustry.returnLength() - 1)
                     .returnLength() - 1)
                 .addGame(
-                    attributes.getValue("name"),
-                    Integer.parseInt(attributes.getValue("year")));
+                    attributes.getValue("название"),
+                    Integer.parseInt(attributes.getValue("годВыпуска")));
         }
 
         private void getPlatformSAX(final Attributes attributes) {
@@ -104,7 +106,7 @@ public class SaxReader implements Reader<XmlUpper> {
                         .get(gameIndustry.returnLength() - 1)
                         .returnLength() - 1)
                     .returnLength() - 1)
-                .addPlatform(attributes.getValue("name"));
+                .addPlatform(attributes.getValue("название"));
         }
     }
 }
