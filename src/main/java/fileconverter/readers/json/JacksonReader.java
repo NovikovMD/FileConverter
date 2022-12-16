@@ -22,9 +22,8 @@ public class JacksonReader implements Reader<JsonUpper> {
      *
      * @param file путь к существующему Json файлу.
      * @return класс, содержащий данные из исходного Json файла.
-     * @throws IOException              если считывание Json файла было прервано.
-     * @throws IllegalArgumentException если передан неверный путь к Json файлу
-     *                                  или некорректная структура файла.
+     * @throws IOException если считывание Json файла было прервано
+     *                     или при любой другой IO ошибке.
      */
     @Override
     public JsonUpper parse(final String file) throws IOException {

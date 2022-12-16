@@ -23,7 +23,8 @@ public class BeanCreator {
      *               params[1] - путь к новому xml\json файлу.
      * @return InputBean - входные данные для FileConverter.doParse.
      * @throws IllegalArgumentException если переданы некорректные входные данные.
-     * @throws IOException              в случае любой IO ошибки.
+     * @throws IOException              в случае передачи параметром
+     *                                  некорректного пути к файлу.
      */
     public static InputBean createBean(final String[] params) throws IllegalArgumentException, IOException {
         if (log.isInfoEnabled()) {

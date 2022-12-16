@@ -29,6 +29,7 @@ public class JaxbReader implements Reader<XmlUpper> {
      * @param file источник Xml файла.
      * @return класс, содержащий данные из исходного Xml файла.
      * @throws JAXBException при ошибке Jaxb парсера.
+     * @throws IOException   при любой IO ошибке.
      */
     @Override
     public XmlUpper parse(final String file) throws JAXBException, IOException {

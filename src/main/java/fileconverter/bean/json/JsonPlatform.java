@@ -9,6 +9,7 @@
  */
 package fileconverter.bean.json;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,5 +22,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class JsonPlatform {
     @SerializedName("Название")
+    @JsonProperty("Название")
     private String name;
 }
