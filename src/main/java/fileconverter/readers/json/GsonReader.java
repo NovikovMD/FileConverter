@@ -19,7 +19,7 @@ public class GsonReader implements Reader<JsonUpper> {
      *
      * @param file путь к существующему файлу.
      * @return класс, содержащий данные из исходного Json файла.
-     * @throws IOException   при ошибке создания потока входных данных.
+     * @throws IOException при ошибке создания потока входных данных.
      */
     @Override
     public JsonUpper parse(final String file) throws IOException {

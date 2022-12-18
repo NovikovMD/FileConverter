@@ -28,10 +28,10 @@ public class JaxbWriter implements Writer<XmlUpper> {
     /**
      * Запускает создание Xml файла.
      *
-     * @param data класс, содержащий данные для Xml файла.
-     * @param newFile     путь к новому фойлу.
+     * @param data    класс, содержащий данные для Xml файла.
+     * @param newFile путь к новому фойлу.
      * @throws JAXBException если проихошла ошибка Jaxb парсера.
-     * @throws IOException если проихошла IO ошибка.
+     * @throws IOException   если проихошла IO ошибка.
      */
     @Override
     public void write(final XmlUpper data, final String newFile) throws JAXBException, IOException {
@@ -39,7 +39,7 @@ public class JaxbWriter implements Writer<XmlUpper> {
             log.debug("Начало создания файла Jaxb");
         }
 
-        try(final FileOutputStream stream = new FileOutputStream(newFile)) {
+        try (final FileOutputStream stream = new FileOutputStream(newFile)) {
             mar.marshal(data, stream);
         }
 

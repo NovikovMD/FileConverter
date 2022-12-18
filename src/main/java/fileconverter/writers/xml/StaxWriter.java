@@ -25,10 +25,10 @@ public class StaxWriter implements Writer<XmlUpper> {
     /**
      * Запускает создание Xml файла.
      *
-     * @param data класс, содержащий данные для Xml файла.
-     * @param newFile     путь новому файлу.
+     * @param data    класс, содержащий данные для Xml файла.
+     * @param newFile путь новому файлу.
      * @throws XMLStreamException если произошла ошибка при заполнении файла.
-     * @throws IOException если произошла IO ошибка.
+     * @throws IOException        если произошла IO ошибка.
      */
     @Override
     public void write(final XmlUpper data, final String newFile) throws XMLStreamException, IOException {
@@ -36,7 +36,7 @@ public class StaxWriter implements Writer<XmlUpper> {
             log.debug("Начало создания файла Stax");
         }
 
-        try(final FileOutputStream stream = new FileOutputStream(newFile)) {
+        try (final FileOutputStream stream = new FileOutputStream(newFile)) {
             writeXml(stream, data);
         }
 

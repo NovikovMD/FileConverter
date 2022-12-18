@@ -28,20 +28,22 @@ public class JacksonWriter implements Writer<JsonUpper> {
     /**
      * Создает Json файл.
      *
-     * @param data класс, содержащий данные для Json файла.
-     * @param newFile     путь к новому файлу.
+     * @param data    класс, содержащий данные для Json файла.
+     * @param newFile путь к новому файлу.
      * @throws IOException если произошла ошибка записи в файл.
      */
     @Override
     public void write(final JsonUpper data, final String newFile) throws IOException {
-        if (log.isEnabled(Level.DEBUG))
+        if (log.isEnabled(Level.DEBUG)) {
             log.log(Level.DEBUG, "Начало создания файла Jackson");
+        }
 
-        try(final FileOutputStream stream = new FileOutputStream(newFile)) {
+        try (final FileOutputStream stream = new FileOutputStream(newFile)) {
             mapper.writeValue(stream, data);
         }
 
-        if (log.isEnabled(Level.DEBUG))
+        if (log.isEnabled(Level.DEBUG)) {
             log.log(Level.DEBUG, "Создание файла Json прошло успешно");
+        }
     }
 }

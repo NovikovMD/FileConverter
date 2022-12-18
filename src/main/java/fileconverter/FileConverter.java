@@ -29,13 +29,15 @@ public class FileConverter {
      */
     public void doParse(@NonNull final InputBean bean)
         throws JAXBException, XMLStreamException, ParserConfigurationException, IOException, SAXException {
-        if (log.isInfoEnabled())
+        if (log.isInfoEnabled()) {
             log.info("Начало работы программы");
+        }
 
         FileConverterFactory.create(bean)
             .convert();
 
-        if (log.isInfoEnabled())
+        if (log.isInfoEnabled()) {
             log.info("Успешное завершение работы программы");
+        }
     }
 }
