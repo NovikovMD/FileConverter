@@ -1,15 +1,14 @@
 package jmh;
 
-import fileconverter.bean.xml.XmlUpper;
-import fileconverter.converters.JsonToXml;
-import fileconverter.readers.json.GsonReader;
-import fileconverter.writers.Writer;
-import fileconverter.writers.xml.JaxbWriter;
-import fileconverter.writers.xml.StaxWriter;
+import ru.itdt.fileconverter.bean.xml.XmlRoot;
+import ru.itdt.fileconverter.converters.JsonToXml;
+import ru.itdt.fileconverter.readers.json.GsonReader;
+import ru.itdt.fileconverter.writers.Writer;
+import ru.itdt.fileconverter.writers.xml.JaxbWriter;
+import ru.itdt.fileconverter.writers.xml.StaxWriter;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 
 import javax.xml.bind.JAXBException;
@@ -22,18 +21,17 @@ public class XmlWriters {
     @State(Scope.Thread)
     public static class MyState {
         public final String pathToFile = "src/test/resources/NewXML.xml";
-        public final Writer<XmlUpper> staxWriter = new StaxWriter();
-        public final Writer<XmlUpper> jaxbWriter;
+        public final Writer<XmlRoot> staxWriter = new StaxWriter();
+        public final Writer<XmlRoot> jaxbWriter;
+        public XmlRoot upper;
 
         {
             try {
                 jaxbWriter = new JaxbWriter();
-            } catch (JAXBException e) {
-                throw new RuntimeException(e);
+            } catch (JAXBException exception) {
+                throw new AssertionError();
             }
         }
-
-        public XmlUpper upper;
 
         @Setup
         public void setup() throws IOException {
@@ -63,11 +61,9 @@ public class XmlWriters {
 
 
     public static void main(String[] args) throws RunnerException {
-        Options opt = new OptionsBuilder()
+        new Runner(new OptionsBuilder()
             .include(XmlWriters .class.getSimpleName())
             .forks(1)
-            .build();
-
-        new Runner(opt).run();
+            .build()).run();
     }
 }

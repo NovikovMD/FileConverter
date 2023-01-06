@@ -1,14 +1,13 @@
 package jmh;
 
-import fileconverter.bean.json.JsonUpper;
-import fileconverter.readers.Reader;
-import fileconverter.readers.json.GsonReader;
-import fileconverter.readers.json.JacksonReader;
+import ru.itdt.fileconverter.bean.json.JsonRoot;
+import ru.itdt.fileconverter.readers.Reader;
+import ru.itdt.fileconverter.readers.json.GsonReader;
+import ru.itdt.fileconverter.readers.json.JacksonReader;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.xml.sax.SAXException;
 
@@ -21,8 +20,8 @@ public class JsonReaders {
     @State(Scope.Thread)
     public static class MyState {
         public final String pathToFile = "src/test/resources/TestInput.json";
-        public final Reader<JsonUpper> jacksonReader = new JacksonReader();
-        public final Reader<JsonUpper> gsonReader = new GsonReader();
+        public final Reader<JsonRoot> jacksonReader = new JacksonReader();
+        public final Reader<JsonRoot> gsonReader = new GsonReader();
     }
 
     @Benchmark
@@ -44,11 +43,9 @@ public class JsonReaders {
 
 
     public static void main(String[] args) throws RunnerException {
-        Options opt = new OptionsBuilder()
+        new Runner(new OptionsBuilder()
             .include(JsonReaders.class.getSimpleName())
             .forks(1)
-            .build();
-
-        new Runner(opt).run();
+            .build()).run();
     }
 }

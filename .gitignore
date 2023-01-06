@@ -2,3 +2,7 @@
 /.idea/
 log/log.log
 /target/
+/src/test/resources/newJson.json
+/src/test/resources/NewXML.xml
+/src/test/resources/TestMain.json
+/src/test/resources/TestMain.xml

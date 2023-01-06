@@ -1,15 +1,14 @@
 package jmh;
 
-import fileconverter.bean.json.JsonUpper;
-import fileconverter.converters.XmlToJson;
-import fileconverter.readers.xml.SaxReader;
-import fileconverter.writers.Writer;
-import fileconverter.writers.json.GsonWriter;
-import fileconverter.writers.json.JacksonWriter;
+import ru.itdt.fileconverter.bean.json.JsonRoot;
+import ru.itdt.fileconverter.converters.XmlToJson;
+import ru.itdt.fileconverter.readers.xml.SaxReader;
+import ru.itdt.fileconverter.writers.Writer;
+import ru.itdt.fileconverter.writers.json.GsonWriter;
+import ru.itdt.fileconverter.writers.json.JacksonWriter;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
-import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.xml.sax.SAXException;
 
@@ -23,9 +22,9 @@ public class JsonWriters {
     @State(Scope.Thread)
     public static class MyState {
         public final String pathToFile = "src/test/resources/NewJson.json";
-        public final Writer<JsonUpper> jacksonWriter = new JacksonWriter();
-        public final Writer<JsonUpper> gsonWriter = new GsonWriter();
-        public JsonUpper upper;
+        public final Writer<JsonRoot> jacksonWriter = new JacksonWriter();
+        public final Writer<JsonRoot> gsonWriter = new GsonWriter();
+        public JsonRoot upper;
 
         @Setup
         public void setup() throws ParserConfigurationException, IOException, SAXException {
@@ -55,12 +54,10 @@ public class JsonWriters {
 
 
     public static void main(String[] args) throws RunnerException {
-        Options opt = new OptionsBuilder()
+        new Runner(new OptionsBuilder()
             .include(JsonWriters.class.getSimpleName())
             .forks(1)
-            .build();
-
-        new Runner(opt).run();
+            .build()).run();
 
     }
 }

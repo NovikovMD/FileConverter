@@ -1,11 +1,11 @@
-import fileconverter.FileConverter;
+import ru.itdt.fileconverter.FileConverter;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 
-import static fileconverter.bean.BeanCreator.createBean;
+import static ru.itdt.fileconverter.bean.InputParamValidator.createBean;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FileConverterTest {

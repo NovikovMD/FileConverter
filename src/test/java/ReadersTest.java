@@ -1,9 +1,9 @@
-import fileconverter.bean.json.JsonUpper;
-import fileconverter.bean.xml.XmlUpper;
-import fileconverter.readers.Reader;
-import fileconverter.readers.json.GsonReader;
-import fileconverter.readers.xml.JaxbReader;
-import fileconverter.readers.xml.SaxReader;
+import ru.itdt.fileconverter.bean.json.JsonRoot;
+import ru.itdt.fileconverter.bean.xml.XmlRoot;
+import ru.itdt.fileconverter.readers.Reader;
+import ru.itdt.fileconverter.readers.json.GsonReader;
+import ru.itdt.fileconverter.readers.xml.JaxbReader;
+import ru.itdt.fileconverter.readers.xml.SaxReader;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
@@ -28,9 +28,9 @@ public class ReadersTest {
         compareParsedXmlFile(reader);
     }
 
-    private static void compareParsedXmlFile(Reader<XmlUpper> reader)
+    private static void compareParsedXmlFile(Reader<XmlRoot> reader)
         throws JAXBException, IOException, ParserConfigurationException, SAXException {
-        final XmlUpper upper = reader.parse("src/test/resources/TestInput.xml");
+        final XmlRoot upper = reader.parse("src/test/resources/TestInput.xml");
 
         assertEquals("Rockstar", upper.getPublishers()
             .get(0).getName());
@@ -113,9 +113,9 @@ public class ReadersTest {
         compareParsedJsonFile(reader);
     }
 
-    private static void compareParsedJsonFile(Reader<JsonUpper> reader)
+    private static void compareParsedJsonFile(Reader<JsonRoot> reader)
         throws IOException, JAXBException, ParserConfigurationException, SAXException {
-        final JsonUpper upper = reader.parse("src\\test\\resources\\TestInput.json");
+        final JsonRoot upper = reader.parse("src\\test\\resources\\TestInput.json");
 
         assertEquals("The Warriors", upper.getGames()
             .get(0).getName());

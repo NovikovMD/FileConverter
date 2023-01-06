@@ -1,14 +1,14 @@
-import fileconverter.bean.xml.XmlUpper;
-import fileconverter.converters.JsonToXml;
-import fileconverter.converters.XmlToJson;
-import fileconverter.readers.json.GsonReader;
-import fileconverter.readers.json.JacksonReader;
-import fileconverter.readers.xml.JaxbReader;
-import fileconverter.readers.xml.SaxReader;
-import fileconverter.writers.json.GsonWriter;
-import fileconverter.writers.json.JacksonWriter;
-import fileconverter.writers.xml.JaxbWriter;
-import fileconverter.writers.xml.StaxWriter;
+import ru.itdt.fileconverter.bean.xml.XmlRoot;
+import ru.itdt.fileconverter.converters.JsonToXml;
+import ru.itdt.fileconverter.converters.XmlToJson;
+import ru.itdt.fileconverter.readers.json.GsonReader;
+import ru.itdt.fileconverter.readers.json.JacksonReader;
+import ru.itdt.fileconverter.readers.xml.JaxbReader;
+import ru.itdt.fileconverter.readers.xml.SaxReader;
+import ru.itdt.fileconverter.writers.json.GsonWriter;
+import ru.itdt.fileconverter.writers.json.JacksonWriter;
+import ru.itdt.fileconverter.writers.xml.JaxbWriter;
+import ru.itdt.fileconverter.writers.xml.StaxWriter;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
@@ -164,7 +164,7 @@ public class WritersTest {
 
     private static void compareCreatedXmlFile() throws JAXBException, IOException {
         val compareReader = new JaxbReader();
-        final XmlUpper upper = compareReader.parse("src/test/resources/TestInput.xml");
+        final XmlRoot upper = compareReader.parse("src/test/resources/TestInput.xml");
 
         assertEquals("Rockstar", upper.getPublishers()
             .get(0).getName());
