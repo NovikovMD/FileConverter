@@ -1,4 +1,4 @@
-package jmh;
+package ru.itdt.fileconverter.Benchmark;
 
 import ru.itdt.fileconverter.bean.xml.XmlRoot;
 import ru.itdt.fileconverter.converters.JsonToXml;
@@ -16,20 +16,23 @@ import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Проверка времени работы Stax и Jaxb для создания файла.
+ */
 public class XmlWriters {
 
     @State(Scope.Thread)
     public static class MyState {
-        public final String pathToFile = "src/test/resources/NewXML.xml";
-        public final Writer<XmlRoot> staxWriter = new StaxWriter();
-        public final Writer<XmlRoot> jaxbWriter;
-        public XmlRoot upper;
+        private final String pathToSecondFile = "src/test/resources/NewXML.xml";
+        private final Writer<XmlRoot> staxWriter = new StaxWriter();
+        private final Writer<XmlRoot> jaxbWriter;
+        private XmlRoot upper;
 
         {
             try {
                 jaxbWriter = new JaxbWriter();
             } catch (JAXBException exception) {
-                throw new AssertionError();
+                throw new AssertionError(exception);
             }
         }
 
@@ -43,20 +46,21 @@ public class XmlWriters {
     }
 
     @Benchmark
-    @BenchmarkMode(Mode.Throughput)
+    @BenchmarkMode(Mode.AverageTime)
+    @Warmup(iterations = 5)
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    public void writeStax(MyState state)
+    public void writeStax(final MyState state)
         throws JAXBException, IOException, XMLStreamException {
-        state.staxWriter.write(state.upper, state.pathToFile);
+        state.staxWriter.write(state.upper, state.pathToSecondFile);
     }
 
     @Benchmark
-    @BenchmarkMode(Mode.Throughput)
+    @BenchmarkMode(Mode.AverageTime)
     @Warmup(iterations = 5)
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    public void writeJaxb(MyState state)
+    public void writeJaxb(final MyState state)
         throws JAXBException, IOException, XMLStreamException {
-        state.jaxbWriter.write(state.upper,state.pathToFile);
+        state.jaxbWriter.write(state.upper,state.pathToSecondFile);
     }
 
 

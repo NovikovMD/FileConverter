@@ -1,3 +1,5 @@
+package ru.itdt.fileconverter;
+
 import ru.itdt.fileconverter.bean.json.JsonRoot;
 import ru.itdt.fileconverter.bean.xml.XmlRoot;
 import ru.itdt.fileconverter.readers.Reader;
@@ -28,7 +30,7 @@ public class ReadersTest {
         compareParsedXmlFile(reader);
     }
 
-    private static void compareParsedXmlFile(Reader<XmlRoot> reader)
+    private static void compareParsedXmlFile(final Reader<XmlRoot> reader)
         throws JAXBException, IOException, ParserConfigurationException, SAXException {
         final XmlRoot upper = reader.parse("src/test/resources/TestInput.xml");
 
@@ -113,7 +115,7 @@ public class ReadersTest {
         compareParsedJsonFile(reader);
     }
 
-    private static void compareParsedJsonFile(Reader<JsonRoot> reader)
+    private static void compareParsedJsonFile(final Reader<JsonRoot> reader)
         throws IOException, JAXBException, ParserConfigurationException, SAXException {
         final JsonRoot upper = reader.parse("src\\test\\resources\\TestInput.json");
 

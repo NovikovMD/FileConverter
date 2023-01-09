@@ -1,4 +1,4 @@
-package jmh;
+package ru.itdt.fileconverter.Benchmark;
 
 import ru.itdt.fileconverter.bean.xml.XmlRoot;
 import ru.itdt.fileconverter.readers.Reader;
@@ -16,36 +16,40 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Проверка времени работы Sax и Jaxb для считывания файла.
+ */
 public class XmlReaders {
 
     @State(Scope.Thread)
     public static class MyState {
-        public final String pathToFile = "src/test/resources/TestInput.xml";
-        public final Reader<XmlRoot> saxReader = new SaxReader();
-        public final Reader<XmlRoot> jaxbReader;
+        private final String pathToFile = "src/test/resources/TestInput.xml";
+        private final Reader<XmlRoot> saxReader = new SaxReader();
+        private final Reader<XmlRoot> jaxbReader;
 
         {
             try {
                 jaxbReader = new JaxbReader();
             } catch (JAXBException exception) {
-                throw new RuntimeException(exception);
+                throw new AssertionError(exception);
             }
         }
     }
 
     @Benchmark
-    @BenchmarkMode(Mode.All)
+    @BenchmarkMode(Mode.AverageTime)
+    @Warmup(iterations = 5)
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    public void readSax(MyState state, Blackhole blackhole)
+    public void readSax(final MyState state,final Blackhole blackhole)
         throws JAXBException, ParserConfigurationException, IOException, SAXException {
         blackhole.consume(state.saxReader.parse(state.pathToFile));
     }
 
     @Benchmark
-    @BenchmarkMode(Mode.All)
+    @BenchmarkMode(Mode.AverageTime)
     @Warmup(iterations = 5)
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    public void readJaxb(MyState state, Blackhole blackhole)
+    public void readJaxb(final MyState state,final Blackhole blackhole)
         throws JAXBException, ParserConfigurationException, IOException, SAXException {
         blackhole.consume(state.jaxbReader.parse(state.pathToFile));
     }

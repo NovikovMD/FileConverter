@@ -1,3 +1,5 @@
+package ru.itdt.fileconverter;
+
 import ru.itdt.fileconverter.bean.json.JsonRoot;
 import ru.itdt.fileconverter.bean.xml.XmlRoot;
 import ru.itdt.fileconverter.converters.JsonToXml;

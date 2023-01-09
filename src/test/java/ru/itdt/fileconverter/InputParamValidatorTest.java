@@ -1,12 +1,13 @@
-import ru.itdt.fileconverter.FileConverter;
+package ru.itdt.fileconverter;
+
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static ru.itdt.fileconverter.bean.InputParamValidator.createBean;
 import static org.junit.jupiter.api.Assertions.*;
+import static ru.itdt.fileconverter.bean.InputParamValidator.createBean;
 
 public class InputParamValidatorTest {
 

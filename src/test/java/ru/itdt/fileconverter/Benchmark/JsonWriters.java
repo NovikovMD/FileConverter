@@ -1,4 +1,4 @@
-package jmh;
+package ru.itdt.fileconverter.Benchmark;
 
 import ru.itdt.fileconverter.bean.json.JsonRoot;
 import ru.itdt.fileconverter.converters.XmlToJson;
@@ -18,13 +18,16 @@ import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Проверка времени работы Jackson и Gson для создания файла.
+ */
 public class JsonWriters {
     @State(Scope.Thread)
     public static class MyState {
-        public final String pathToFile = "src/test/resources/NewJson.json";
-        public final Writer<JsonRoot> jacksonWriter = new JacksonWriter();
-        public final Writer<JsonRoot> gsonWriter = new GsonWriter();
-        public JsonRoot upper;
+        private final String pathToFile = "src/test/resources/NewJson.json";
+        private final Writer<JsonRoot> jacksonWriter = new JacksonWriter();
+        private final Writer<JsonRoot> gsonWriter = new GsonWriter();
+        private JsonRoot upper;
 
         @Setup
         public void setup() throws ParserConfigurationException, IOException, SAXException {
@@ -36,18 +39,19 @@ public class JsonWriters {
     }
 
     @Benchmark
-    @BenchmarkMode(Mode.All)
+    @BenchmarkMode(Mode.AverageTime)
+    @Warmup(iterations = 5)
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    public void writeJackson(MyState state)
+    public void writeJackson(final MyState state)
         throws JAXBException, IOException, XMLStreamException {
         state.jacksonWriter.write(state.upper, state.pathToFile);
     }
 
     @Benchmark
-    @BenchmarkMode(Mode.All)
+    @BenchmarkMode(Mode.AverageTime)
     @Warmup(iterations = 5)
     @OutputTimeUnit(TimeUnit.NANOSECONDS)
-    public void writeGson(MyState state)
+    public void writeGson(final MyState state)
         throws JAXBException, IOException, XMLStreamException {
         state.gsonWriter.write(state.upper,state.pathToFile);
     }
