@@ -32,7 +32,7 @@ public class XmlWriters {
             try {
                 jaxbWriter = new JaxbWriter();
             } catch (JAXBException exception) {
-                throw new AssertionError(exception);
+                throw new RuntimeException(exception);
             }
         }
 

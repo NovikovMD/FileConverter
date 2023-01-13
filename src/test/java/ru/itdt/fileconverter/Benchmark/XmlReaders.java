@@ -31,7 +31,7 @@ public class XmlReaders {
             try {
                 jaxbReader = new JaxbReader();
             } catch (JAXBException exception) {
-                throw new AssertionError(exception);
+                throw new RuntimeException(exception);
             }
         }
     }

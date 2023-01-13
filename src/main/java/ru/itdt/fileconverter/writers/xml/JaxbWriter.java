@@ -19,8 +19,8 @@ public class JaxbWriter implements Writer<XmlRoot> {
     static {
         try {
             context = JAXBContext.newInstance(XmlRoot.class);
-        } catch (JAXBException e) {
-            throw new AssertionError();
+        } catch (JAXBException exception) {
+            throw new RuntimeException(exception);
         }
     }
 
