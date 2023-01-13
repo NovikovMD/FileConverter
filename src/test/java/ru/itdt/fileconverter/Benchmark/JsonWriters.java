@@ -41,7 +41,7 @@ public class JsonWriters {
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @Warmup(iterations = 5)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void writeJackson(final MyState state)
         throws JAXBException, IOException, XMLStreamException {
         state.jacksonWriter.write(state.upper, state.pathToFile);
@@ -50,7 +50,7 @@ public class JsonWriters {
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @Warmup(iterations = 5)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void writeGson(final MyState state)
         throws JAXBException, IOException, XMLStreamException {
         state.gsonWriter.write(state.upper,state.pathToFile);

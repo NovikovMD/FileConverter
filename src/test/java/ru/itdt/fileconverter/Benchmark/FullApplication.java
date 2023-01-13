@@ -24,7 +24,7 @@ public class FullApplication {
             fileConverter.doParse(inputs);
         }
 
-        val n = 10000;
+        val n = 100000;
         val timeStart = LocalTime.now();
         for (int i = 0; i < n; i++) {
             fileConverter.doParse(inputs);

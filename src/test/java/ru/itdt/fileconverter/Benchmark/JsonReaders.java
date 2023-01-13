@@ -30,7 +30,7 @@ public class JsonReaders {
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @Warmup(iterations = 5)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void readJackson(final MyState state,final Blackhole blackhole)
         throws JAXBException, ParserConfigurationException, IOException, SAXException {
         blackhole.consume(state.jacksonReader.parse(state.pathToFile));
@@ -39,7 +39,7 @@ public class JsonReaders {
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @Warmup(iterations = 5)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void readGson(final MyState state,final Blackhole blackhole)
         throws JAXBException, ParserConfigurationException, IOException, SAXException {
         blackhole.consume(state.gsonReader.parse(state.pathToFile));

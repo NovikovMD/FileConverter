@@ -39,7 +39,7 @@ public class XmlReaders {
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @Warmup(iterations = 5)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void readSax(final MyState state,final Blackhole blackhole)
         throws JAXBException, ParserConfigurationException, IOException, SAXException {
         blackhole.consume(state.saxReader.parse(state.pathToFile));
@@ -48,7 +48,7 @@ public class XmlReaders {
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @Warmup(iterations = 5)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void readJaxb(final MyState state,final Blackhole blackhole)
         throws JAXBException, ParserConfigurationException, IOException, SAXException {
         blackhole.consume(state.jaxbReader.parse(state.pathToFile));

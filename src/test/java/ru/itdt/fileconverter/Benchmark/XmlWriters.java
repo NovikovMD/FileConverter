@@ -48,7 +48,7 @@ public class XmlWriters {
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @Warmup(iterations = 5)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void writeStax(final MyState state)
         throws JAXBException, IOException, XMLStreamException {
         state.staxWriter.write(state.upper, state.pathToSecondFile);
@@ -57,7 +57,7 @@ public class XmlWriters {
     @Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @Warmup(iterations = 5)
-    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
     public void writeJaxb(final MyState state)
         throws JAXBException, IOException, XMLStreamException {
         state.jaxbWriter.write(state.upper,state.pathToSecondFile);

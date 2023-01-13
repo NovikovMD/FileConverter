@@ -23,71 +23,100 @@ public class ConvertersTest {
         final JsonRoot compare = converter.convert(
             reader.parse("src/test/resources/TestInput.xml"));
 
-        assertEquals("The Warriors", compare.getGames()
-            .get(0).getName());
-        assertEquals(2005, compare.getGames()
-            .get(0).getYear());
-        assertEquals("Rockstar", compare.getGames()
-            .get(0).getGamePublisher());
+        theWarriors(compare.getGames()
+                .get(0).getName(),
+            compare.getGames()
+                .get(0).getYear(),
+            compare.getGames()
+                .get(0).getGamePublisher());
 
-        assertEquals("PlayStation 2", compare.getGames()
-            .get(0).getPlatforms()
-            .get(0).getName());
-        assertEquals("PlayStation Portable", compare.getGames()
-            .get(0).getPlatforms()
-            .get(1).getName());
-        assertEquals("XBox", compare.getGames()
-            .get(0).getPlatforms()
-            .get(2).getName());
+        theWarriorsPlatforms(compare.getGames()
+                .get(0).getPlatforms()
+                .get(0).getName(),
+            compare.getGames()
+                .get(0).getPlatforms()
+                .get(1).getName(),
+            compare.getGames()
+                .get(0).getPlatforms()
+                .get(2).getName());
 
-        assertEquals("Rockstar Toronto", compare.getGames()
-            .get(0).getDevStudios()
-            .get(0).getName());
-        assertEquals(1981, compare.getGames()
-            .get(0).getDevStudios()
-            .get(0).getYearOfFoundation());
-        assertEquals("www.rockstartoronto.com", compare.getGames()
-            .get(0).getDevStudios()
-            .get(0).getUrl());
+        rockstarToronto(compare.getGames()
+                .get(1).getDevStudios()
+                .get(0).getName(),
+            compare.getGames()
+                .get(1).getDevStudios()
+                .get(0).getYearOfFoundation(),
+            compare.getGames()
+                .get(1).getDevStudios()
+                .get(0).getUrl());
 
-        assertEquals("Manhunt 2", compare.getGames()
-            .get(1).getName());
-        assertEquals(2007, compare.getGames()
-            .get(1).getYear());
-        assertEquals("Rockstar", compare.getGames()
-            .get(1).getGamePublisher());
+        manhunt(compare.getGames()
+                .get(1).getName(),
+            compare.getGames()
+                .get(1).getYear(),
+            compare.getGames()
+                .get(1).getGamePublisher());
 
-        assertEquals("Microsoft Windows", compare.getGames()
-            .get(1).getPlatforms()
-            .get(0).getName());
-        assertEquals("PlayStation 2", compare.getGames()
-            .get(1).getPlatforms()
-            .get(1).getName());
-        assertEquals("PlayStation Portable", compare.getGames()
-            .get(1).getPlatforms()
-            .get(2).getName());
-        assertEquals("Wii", compare.getGames()
-            .get(1).getPlatforms()
-            .get(3).getName());
+        manhuntPlatforms(compare.getGames()
+                .get(1).getPlatforms()
+                .get(0).getName(),
+            compare.getGames()
+                .get(1).getPlatforms()
+                .get(1).getName(),
+            compare.getGames()
+                .get(1).getPlatforms()
+                .get(2).getName(),
+            compare.getGames()
+                .get(1).getPlatforms()
+                .get(3).getName());
 
-        assertEquals("Rockstar Toronto", compare.getGames()
-            .get(1).getDevStudios()
-            .get(0).getName());
-        assertEquals(1981, compare.getGames()
-            .get(1).getDevStudios()
-            .get(0).getYearOfFoundation());
-        assertEquals("www.rockstartoronto.com", compare.getGames()
-            .get(1).getDevStudios()
-            .get(0).getUrl());
-        assertEquals("Rockstar London", compare.getGames()
-            .get(1).getDevStudios()
-            .get(1).getName());
-        assertEquals(2005, compare.getGames()
-            .get(1).getDevStudios()
-            .get(1).getYearOfFoundation());
-        assertEquals("www.rockstarlondon.com", compare.getGames()
-            .get(1).getDevStudios()
-            .get(1).getUrl());
+        rockstarLondon(compare.getGames()
+                .get(1).getDevStudios()
+                .get(1).getName(),
+            compare.getGames()
+                .get(1).getDevStudios()
+                .get(1).getYearOfFoundation(),
+            compare.getGames()
+                .get(1).getDevStudios()
+                .get(1).getUrl());
+    }
+
+    private static void rockstarLondon(String name, int year, String url) {
+        assertEquals("Rockstar London", name);
+        assertEquals(2005, year);
+        assertEquals("www.rockstarlondon.com", url);
+    }
+
+    private static void manhuntPlatforms(String platform1, String platform2,
+                                         String platform3, String platform4) {
+        assertEquals("Microsoft Windows", platform1);
+        assertEquals("PlayStation 2", platform2);
+        assertEquals("PlayStation Portable", platform3);
+        assertEquals("Wii", platform4);
+    }
+
+    private static void manhunt(String name, int year, String publisher) {
+        assertEquals("Manhunt 2", name);
+        assertEquals(2007, year);
+        assertEquals("Rockstar", publisher);
+    }
+
+    private static void theWarriorsPlatforms(String platform1, String platform2, String platform3) {
+        assertEquals("PlayStation 2", platform1);
+        assertEquals("PlayStation Portable", platform2);
+        assertEquals("XBox", platform3);
+    }
+
+    private static void theWarriors(String name, int year, String publisher) {
+        assertEquals("The Warriors", name);
+        assertEquals(2005, year);
+        assertEquals("Rockstar", publisher);
+    }
+
+    private static void rockstarToronto(String devStudio, int year, String url) {
+        assertEquals("Rockstar Toronto", devStudio);
+        assertEquals(1981, year);
+        assertEquals("www.rockstartoronto.com", url);
     }
 
     @Test
@@ -98,41 +127,81 @@ public class ConvertersTest {
         final XmlRoot xmlRoot = converter.convert(
             reader.parse("src\\test\\resources\\TestInput.json"));
 
-        assertEquals("Rockstar", xmlRoot.getPublishers().get(0).getName());
+        rockstarToronto(xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getName(),
+            xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getYearOfFoundation(),
+            xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getUrl());
 
-        assertEquals("Rockstar Toronto", xmlRoot.getPublishers()
-            .get(0).getDevStudios()
-            .get(0).getName());
-        assertEquals(1981, xmlRoot.getPublishers()
-            .get(0).getDevStudios()
-            .get(0).getYearOfFoundation());
-        assertEquals("www.rockstartoronto.com", xmlRoot.getPublishers()
-            .get(0).getDevStudios()
-            .get(0).getUrl());
+        theWarriors(xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getGames()
+                .get(0).getName(),
+            xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getGames()
+                .get(0).getYear(),
+            xmlRoot.getPublishers().get(0).getName());
 
-        assertEquals("The Warriors", xmlRoot.getPublishers()
-            .get(0).getDevStudios()
-            .get(0).getGames()
-            .get(0).getName());
-        assertEquals(2005, xmlRoot.getPublishers()
-            .get(0).getDevStudios()
-            .get(0).getGames()
-            .get(0).getYear());
+        theWarriorsPlatforms(xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getGames()
+                .get(0).getPlatforms()
+                .get(0).getName(),
+            xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getGames()
+                .get(0).getPlatforms()
+                .get(1).getName(),
+            xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getGames()
+                .get(0).getPlatforms()
+                .get(2).getName());
 
-        assertEquals("PlayStation 2", xmlRoot.getPublishers()
-            .get(0).getDevStudios()
-            .get(0).getGames()
-            .get(0).getPlatforms()
-            .get(0).getName());
-        assertEquals("PlayStation Portable", xmlRoot.getPublishers()
-            .get(0).getDevStudios()
-            .get(0).getGames()
-            .get(0).getPlatforms()
-            .get(1).getName());
-        assertEquals("XBox", xmlRoot.getPublishers()
-            .get(0).getDevStudios()
-            .get(0).getGames()
-            .get(0).getPlatforms()
-            .get(2).getName());
+        manhunt(xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getGames()
+                .get(1).getName(),
+            xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getGames()
+                .get(1).getYear(),
+            xmlRoot.getPublishers().get(0).getName());
+
+        manhuntPlatforms(xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getGames()
+                .get(1).getPlatforms()
+                .get(0).getName(),
+            xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getGames()
+                .get(1).getPlatforms()
+                .get(1).getName(),
+            xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getGames()
+                .get(1).getPlatforms()
+                .get(2).getName(),
+            xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(0).getGames()
+                .get(1).getPlatforms()
+                .get(3).getName());
+
+        rockstarLondon(xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(1).getName(),
+            xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(1).getYearOfFoundation(),
+            xmlRoot.getPublishers()
+                .get(0).getDevStudios()
+                .get(1).getUrl());
     }
 }
